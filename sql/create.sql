@@ -469,6 +469,61 @@ $BODY$
     LANGUAGE 'plpgsql';
 
 
+CREATE OR REPLACE FUNCTION add_project_user() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    if new.accept is true 
+    then INSERT INTO projectUsers (user_id, project_id, user_role) 
+         VALUES ((SELECT NEW.user_id, NEW.project_id, NEW.user_role FROM NEW));
+    else 
+        raise exception 'The invite was declined';
+    end if;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+    
+
+CREATE OR REPLACE FUNCTION check_notification_type() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    if  
+        (invitation_user_id <> NULL and invitation_project_id <> NULL and new.notification_type = 'INVITE' and project_message_id = NULL and report_id = NULL and private_message_id = NULL and task_id = NULL and task_comment_id = NULL)
+    then 
+        INSERT INTO notifications (created_at, notification_type, invitation_user_id, invitation_project_id)
+        VALUES (NOW(), 'INVITE',(SELECT NEW.invitation_user_id, NEW.invitation_project_id FROM NEW));
+    elsif  
+        (project_message_id <> NULL and new.notification_type = 'FORUM' and invitation_user_id = NULL and invitation_project_id = NULL and report_id = NULL and private_message_id = NULL and task_id = NULL and task_comment_id = NULL)
+    then
+        INSERT INTO notifications (created_at, notification_type, project_message_id)
+        VALUES (NOW(), 'FORUM',(SELECT NEW.project_message_id FROM NEW));
+	elsif  
+        (project_message_id = NULL and new.notification_type = 'REPORT' and invitation_user_id = NULL and invitation_project_id = NULL and report_id <> NULL and private_message_id = NULL and task_id = NULL and task_comment_id = NULL)
+    then
+        INSERT INTO notifications (created_at, notification_type, report_id)
+        VALUES (NOW(), 'REPORT',(SELECT NEW.report_id FROM NEW));
+	elsif  
+        (project_message_id = NULL and new.notification_type = 'MESSAGE' and invitation_user_id = NULL and invitation_project_id = NULL and report_id = NULL and private_message_id <> NULL and task_id = NULL and task_comment_id = NULL)
+    then
+        INSERT INTO notifications (created_at, notification_type, private_message_id)
+        VALUES (NOW(), 'MESSAGE',(SELECT NEW.private_message_id FROM NEW));
+    elsif  
+        (project_message_id = NULL and new.notification_type = 'REMINDER' and invitation_user_id = NULL and invitation_project_id = NULL and report_id = NULL and private_message_id = NULL and task_id <> NULL and task_comment_id = NULL)
+    then
+        INSERT INTO notifications (created_at, notification_type, task_id)
+        VALUES (NOW(), 'REMINDER',(SELECT NEW.task_id FROM NEW));
+	elsif  
+        (project_message_id = NULL and new.notification_type = 'COMMENT' and invitation_user_id = NULL and invitation_project_id = NULL and report_id = NULL and private_message_id = NULL and task_id = NULL and task_comment_id <> NULL)
+    then
+        INSERT INTO notifications (created_at, notification_type, task_comment_id)
+        VALUES (NOW(), 'COMMENT',(SELECT NEW.task_comment_id FROM NEW));
+    else
+        raise exception 'Invalid notification';
+    end if;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+    
+    
 --triggers
 
 
@@ -483,6 +538,9 @@ DROP TRIGGER IF EXISTS add_report_notification ON reports;
 DROP TRIGGER IF EXISTS add_message_notification ON privateMessages;
 DROP TRIGGER IF EXISTS add_reminder_notification ON tasks;
 DROP TRIGGER IF EXISTS add_comment_notification ON taskComments;
+DROP TRIGGER IF EXISTS add_project_user ON invitations;
+DROP TRIGGER IF EXISTS check_notification_type ON notifications;
+
 
 CREATE TRIGGER check_private_message
     BEFORE INSERT
@@ -562,6 +620,17 @@ CREATE TRIGGER update_tasks_search
     FOR EACH ROW 
 EXECUTE PROCEDURE tasks_search_update();
 
+CREATE TRIGGER add_project_user
+    AFTER INSERT 
+    ON invitations
+    FOR EACH ROW
+EXECUTE PROCEDURE add_project_user();
+
+CREATE TRIGGER check_notification_type
+    BEFORE INSERT 
+    ON notifications
+    FOR EACH ROW
+EXECUTE PROCEDURE check_notification_type();
 
 --PlanWiser Indexes
 
