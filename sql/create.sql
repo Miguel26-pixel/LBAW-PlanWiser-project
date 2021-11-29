@@ -273,3 +273,96 @@ CREATE TABLE notifications --povoar
         ON DELETE CASCADE,
     CONSTRAINT notification_type_ck CHECK (notification_type = ANY (ARRAY['INVITE'::notificationType, 'FORUM'::notificationType, 'REPORT'::notificationType, 'MESSAGE'::notificationType, 'REMINDER'::notificationType, 'COMMENT'::notificationType]))
 );
+
+--PlanWiser Indexes
+DROP INDEX IF EXISTS private_messages_index;
+DROP INDEX IF EXISTS projects_index;
+DROP INDEX IF EXISTS project_user_by_user;
+DROP INDEX IF EXISTS project_user_by_project;
+DROP INDEX IF EXISTS invitations_by_project;
+DROP INDEX IF EXISTS favorite_projects_by_use;
+DROP INDEX IF EXISTS favorite_projects_by_project;
+DROP INDEX IF EXISTS project_messages_index;
+DROP INDEX IF EXISTS project_files_by_project;
+DROP INDEX IF EXISTS reports_by_type;
+DROP INDEX IF EXISTS reports_index;
+DROP INDEX IF EXISTS notifications_by_type;
+DROP INDEX IF EXISTS notifications_index;
+DROP INDEX IF EXISTS tasks_index;
+DROP INDEX IF EXISTS users_assign_by_task;
+DROP INDEX IF EXISTS users_assign_by_user;
+DROP INDEX IF EXISTS task_comments_index;
+DROP INDEX IF EXISTS search_user;
+DROP INDEX IF EXISTS search_project;
+DROP INDEX IF EXISTS search_task;
+
+
+--IDX01
+CREATE INDEX private_messages_index ON privateMessages USING btree(emitter_id, receiver_id, created_at);  
+CLUSTER privateMessages USING private_messages_index;
+
+--IDX02
+CREATE INDEX projects_index ON projects USING btree(create_at);  
+CLUSTER projects USING projects_index;
+
+--IDX03
+CREATE INDEX project_user_by_user ON projectUsers USING hash(user_id);  
+CLUSTER projectUsers USING project_user_by_user;
+
+--IDX04
+CREATE INDEX project_user_by_project ON projectUsers USING hash(project_id);
+
+--IDX05
+CREATE INDEX invitations_by_project ON invitations USING hash(project_id);  
+CLUSTER invitations USING invitations_by_user;
+
+--IDX06
+CREATE INDEX favorite_projects_by_user ON favoriteProjects USING hash(user_id);  
+CLUSTER favoriteProjects USING favorite_projects_by_user;
+
+--IDX07
+CREATE INDEX favorite_projects_by_project ON favoriteProjects USING hash(project_id);
+
+--IDX08
+CREATE INDEX project_messages_index ON projectMessages USING btree(user_id, project_id, created_at);  
+CLUSTER projectMessages USING project_messages_index;
+
+--IDX09
+CREATE INDEX project_files_by_project ON projectFiles USING hash(project_id);  
+CLUSTER projectFiles USING project_files_by_user;
+
+--IDX10
+CREATE INDEX reports_by_type ON reports USING hash(report_type);
+
+--IDX11
+CREATE INDEX reports_index ON reports USING btree(create_at);  
+CLUSTER reports USING preports_index;
+
+--IDX12
+CREATE INDEX notifications_by_type ON notifications USING hash(notification_type);
+
+--IDX13
+CREATE INDEX notifications_index ON notifications USING btree(create_at);  CLUSTER notifications USING notifications_index;
+
+--IDX14
+CREATE INDEX tasks_index ON tasks USING btree(project_id, due_date);  CLUSTER tasks USING tasks_index;
+
+--IDX15
+CREATE INDEX users_assign_by_task ON usersAssign USING hash(task_id);  
+CLUSTER usersAssign USING users_assign_by_task;
+
+--IDX16
+CREATE INDEX users_assign_by_user ON UsersAssign USING hash(user_id);
+
+--IDX17
+CREATE INDEX task_comments_index ON taskComments USING btree(task_id, created_at);  
+CLUSTER taskComments USING task_comments_index;
+
+--IDX18
+CREATE INDEX search_user ON users USING GIN (search);
+
+--IDX19
+CREATE INDEX search_project ON projects USING GIN (search);
+
+--IDX20
+CREATE INDEX search_task ON tasks USING GIN (search);
