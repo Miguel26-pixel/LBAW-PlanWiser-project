@@ -106,7 +106,7 @@ CREATE TABLE projectUsers
 (
     user_id integer NOT NULL,
     project_id integer NOT NULL,
-    user_role userRole NOT NULL,
+    user_role userRole NOT NULL DEFAULT 'GUEST',
     CONSTRAINT project_users_pk PRIMARY KEY (user_id, project_id),
     CONSTRAINT project_fk FOREIGN KEY (project_id)
         REFERENCES projects (id)
