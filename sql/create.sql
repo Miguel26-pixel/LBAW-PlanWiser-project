@@ -294,10 +294,67 @@ $BODY$
     LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION check_project_message() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    if new.user_id in (select user_id from projectUsers where project_id = new.project_id)
+    then 
+        if 'GUEST' in (select user_role from projectUsers where user_id = new.user_id and project_id = new.project_id limit 1)
+        then raise exception 'The user dont have permissions to send messages';
+        else return new;
+        end if;
+    else
+        raise exception 'The user dont belong to the project so he cant send messages';
+    end if;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION check_user_task() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    if new.creator_id in (select user_id from projectUsers where project_id = new.project_id)
+    then 
+        if 'MANAGER' in (select user_role from projectUsers where user_id = new.user_id and project_id = new.project_id limit 1)
+        then return new;
+        else raise exception 'The user dont have permissions to create tasks';
+        end if;
+    else
+        raise exception 'The user dont belong to the project so he cant create tasks';
+    end if;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION check_task_assign() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    if new.user_id in (select pu.user_id from tasks as t
+                            join projects as p on t.project_id = p.id
+                            join projectUsers as pu on pu.project_id = p.id
+                            where t.id = new.task_id)
+    then 
+        if 'GUEST' in (select pu.user_role from tasks as t
+                            join projects as p on t.project_id = p.id
+                            join projectUsers as pu on pu.project_id = p.id
+                            where t.id = new.task_id and pu.user_id = new.user_id)
+        then raise exception 'The user cannot be assigned to tasks';
+        else return new;
+        end if;
+    else
+        raise exception 'The user dont belong to the project so he cannot be assigned to tasks';
+    end if;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
 --triggers
 
 
 DROP TRIGGER IF EXISTS check_private_message ON privateMessages;
+DROP TRIGGER IF EXISTS check_user_project ON projectMessages;
+DROP TRIGGER IF EXISTS check_user_task ON tasks;
+DROP TRIGGER IF EXISTS check_task_assign ON userAssigns;
 
 CREATE TRIGGER check_private_message
     BEFORE INSERT
@@ -309,8 +366,19 @@ CREATE TRIGGER check_user_project
     BEFORE INSERT
     ON projectMessages
     FOR EACH ROW
-EXECUTE PROCEDURE check_private_message();
+EXECUTE PROCEDURE check_project_message();
 
+CREATE TRIGGER check_user_task
+    BEFORE INSERT
+    ON tasks
+    FOR EACH ROW
+EXECUTE PROCEDURE check_user_task();
+
+CREATE TRIGGER check_task_assign
+    BEFORE INSERT
+    ON userAssigns
+    FOR EACH ROW
+EXECUTE PROCEDURE check_task_assign();
 
 
 
