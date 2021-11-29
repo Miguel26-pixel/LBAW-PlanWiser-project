@@ -348,19 +348,19 @@ CREATE INDEX projects_index ON projects USING btree(created_at);
 CLUSTER projects USING projects_index;
 
 --IDX03
-CREATE INDEX project_user_by_user ON projectUsers USING hash(user_id);  
---CLUSTER projectUsers USING project_user_by_user;
+CREATE INDEX project_user_by_user ON projectUsers USING btree(user_id);  
+CLUSTER projectUsers USING project_user_by_user;--
 
 --IDX04
 CREATE INDEX project_user_by_project ON projectUsers USING hash(project_id);
 
 --IDX05
-CREATE INDEX invitations_by_user ON invitations USING hash(project_id);  
---CLUSTER invitations USING invitations_by_user;
+CREATE INDEX invitations_by_user ON invitations USING btree(project_id);  
+CLUSTER invitations USING invitations_by_user;--
 
 --IDX06
-CREATE INDEX favorite_projects_by_user ON favoriteProjects USING hash(user_id);  
---CLUSTER favoriteProjects USING favorite_projects_by_user;
+CREATE INDEX favorite_projects_by_user ON favoriteProjects USING btree(user_id);  
+CLUSTER favoriteProjects USING favorite_projects_by_user;--
 
 --IDX07
 CREATE INDEX favorite_projects_by_project ON favoriteProjects USING hash(project_id);
@@ -370,8 +370,8 @@ CREATE INDEX project_messages_index ON projectMessages USING btree(user_id, proj
 CLUSTER projectMessages USING project_messages_index;
 
 --IDX09
-CREATE INDEX project_files_by_project ON projectFiles USING hash(project_id);  
---CLUSTER projectFiles USING project_files_by_project;
+CREATE INDEX project_files_by_project ON projectFiles USING btree(project_id);  
+CLUSTER projectFiles USING project_files_by_project;--
 
 --IDX10
 CREATE INDEX reports_by_type ON reports USING hash(report_type);
@@ -384,14 +384,16 @@ CLUSTER reports USING reports_index;
 CREATE INDEX notifications_by_type ON notifications USING hash(notification_type);
 
 --IDX13
-CREATE INDEX notifications_index ON notifications USING btree(created_at);  CLUSTER notifications USING notifications_index;
+CREATE INDEX notifications_index ON notifications USING btree(created_at);  
+CLUSTER notifications USING notifications_index;
 
 --IDX14
-CREATE INDEX tasks_index ON tasks USING btree(project_id, due_date);  CLUSTER tasks USING tasks_index;
+CREATE INDEX tasks_index ON tasks USING btree(project_id, due_date);  
+CLUSTER tasks USING tasks_index;
 
 --IDX15
-CREATE INDEX users_assign_by_task ON userAssigns USING hash(task_id);  
---CLUSTER userAssigns USING users_assign_by_task;
+CREATE INDEX users_assign_by_task ON userAssigns USING btree(task_id);  
+CLUSTER userAssigns USING users_assign_by_task;--
 
 --IDX16
 CREATE INDEX users_assign_by_user ON UserAssigns USING hash(user_id);
