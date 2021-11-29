@@ -69,6 +69,7 @@ CREATE TABLE users
     password varchar NOT NULL,
     img_url varchar,
     is_admin boolean NOT NULL DEFAULT false,
+    search TSVECTOR,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
 
@@ -97,6 +98,7 @@ CREATE TABLE projects
     public boolean NOT NULL DEFAULT true,
     active boolean NOT NULL DEFAULT true,
     created_at date NOT NULL,
+    search TSVECTOR,
     CONSTRAINT projects_pk PRIMARY KEY (id)
 );
 
@@ -201,6 +203,7 @@ CREATE TABLE tasks
     creator_id integer,
     project_id integer,
     created_at date NOT NULL,
+    search TSVECTOR,
     CONSTRAINT tasks_pk PRIMARY KEY (id),
     CONSTRAINT creator_fk FOREIGN KEY (creator_id)
         REFERENCES users (id)
@@ -274,7 +277,35 @@ CREATE TABLE notifications --povoar
     CONSTRAINT notification_type_ck CHECK (notification_type = ANY (ARRAY['INVITE'::notificationType, 'FORUM'::notificationType, 'REPORT'::notificationType, 'MESSAGE'::notificationType, 'REMINDER'::notificationType, 'COMMENT'::notificationType]))
 );
 
+
+--triggers
+
+
+DROP TRIGGER IF EXISTS accept_invite ON privateMessages;
+
+CREATE OR REPLACE FUNCTION check_private_message() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    if new.receiver_id in (select user_id from projectUsers where project_id in (select id from projects where id in (select project_id from projectUsers where user_id = new.emitter_id)))
+    then 
+        return new;
+    else
+        raise exception 'The users dont have projects in common';
+    end if;
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER accept_invite
+    BEFORE INSERT
+    ON privateMessages
+    FOR EACH ROW
+EXECUTE PROCEDURE check_private_message();
+
+
 --PlanWiser Indexes
+
+
 DROP INDEX IF EXISTS private_messages_index;
 DROP INDEX IF EXISTS projects_index;
 DROP INDEX IF EXISTS project_user_by_user;
@@ -302,23 +333,23 @@ CREATE INDEX private_messages_index ON privateMessages USING btree(emitter_id, r
 CLUSTER privateMessages USING private_messages_index;
 
 --IDX02
-CREATE INDEX projects_index ON projects USING btree(create_at);  
+CREATE INDEX projects_index ON projects USING btree(created_at);  
 CLUSTER projects USING projects_index;
 
 --IDX03
 CREATE INDEX project_user_by_user ON projectUsers USING hash(user_id);  
-CLUSTER projectUsers USING project_user_by_user;
+--CLUSTER projectUsers USING project_user_by_user;
 
 --IDX04
 CREATE INDEX project_user_by_project ON projectUsers USING hash(project_id);
 
 --IDX05
-CREATE INDEX invitations_by_project ON invitations USING hash(project_id);  
-CLUSTER invitations USING invitations_by_user;
+CREATE INDEX invitations_by_user ON invitations USING hash(project_id);  
+--CLUSTER invitations USING invitations_by_user;
 
 --IDX06
 CREATE INDEX favorite_projects_by_user ON favoriteProjects USING hash(user_id);  
-CLUSTER favoriteProjects USING favorite_projects_by_user;
+--CLUSTER favoriteProjects USING favorite_projects_by_user;
 
 --IDX07
 CREATE INDEX favorite_projects_by_project ON favoriteProjects USING hash(project_id);
@@ -329,30 +360,30 @@ CLUSTER projectMessages USING project_messages_index;
 
 --IDX09
 CREATE INDEX project_files_by_project ON projectFiles USING hash(project_id);  
-CLUSTER projectFiles USING project_files_by_user;
+--CLUSTER projectFiles USING project_files_by_project;
 
 --IDX10
 CREATE INDEX reports_by_type ON reports USING hash(report_type);
 
 --IDX11
-CREATE INDEX reports_index ON reports USING btree(create_at);  
-CLUSTER reports USING preports_index;
+CREATE INDEX reports_index ON reports USING btree(created_at);  
+CLUSTER reports USING reports_index;
 
 --IDX12
 CREATE INDEX notifications_by_type ON notifications USING hash(notification_type);
 
 --IDX13
-CREATE INDEX notifications_index ON notifications USING btree(create_at);  CLUSTER notifications USING notifications_index;
+CREATE INDEX notifications_index ON notifications USING btree(created_at);  CLUSTER notifications USING notifications_index;
 
 --IDX14
 CREATE INDEX tasks_index ON tasks USING btree(project_id, due_date);  CLUSTER tasks USING tasks_index;
 
 --IDX15
-CREATE INDEX users_assign_by_task ON usersAssign USING hash(task_id);  
-CLUSTER usersAssign USING users_assign_by_task;
+CREATE INDEX users_assign_by_task ON userAssigns USING hash(task_id);  
+--CLUSTER userAssigns USING users_assign_by_task;
 
 --IDX16
-CREATE INDEX users_assign_by_user ON UsersAssign USING hash(user_id);
+CREATE INDEX users_assign_by_user ON UserAssigns USING hash(user_id);
 
 --IDX17
 CREATE INDEX task_comments_index ON taskComments USING btree(task_id, created_at);  
