@@ -279,7 +279,6 @@ CREATE TABLE notifications --povoar
 
 --functions
 
-
 CREATE OR REPLACE FUNCTION check_private_message() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -292,6 +291,7 @@ BEGIN
 END;
 $BODY$
     LANGUAGE plpgsql;
+
 
 
 CREATE OR REPLACE FUNCTION check_project_message() RETURNS TRIGGER AS
@@ -310,6 +310,7 @@ END;
 $BODY$
     LANGUAGE plpgsql;
 
+
 CREATE OR REPLACE FUNCTION check_user_task() RETURNS TRIGGER AS
 $BODY$
 BEGIN
@@ -325,6 +326,7 @@ BEGIN
 END;
 $BODY$
     LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION check_task_assign() RETURNS TRIGGER AS
 $BODY$
@@ -348,13 +350,92 @@ END;
 $BODY$
     LANGUAGE plpgsql;
 
---triggers
 
+CREATE OR REPLACE FUNCTION add_invite_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+
+    INSERT INTO notification (created_at, notification_type, user_id, invitation_id)
+    VALUES (NOW(), 'Invite', (SELECT NEW.user_id, NEW.invitations_pk FROM NEW) );
+
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION add_forum_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+
+    INSERT INTO notification (created_at, notification_type, user_id, project_message_id)
+    VALUES (NOW(), 'Forum', (SELECT NEW.user_id, NEW.projectMessages_pk FROM NEW) );
+
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION add_report_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+
+    INSERT INTO notification (created_at, notification_type, user_id, report_id)
+    VALUES (NOW(), 'Report', (SELECT NEW.user_id, NEW.reports_pkey FROM NEW) );
+
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION add_message_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+
+    INSERT INTO notification (created_at, notification_type, user_id, private_message_id)
+    VALUES (NOW(), 'Message', (SELECT NEW.user_id, NEW.private_messages_pk FROM NEW) );
+
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION add_reminder_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+
+    INSERT INTO notification (created_at, notification_type, user_id, task_id)
+    VALUES (NOW(), 'Reminder', (SELECT NEW.user_id, NEW.tasks_pk FROM NEW) );
+
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION add_comment_notification() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+
+    INSERT INTO notification (created_at, notification_type, user_id, task_comment_fk)
+    VALUES (NOW(), 'Comment', (SELECT NEW.user_id, NEW.taskComments_pk FROM NEW) );
+
+END;
+$BODY$
+    LANGUAGE plpgsql;
+
+
+
+--triggers
 
 DROP TRIGGER IF EXISTS check_private_message ON privateMessages;
 DROP TRIGGER IF EXISTS check_user_project ON projectMessages;
 DROP TRIGGER IF EXISTS check_user_task ON tasks;
 DROP TRIGGER IF EXISTS check_task_assign ON userAssigns;
+DROP TRIGGER IF EXISTS add_invite_notification ON invitations;
+DROP TRIGGER IF EXISTS add_forum_notification ON projectMessages;
+DROP TRIGGER IF EXISTS add_report_notification ON reports;
+DROP TRIGGER IF EXISTS add_message_notification ON privateMessages;
+DROP TRIGGER IF EXISTS add_reminder_notification ON tasks;
+DROP TRIGGER IF EXISTS add_comment_notification ON taskComments;
 
 CREATE TRIGGER check_private_message
     BEFORE INSERT
@@ -380,6 +461,41 @@ CREATE TRIGGER check_task_assign
     FOR EACH ROW
 EXECUTE PROCEDURE check_task_assign();
 
+CREATE TRIGGER add_invite_notification
+    AFTER INSERT
+    ON invitations
+    FOR EACH ROW
+EXECUTE PROCEDURE add_invite_notification(); 
+
+CREATE TRIGGER add_forum_notification
+    AFTER INSERT
+    ON projectMessages
+    FOR EACH ROW
+EXECUTE PROCEDURE add_forum_notification(); 
+
+CREATE TRIGGER add_report_notification
+    AFTER INSERT
+    ON reports
+    FOR EACH ROW
+EXECUTE PROCEDURE add_report_notification(); 
+
+CREATE TRIGGER add_message_notification
+    AFTER INSERT
+    ON privateMessages
+    FOR EACH ROW
+EXECUTE PROCEDURE add_message_notification(); 
+
+CREATE TRIGGER add_reminder_notification
+    AFTER INSERT
+    ON tasks
+    FOR EACH ROW
+EXECUTE PROCEDURE add_reminder_notification(); 
+
+CREATE TRIGGER add_comment_notification
+    AFTER INSERT
+    ON taskComments
+    FOR EACH ROW
+EXECUTE PROCEDURE add_comment_notification(); 
 
 
 --PlanWiser Indexes
@@ -417,18 +533,18 @@ CLUSTER projects USING projects_index;
 
 --IDX03
 CREATE INDEX project_user_by_user ON projectUsers USING btree(user_id);  
-CLUSTER projectUsers USING project_user_by_user;--
+CLUSTER projectUsers USING project_user_by_user;
 
 --IDX04
 CREATE INDEX project_user_by_project ON projectUsers USING hash(project_id);
 
 --IDX05
 CREATE INDEX invitations_by_user ON invitations USING btree(project_id);  
-CLUSTER invitations USING invitations_by_user;--
+CLUSTER invitations USING invitations_by_user;
 
 --IDX06
 CREATE INDEX favorite_projects_by_user ON favoriteProjects USING btree(user_id);  
-CLUSTER favoriteProjects USING favorite_projects_by_user;--
+CLUSTER favoriteProjects USING favorite_projects_by_user;
 
 --IDX07
 CREATE INDEX favorite_projects_by_project ON favoriteProjects USING hash(project_id);
@@ -439,7 +555,7 @@ CLUSTER projectMessages USING project_messages_index;
 
 --IDX09
 CREATE INDEX project_files_by_project ON projectFiles USING btree(project_id);  
-CLUSTER projectFiles USING project_files_by_project;--
+CLUSTER projectFiles USING project_files_by_project;
 
 --IDX10
 CREATE INDEX reports_by_type ON reports USING hash(report_type);
@@ -461,7 +577,7 @@ CLUSTER tasks USING tasks_index;
 
 --IDX15
 CREATE INDEX users_assign_by_task ON userAssigns USING btree(task_id);  
-CLUSTER userAssigns USING users_assign_by_task;--
+CLUSTER userAssigns USING users_assign_by_task;
 
 --IDX16
 CREATE INDEX users_assign_by_user ON UserAssigns USING hash(user_id);
