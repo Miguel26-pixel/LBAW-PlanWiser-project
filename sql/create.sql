@@ -594,3 +594,72 @@ CREATE INDEX search_project ON projects USING GIN (search);
 
 --IDX20
 CREATE INDEX search_task ON tasks USING GIN (search);
+
+
+
+
+
+    CREATE OR REPLACE FUNCTION users_search_update() RETURNS TRIGGER AS 
+    $BODY$
+    BEGIN
+        IF TG_OP = 'INSERT' THEN
+            NEW.search = (SELECT setweight(to_tsvector(NEW.usersname), 'A')  || setweight(to_tsvector(users.email), 'A') || setweight(to_tsvector(users.fullname), 'B')) FROM account WHERE NEW.id=users.id);
+        ELSIF TG_OP = 'UPDATE' AND (NEW.username <> OLD.username) THEN
+            NEW.search = (SELECT setweight(to_tsvector(NEW.usersname), 'A')  || setweight(to_tsvector(users.email), 'A') || setweight(to_tsvector(users.fullname), 'B')) FROM account WHERE NEW.id=users.id);
+        END IF;
+        RETURN NEW;
+    END;
+    $BODY$
+    LANGUAGE 'plpgsql';
+
+
+    CREATE TRIGGER update_users_search 
+        BEFORE INSERT OR UPDATE 
+        ON users
+        FOR EACH ROW 
+        EXECUTE PROCEDURE users_search_update();
+
+
+
+    CREATE OR REPLACE FUNCTION projects_search_update() RETURNS TRIGGER AS 
+    $BODY$
+    BEGIN
+        IF TG_OP = 'INSERT' THEN
+            NEW.search = (SELECT setweight(to_tsvector(NEW.title), 'A') || setweight(to_tsvector(NEW.description), 'B'));
+        ELSIF TG_OP = 'UPDATE' AND (NEW.title <> OLD.title OR NEW.description <> OLD.description) THEN
+            NEW.search = (SELECT setweight(to_tsvector(NEW.title), 'A') || setweight(to_tsvector(NEW.description), 'B'));
+        END IF;
+        RETURN NEW;
+    END;
+    $BODY$
+    LANGUAGE 'plpgsql';
+
+
+    CREATE TRIGGER update_projects_search 
+        BEFORE INSERT OR UPDATE
+        ON projects
+        FOR EACH ROW 
+        EXECUTE PROCEDURE projects_search_update();
+
+
+
+    CREATE OR REPLACE FUNCTION tasks_search_update() RETURNS TRIGGER AS 
+    $BODY$
+    BEGIN
+        IF TG_OP = 'INSERT' THEN
+            NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B') || setweight(to_tsvector(NEW.due_date), 'C'));
+        ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description OR NEW.due_date <> OLD.due_date) THEN
+            NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B') || setweight(to_tsvector(NEW.due_date), 'C'));
+        END IF;
+        RETURN NEW;
+    END;
+    $BODY$
+    LANGUAGE 'plpgsql';
+
+
+    CREATE TRIGGER update_tasks_search 
+        BEFORE INSERT OR UPDATE
+        ON tasks
+        FOR EACH ROW 
+        EXECUTE PROCEDURE tasks_search_update();
+
