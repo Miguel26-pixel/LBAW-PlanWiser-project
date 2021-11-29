@@ -355,8 +355,8 @@ CREATE OR REPLACE FUNCTION add_invite_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
 
-    INSERT INTO notification (created_at, notification_type, user_id, invitation_id)
-    VALUES (NOW(), 'Invite', (SELECT NEW.user_id, NEW.invitations_pk FROM NEW) );
+    INSERT INTO notification (created_at, notification_type, user_id, invitation_user_id, invitation_project_id)
+    VALUES (NOW(), 'Invite', (SELECT NEW.user_id, NEW.user_id, NEW.project_id FROM NEW) );
 
 END;
 $BODY$
