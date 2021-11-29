@@ -277,11 +277,8 @@ CREATE TABLE notifications --povoar
     CONSTRAINT notification_type_ck CHECK (notification_type = ANY (ARRAY['INVITE'::notificationType, 'FORUM'::notificationType, 'REPORT'::notificationType, 'MESSAGE'::notificationType, 'REMINDER'::notificationType, 'COMMENT'::notificationType]))
 );
 
+--functions
 
---triggers
-
-
-DROP TRIGGER IF EXISTS accept_invite ON privateMessages;
 
 CREATE OR REPLACE FUNCTION check_private_message() RETURNS TRIGGER AS
 $BODY$
@@ -296,11 +293,25 @@ END;
 $BODY$
     LANGUAGE plpgsql;
 
-CREATE TRIGGER accept_invite
+
+--triggers
+
+
+DROP TRIGGER IF EXISTS check_private_message ON privateMessages;
+
+CREATE TRIGGER check_private_message
     BEFORE INSERT
     ON privateMessages
     FOR EACH ROW
 EXECUTE PROCEDURE check_private_message();
+
+CREATE TRIGGER check_user_project
+    BEFORE INSERT
+    ON projectMessages
+    FOR EACH ROW
+EXECUTE PROCEDURE check_private_message();
+
+
 
 
 --PlanWiser Indexes
