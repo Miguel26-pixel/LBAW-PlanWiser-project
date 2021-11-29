@@ -1,3 +1,6 @@
+SET search_path TO teste;
+
+
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS privateMessages CASCADE;
 DROP TABLE IF EXISTS projects CASCADE;
@@ -427,9 +430,9 @@ CREATE OR REPLACE FUNCTION users_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.usersname), 'A')  || setweight(to_tsvector(users.email), 'A') || setweight(to_tsvector(users.fullname), 'B')) FROM account WHERE NEW.id=users.id);
+        NEW.search = (SELECT setweight(to_tsvector(NEW.username), 'A')  || setweight(to_tsvector(users.email), 'A') || setweight(to_tsvector(users.fullname), 'B') FROM users WHERE NEW.id=users.id);
     ELSIF TG_OP = 'UPDATE' AND (NEW.username <> OLD.username) THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.usersname), 'A')  || setweight(to_tsvector(users.email), 'A') || setweight(to_tsvector(users.fullname), 'B')) FROM account WHERE NEW.id=users.id);
+        NEW.search = (SELECT setweight(to_tsvector(NEW.username), 'A')  || setweight(to_tsvector(users.email), 'A') || setweight(to_tsvector(users.fullname), 'B') FROM users WHERE NEW.id=users.id);
     END IF;
     RETURN NEW;
 END;

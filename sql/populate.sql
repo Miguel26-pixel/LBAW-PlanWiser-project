@@ -1,3 +1,5 @@
+--SET search_path TO myschema;
+
 --users (50)
 
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (1, 'ggalbraith0', 'Giffer Galbraith', 'ggalbraith0@twitter.com', 'FwJ2i3', '/turpis/sed/ante.png', true);
