@@ -319,7 +319,7 @@ $BODY$
 BEGIN
     if new.creator_id in (select user_id from projectUsers where project_id = new.project_id)
     then 
-        if 'MANAGER' in (select user_role from projectUsers where user_id = new.user_id and project_id = new.project_id limit 1)
+        if 'MANAGER' in (select user_role from projectUsers where user_id = new.creator_id and project_id = new.project_id limit 1)
         then return new;
         else raise exception 'The user dont have permissions to create tasks';
         end if;
@@ -358,9 +358,9 @@ CREATE OR REPLACE FUNCTION add_invite_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
 
-    INSERT INTO notification (created_at, notification_type, user_id, invitation_user_id, invitation_project_id)
-    VALUES (NOW(), 'Invite', (SELECT NEW.user_id, NEW.user_id, NEW.project_id FROM NEW) );
-
+    INSERT INTO notifications (created_at, notification_type, user_id, invitation_user_id, invitation_project_id)
+    VALUES (NOW(), 'INVITE', NEW.user_id, NEW.user_id, NEW.project_id);
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -370,9 +370,9 @@ CREATE OR REPLACE FUNCTION add_forum_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
 
-    INSERT INTO notification (created_at, notification_type, user_id, project_message_id)
-    VALUES (NOW(), 'Forum', (SELECT NEW.user_id, NEW.projectMessages_pk FROM NEW) );
-
+    INSERT INTO notifications (created_at, notification_type, user_id, project_message_id)
+    VALUES (NOW(), 'FORUM', NEW.user_id, NEW.id);
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -382,10 +382,10 @@ CREATE OR REPLACE FUNCTION add_report_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
 
-    INSERT INTO notification (created_at, notification_type, user_id, report_id)
-    VALUES (NOW(), 'Report', (SELECT NEW.user_id, NEW.reports_pkey FROM NEW) );
-
-END;
+    INSERT INTO notifications (created_at, notification_type, user_id, report_id)
+    VALUES (NOW(), 'REPORT', NEW.user_id, NEW.id);
+    RETURN NEW;
+END;    
 $BODY$
     LANGUAGE plpgsql;
 
@@ -394,9 +394,9 @@ CREATE OR REPLACE FUNCTION add_message_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
 
-    INSERT INTO notification (created_at, notification_type, user_id, private_message_id)
-    VALUES (NOW(), 'Message', (SELECT NEW.user_id, NEW.private_messages_pk FROM NEW) );
-
+    INSERT INTO notifications (created_at, notification_type, user_id, private_message_id)
+    VALUES (NOW(), 'MESSAGE', NEW.emitter_id, NEW.id);
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -406,9 +406,9 @@ CREATE OR REPLACE FUNCTION add_reminder_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
 
-    INSERT INTO notification (created_at, notification_type, user_id, task_id)
-    VALUES (NOW(), 'Reminder', (SELECT NEW.user_id, NEW.tasks_pk FROM NEW) );
-
+    INSERT INTO notifications (created_at, notification_type, user_id, task_id)
+    VALUES (NOW(), 'REMINDER', NEW.creator_id, NEW.id);
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -418,9 +418,9 @@ CREATE OR REPLACE FUNCTION add_comment_notification() RETURNS TRIGGER AS
 $BODY$
 BEGIN
 
-    INSERT INTO notification (created_at, notification_type, user_id, task_comment_fk)
-    VALUES (NOW(), 'Comment', (SELECT NEW.user_id, NEW.taskComments_pk FROM NEW) );
-
+    INSERT INTO notifications (created_at, notification_type, user_id, task_comment_id)
+    VALUES (NOW(), 'COMMENT', NEW.user_id, NEW.id );
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -459,9 +459,9 @@ CREATE OR REPLACE FUNCTION tasks_search_update() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B') || setweight(to_tsvector(NEW.due_date), 'C'));
-    ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description OR NEW.due_date <> OLD.due_date) THEN
-        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B') || setweight(to_tsvector(NEW.due_date), 'C'));
+        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
+    ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
+        NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
     END IF;
     RETURN NEW;
 END;
