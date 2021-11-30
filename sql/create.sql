@@ -137,6 +137,7 @@ CREATE TABLE invitations
     user_id integer NOT NULL,
     project_id integer NOT NULL,
     accept boolean,
+    user_role userRole NOT NULL DEFAULT 'GUEST',
     CONSTRAINT invitations_pk PRIMARY KEY (user_id, project_id),
     CONSTRAINT project_fk FOREIGN KEY (project_id)
         REFERENCES projects (id)
@@ -474,8 +475,9 @@ $BODY$
 BEGIN
     if new.accept is true 
     then INSERT INTO projectUsers (user_id, project_id, user_role) 
-         VALUES ((SELECT NEW.user_id, NEW.project_id, NEW.user_role FROM NEW));
-    else 
+         VALUES (NEW.user_id, NEW.project_id, NEW.user_role);
+         RETURN NEW;
+    else
         raise exception 'The invite was declined';
     end if;
 END;
@@ -487,38 +489,33 @@ CREATE OR REPLACE FUNCTION check_notification_type() RETURNS TRIGGER AS
 $BODY$
 BEGIN
     if  
-        (invitation_user_id <> NULL and invitation_project_id <> NULL and new.notification_type = 'INVITE' and project_message_id = NULL and report_id = NULL and private_message_id = NULL and task_id = NULL and task_comment_id = NULL)
+        (new.notification_type = 'INVITE' and new.invitation_project_id IS NOT NULL and new.invitation_user_id IS NOT NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
     then 
-        INSERT INTO notifications (created_at, notification_type, invitation_user_id, invitation_project_id)
-        VALUES (NOW(), 'INVITE',(SELECT NEW.invitation_user_id, NEW.invitation_project_id FROM NEW));
+        
     elsif  
-        (project_message_id <> NULL and new.notification_type = 'FORUM' and invitation_user_id = NULL and invitation_project_id = NULL and report_id = NULL and private_message_id = NULL and task_id = NULL and task_comment_id = NULL)
+        (new.project_message_id IS NOT NULL and new.notification_type = 'FORUM' and new.invitation_user_id IS NULL and new.invitation_project_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
     then
-        INSERT INTO notifications (created_at, notification_type, project_message_id)
-        VALUES (NOW(), 'FORUM',(SELECT NEW.project_message_id FROM NEW));
+        
 	elsif  
-        (project_message_id = NULL and new.notification_type = 'REPORT' and invitation_user_id = NULL and invitation_project_id = NULL and report_id <> NULL and private_message_id = NULL and task_id = NULL and task_comment_id = NULL)
+        (new.project_message_id IS NULL and new.notification_type = 'REPORT' and new.invitation_user_id IS NULL and new.invitation_project_id IS NULL and new.report_id IS NOT NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
     then
-        INSERT INTO notifications (created_at, notification_type, report_id)
-        VALUES (NOW(), 'REPORT',(SELECT NEW.report_id FROM NEW));
+       
 	elsif  
-        (project_message_id = NULL and new.notification_type = 'MESSAGE' and invitation_user_id = NULL and invitation_project_id = NULL and report_id = NULL and private_message_id <> NULL and task_id = NULL and task_comment_id = NULL)
+        (new.project_message_id IS NULL and new.notification_type = 'MESSAGE' and new.invitation_user_id IS NULL and new.invitation_project_id IS NULL and new.report_id IS NULL and new.private_message_id IS NOT NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
     then
-        INSERT INTO notifications (created_at, notification_type, private_message_id)
-        VALUES (NOW(), 'MESSAGE',(SELECT NEW.private_message_id FROM NEW));
+        
     elsif  
-        (project_message_id = NULL and new.notification_type = 'REMINDER' and invitation_user_id = NULL and invitation_project_id = NULL and report_id = NULL and private_message_id = NULL and task_id <> NULL and task_comment_id = NULL)
+        (new.project_message_id IS NULL and new.notification_type = 'REMINDER' and new.invitation_user_id IS NULL and new.invitation_project_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NOT NULL and new.task_comment_id IS NULL)
     then
-        INSERT INTO notifications (created_at, notification_type, task_id)
-        VALUES (NOW(), 'REMINDER',(SELECT NEW.task_id FROM NEW));
+        
 	elsif  
-        (project_message_id = NULL and new.notification_type = 'COMMENT' and invitation_user_id = NULL and invitation_project_id = NULL and report_id = NULL and private_message_id = NULL and task_id = NULL and task_comment_id <> NULL)
+        (new.project_message_id IS NULL and new.notification_type = 'COMMENT' and new.invitation_user_id IS NULL and new.invitation_project_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NOT NULL)
     then
-        INSERT INTO notifications (created_at, notification_type, task_comment_id)
-        VALUES (NOW(), 'COMMENT',(SELECT NEW.task_comment_id FROM NEW));
+        
     else
-        raise exception 'Invalid notification';
+        delete from notifications where id = new.id;
     end if;
+    RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -621,13 +618,13 @@ CREATE TRIGGER update_tasks_search
 EXECUTE PROCEDURE tasks_search_update();
 
 CREATE TRIGGER add_project_user
-    AFTER INSERT 
+    AFTER UPDATE 
     ON invitations
     FOR EACH ROW
 EXECUTE PROCEDURE add_project_user();
 
 CREATE TRIGGER check_notification_type
-    BEFORE INSERT 
+    AFTER INSERT 
     ON notifications
     FOR EACH ROW
 EXECUTE PROCEDURE check_notification_type();
