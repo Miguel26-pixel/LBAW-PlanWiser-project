@@ -83,7 +83,7 @@ CREATE TABLE privateMessages --falta povoar
     emitter_id integer NOT NULL,
     receiver_id integer NOT NULL,
     read boolean NOT NULL DEFAULT false,
-    created_at date NOT NULL,
+    created_at timestamp NOT NULL,
     CONSTRAINT private_messages_pk PRIMARY KEY (id),
     CONSTRAINT emitter_fk FOREIGN KEY (emitter_id)
         REFERENCES users (id)
@@ -100,7 +100,7 @@ CREATE TABLE projects
     description varchar NOT NULL,
     public boolean NOT NULL DEFAULT true,
     active boolean NOT NULL DEFAULT true,
-    created_at date NOT NULL,
+    created_at timestamp NOT NULL,
     search TSVECTOR,
     CONSTRAINT projects_pk PRIMARY KEY (id)
 );
@@ -153,7 +153,7 @@ CREATE TABLE projectMessages
     message varchar NOT NULL,
     user_id integer,
     project_id integer,
-    created_at date NOT NULL,
+    created_at timestamp NOT NULL,
     CONSTRAINT projectMessages_pk PRIMARY KEY (id),
     CONSTRAINT project_fk FOREIGN KEY (project_id)
         REFERENCES projects (id)
@@ -168,8 +168,8 @@ CREATE TABLE projectFiles
     id serial,
     url varchar NOT NULL UNIQUE,
     project_id integer,
-    created_at date NOT NULL,
-    updated_at date NOT NULL,
+    created_at timestamp NOT NULL,
+    updated_at timestamp NOT NULL,
     CONSTRAINT project_files_pk PRIMARY KEY (id),
     CONSTRAINT project_fk FOREIGN KEY (project_id)
         REFERENCES projects (id)
@@ -182,7 +182,7 @@ CREATE TABLE reports
     user_id integer,
     text varchar NOT NULL,
     report_type reportType NOT NULL,
-    created_at date NOT NULL,
+    created_at timestamp NOT NULL,
     report_state reportState NOT NULL DEFAULT 'PENDING',
     reported_user_id integer,
     CONSTRAINT reports_pkey PRIMARY KEY (id),
@@ -201,12 +201,12 @@ CREATE TABLE tasks
     id serial,
     name varchar NOT NULL,
     description varchar NOT NULL,
-    due_date date NOT NULL,
+    due_date timestamp NOT NULL,
     reminder_date date,
     tag stage NOT NULL,
     creator_id integer,
     project_id integer,
-    created_at date NOT NULL,
+    created_at timestamp NOT NULL,
     search TSVECTOR,
     CONSTRAINT tasks_pk PRIMARY KEY (id),
     CONSTRAINT creator_fk FOREIGN KEY (creator_id)
@@ -233,7 +233,7 @@ CREATE TABLE taskComments
     comment varchar NOT NULL,
     task_id integer,
     user_id integer,
-    created_at date NOT NULL,
+    created_at timestamp NOT NULL,
     CONSTRAINT taskComments_pk PRIMARY KEY (id),
     CONSTRAINT user_fk FOREIGN KEY (user_id)
         REFERENCES users (id)
@@ -247,7 +247,7 @@ CREATE TABLE notifications --povoar
 (
     id serial,
     notification_type notificationType NOT NULL,
-    created_at date NOT NULL,
+    created_at timestamp NOT NULL,
     user_id integer NOT NULL,
     invitation_user_id integer,
     project_message_id integer,
