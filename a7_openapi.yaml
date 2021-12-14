@@ -1,0 +1,25 @@
+openapi: 3.0.0
+
+info:
+  version: '1.0'
+  title: PlanWiser Web API
+  description: Web Resources Specification (A7) for PlanWiser
+  
+servers:
+- url: "http://lbaw2181-prod.fe.up.pt"
+  description: "Production server"
+  
+externalDocs:
+  description: "Find more info here."
+  url: "https://git.fe.up.pt/lbaw/lbaw2122/lbaw2181/-/wikis/home"
+
+tags:
+  - name: 'M01: Authentication and Individual Profile'
+  - name: 'M02: Projects'
+  - name: 'M03: Notifications, Messages, Favorites'
+  - name: 'M03: Static pages'
+  - name: 'M04: User Administration'
+
+paths:
+  /login:
+    
