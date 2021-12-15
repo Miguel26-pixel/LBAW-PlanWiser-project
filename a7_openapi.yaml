@@ -22,4 +22,483 @@ tags:
 
 paths:
   /login:
-    
+    get:
+      operationId: R101
+      summary: 'R101: Sign In Form'
+      description: 'Provide sign in form. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'Ok'
+        '302':
+          description: 'Redirect if user is logged in.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Authenticated. Redirect to user projects page.'
+                  value: '/projectsPage'
+
+    post:
+      operationId: R102
+      summary: 'R102: Login Action'
+      description: 'Processes the login form submission. Access: PUB'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+
+      responses:
+        '302':
+          description: 'Redirect after processing the sign in credentials.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful authentication. Redirect to user projects page.'
+                  value: '/projectsPage'
+                302Error:
+                  description: 'Failed authentication. Redirect to sign in form.'
+                  value: '/login'
+  /logout:
+    post:
+      operationId: R103
+      summary: 'R103: Logout Action'
+      description: 'Logout the current authenticated used. Access: USR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '302':
+          description: 'Redirect after processing logout.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful logout. Redirect to home page.'
+                  value: '/homepage'
+  /sign_up:
+    get:
+      operationId: R104
+      summary: 'R104: Sign Up Form'
+      description: 'Provide new user sign up form. Access: VTR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'Ok. Show [UI03](https://git.fe.up.pt/lbaw/lbaw2021/lbaw2134/-/wikis/ER#ui03-sign-up)'
+        '302':
+          description: 'Redirect if user is logged in.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Authenticated. Redirect to user projects page.'
+                  value: '/projectsPage'
+    post:
+      operationId: R105
+      summary: 'R105: Sign Up Action'
+      description: 'Processes the new user sign up form submission. Access: VTR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - email
+                - password
+      responses:
+        '302':
+          description: 'Redirect after processing the new user information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful authentication. Redirect to user profile.'
+                  value: '/profile'
+                302Failure:
+                  description: 'Failed authentication. Redirect to sign in form.'
+                  value: '/sign_in'
+
+  /profile/{username}:
+    get:
+      operationId: R106
+      summary: 'R106: View User Profile'
+      description: 'Show the individual user profile. Access: USR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'Ok.'
+        '404':
+          description: 'Not Found.'
+
+    patch:
+      operationId: R107
+      summary: 'R107: Edit Profile'
+      description: 'Edit account information. Access: AOR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                username:
+                  type: string
+                password:
+                  type: string
+                fullname:
+                  type: string
+                img_url:
+                  type: string
+      responses:
+        '200':
+          description: 'Ok'
+        "401":
+          description: 'Permission denied'
+  
+    delete:
+      operationId: R108
+      summary: 'R108: Delete Account'
+      description: 'Delete account. Access: AOR, ADM'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+        
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'Ok'
+
+  /api/project:
+    get:
+      operationId: R201
+      summary: "R201: Search Projects API"
+      description: "Searches for projects and returns the results as JSON. Access: RDR"
+      tags:
+        - 'M02: Projects'
+        
+      parameters: 
+        - in: query 
+          name: query 
+          description: 'String to use for full-text search'
+          schema: 
+            type: string 
+          required: false 
+        - in: query 
+          name: closed 
+          description: 'Boolean with the closed flag value'
+          schema: 
+            type: boolean 
+          required: false 
+      responses:
+        '200':
+          description: 'Success'
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          description: 'Bad Request'
+      
+    post:
+      operationId: R202
+      summary: 'R202: Create Project'
+      description: 'Processes the project creation form submission. Access: AUR'
+      tags:
+        - 'M02: Projects'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+                - description
+      responses:
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful creation. Redirect to project overview.'
+                  value: '/project/{id}/overview'
+                302Failure:
+                  description: 'Failed creation. Redirect to user projects page.'
+                  value: '/projectsPage'
+
+  /api/project/{id}:
+    get:
+      operationId: R203
+      summary: 'R203: Get Project Information'
+      description: "Get project information as JSON. Access: RDR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+          
+    delete:
+      operationId: R204
+      summary: 'R204: Leave Project'
+      description: 'Leave a project. Access: RDR'
+      tags:
+        - 'M02: Projects'    
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        
+      responses:
+        '302':
+          description: 'Redirect after processing the leave request.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful. Redirect to user projects page.'
+                  value: '/projectsPage'
+                302Failure:
+                  description: 'Failed. Redirect to user projects page.'
+                  value: '/projectsPage'
+        "400":
+          description: "Bad Request. Must have at least one owner in the project"
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+
+  /project/{id}/overview:
+    get:
+      operationId: R205
+      summary: 'R205: View Project Overview'
+      description: "Show the project overview page. Access: RDR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Not Found'
+  
+  /project/{id}/status_board:
+    get:
+      operationId: R206
+      summary: 'R206: View Project Status Board'
+      description: "Show the project's status board page. Access: RDR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Not Found'
+  
+  /project/{id}/assignments:
+    get:
+      operationId: R207
+      summary: 'R207: View Project Assignments'
+      description: "Show the project's assignments page. Access: RDR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Not Found'
+  
+  /project/{id}/preferences:
+    get:
+      operationId: R208
+      summary: 'R208: View Project Settings'
+      description: "Show the project settings page. Access: RDR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Not Found'
+  
+    patch:
+      operationId: R209
+      summary: 'R209: Update Project'
+      description: 'Processes the project settings form submission. Access: OWN'
+      tags:
+        - 'M02: Projects'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                due_date:
+                  type: integer
+      
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+  
+    delete:
+      operationId: R210
+      summary: 'R210: Delete Project'
+      description: 'Delete project project. Access: OWN'
+      tags:
+        - 'M02: Projects'    
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        
+      responses:
+        '302':
+          description: 'Redirect after processing the delete project request.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful. Redirect to user projects page.'
+                  value: '/projectsPage'
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
