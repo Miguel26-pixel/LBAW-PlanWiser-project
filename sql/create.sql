@@ -1,4 +1,4 @@
-SET search_path TO teste;
+SET search_path TO lbaw2181;
 
 
 DROP TABLE IF EXISTS users CASCADE;

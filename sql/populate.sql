@@ -1,4 +1,4 @@
---SET search_path TO myschema;
+SET search_path TO lbaw2181;
 
 --users (50)
 
