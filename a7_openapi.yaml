@@ -16,9 +16,9 @@ externalDocs:
 tags:
   - name: 'M01: Authentication and Individual Profile'
   - name: 'M02: Projects'
-  - name: 'M03: Notifications, Messages, Favorites'
-  - name: 'M03: Static pages'
-  - name: 'M04: User Administration'
+  - name: 'M03: Notifications, Messages, Reports, Favorites'
+  - name: 'M04: Static pages'
+  - name: 'M05: User Administration'
 
 paths:
   /login:
@@ -40,7 +40,7 @@ paths:
               examples:
                 302Success:
                   description: 'Authenticated. Redirect to user projects page.'
-                  value: '/projectsPage'
+                  value: '/homepage'
 
     post:
       operationId: R102
@@ -74,7 +74,7 @@ paths:
               examples:
                 302Success:
                   description: 'Successful authentication. Redirect to user projects page.'
-                  value: '/projectsPage'
+                  value: '/homepage'
                 302Error:
                   description: 'Failed authentication. Redirect to sign in form.'
                   value: '/login'
@@ -105,7 +105,7 @@ paths:
         - 'M01: Authentication and Individual Profile'
       responses:
         '200':
-          description: 'Ok. Show [UI03](https://git.fe.up.pt/lbaw/lbaw2021/lbaw2134/-/wikis/ER#ui03-sign-up)'
+          description: 'Ok'
         '302':
           description: 'Redirect if user is logged in.'
           headers:
@@ -115,7 +115,7 @@ paths:
               examples:
                 302Success:
                   description: 'Authenticated. Redirect to user projects page.'
-                  value: '/projectsPage'
+                  value: '/homepage'
     post:
       operationId: R105
       summary: 'R105: Sign Up Action'
@@ -211,7 +211,7 @@ paths:
     delete:
       operationId: R108
       summary: 'R108: Delete Account'
-      description: 'Delete account. Access: AOR, ADM'
+      description: 'Delete account. Access: AOR'
       tags:
         - 'M01: Authentication and Individual Profile'
         
@@ -291,7 +291,7 @@ paths:
                   value: '/project/{id}/overview'
                 302Failure:
                   description: 'Failed creation. Redirect to user projects page.'
-                  value: '/projectsPage'
+                  value: '/homepage'
 
   /api/project/{id}:
     get:
@@ -342,10 +342,10 @@ paths:
               examples:
                 302Success:
                   description: 'Successful. Redirect to user projects page.'
-                  value: '/projectsPage'
+                  value: '/homepage'
                 302Failure:
                   description: 'Failed. Redirect to user projects page.'
-                  value: '/projectsPage'
+                  value: '/homepage'
         "400":
           description: "Bad Request. Must have at least one owner in the project"
         "403":
@@ -416,7 +416,7 @@ paths:
         '404':
           description: 'Not Found'
   
-  /project/{id}/preferences:
+  /project/{id}/settings:
     get:
       operationId: R208
       summary: 'R208: View Project Settings'
@@ -458,12 +458,10 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                title:
                   type: string
                 description:
                   type: string
-                due_date:
-                  type: integer
       
       responses:
         "200":
@@ -497,8 +495,746 @@ paths:
               examples:
                 302Success:
                   description: 'Successful. Redirect to user projects page.'
-                  value: '/projectsPage'
+                  value: '/homepage'
         "403":
           description: Forbidden
         "404":
           description: Not Found
+
+  /api/project/{id}/task:
+    get:
+      operationId: R211
+      summary: "R211: Search Tasks API"
+      description: "Searches for tasks and returns the results as JSON. Access: EDT"
+      tags:
+        - 'M02: Projects'
+        
+      parameters: 
+        - in: path 
+          name: id 
+          schema: 
+            type: integer 
+          required: true 
+        - in: query 
+          name: query 
+          description: String to use for full-text search 
+          schema: 
+            type: string 
+          required: false 
+        - in: query 
+          name: tag
+          description: Stage of the tasks
+          schema: 
+            type: string
+            enum: ['TODO', 'DOING', 'REVIEW', 'CLOSED']
+          required: false
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '400':
+          description: Bad Request
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+          
+    post:
+      operationId: R212
+      summary: 'R212: Create Task'
+      description: 'Processes the task creation form submission. Access: EDT'
+      tags:
+        - 'M02: Projects'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                due_date:
+                  type: integer
+                reminder_date:
+                  type: integer
+                tag:
+                  type: string
+                  enum: ['TODO', 'DOING', 'REVIEW', 'CLOSED']
+              required:
+                - name
+                - description
+                - due_date
+                - reminder_date
+                - tag
+      responses:
+        '302':
+          description: 'Redirect after processing the new task information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful creation. Redirect to task card.'
+                  value: '/project/{id}/overview'
+                302Failure:
+                  description: 'Failed creation. Redirect to project page.'
+                  value: '/project/{id}/overview'
+        '400':
+          description: Bad Request
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+
+  /api/project/{id}/task/{task}:
+    get:
+      operationId: R213
+      summary: 'R213: Get Task'
+      description: 'Get the task information in JSON. Access: EDT'
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: task
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+          
+    patch:
+      operationId: R214
+      summary: 'R214: Update Task'
+      description: 'Processes the task settings form submission. Access: EDT'
+      tags:
+        - 'M02: Projects'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: task
+          schema:
+            type: integer
+          required: true
+        
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                due_date:
+                  type: integer
+                reminder_date:
+                  type: integer
+                tag:
+                  type: string
+      
+      responses:
+        "200":
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+          
+    delete:
+      operationId: R215
+      summary: 'R215: Delete Task'
+      description: 'Removes task from project. Access: EDT'
+      tags:
+        - 'M02: Projects'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: task
+          schema:
+            type: integer
+          required: true
+        
+      responses:
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful delete. Redirect to project overview.'
+                  value: '/project/{id}/overview'
+                302Failure:
+                  description: 'Failed delete. Redirect to project overview.'
+                  value: '/project/{id}/overview'
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+  
+  /api/project/{id}/invitation:
+    post:
+      operationId: R219
+      summary: 'R219: Invite member'
+      description: 'Invite a member to a project. Access: MGR'
+      tags:
+        - 'M02: Projects' 
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+          
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                project_id:
+                  type: integer
+                accept: 
+                  type: boolean
+                user_role:
+                  type: string
+                  enum: ['GUEST', 'MEMBER', 'MANAGER']
+                
+              required:
+                - user_id
+                - project_id
+                - accept
+                - user_role
+
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "Tag not found"
+  
+  /api/project/{id}/invitation/{invitation}:
+    patch:
+      operationId: R220
+      summary: 'R220: Respond to project invite'
+      description: 'Accept or refuse an invite to a project. Access: USR'
+      tags:
+        - 'M02: Projects' 
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: invitation
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                accept:
+                  type: boolean
+              required:
+                - accept
+        
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "Tag not found"
+  
+  /api/project/{id}/task/{task}/assignment:
+    post:
+      operationId: R221
+      summary: 'R221: Add an assignment'
+      description: 'Add an user assign. Access: MGR'
+      tags:
+        - 'M02: Projects' 
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: task
+          schema:
+            type: integer
+          required: true
+          
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                task_id:
+                  type: integer
+              required:
+                - user_id
+                - task_id
+        
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "Tag not found"
+  
+  /api/project/{id}/projectmessage:
+    post:
+      operationId: R222
+      summary: 'R222: Add a message to the project'
+      description: 'Add a message to the project. Access: EDT'
+      tags:
+        - 'M02: Projects' 
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                project_id:
+                  type: integer
+              required:
+                - url
+                - integer
+        
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "File not found"
+
+    /api/project/{id}/projectfile:
+    post:
+      operationId: R223
+      summary: 'R223: Add a file to the project'
+      description: 'Add a file to the project. Access: EDT'
+      tags:
+        - 'M02: Projects' 
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                project_id:
+                  type: integer
+              required:
+                - url
+                - integer
+        
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "File not found"
+
+  /api/project/{id}/projectuser:
+    post:
+      operationId: R224
+      summary: 'R224: Add project user'
+      description: 'Add project user to project. Access: EDT'
+      tags:
+        - 'M02: Projects'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: integer
+                user_id:
+                  type: integer
+                user_role:
+                  type: string
+                  enum: ['GUEST', 'MEMBER', 'MANAGER']
+              required:
+                - project_id
+                - user_id
+                - user_role
+
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "Tag not found"
+
+  /api/project/{id}/task/{task}/taskcomment:
+    post:
+      operationId: R225
+      summary: 'R225: Add a comment'
+      description: 'Add a comment to a task. Access: EDT'
+      tags:
+        - 'M02: Projects'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: task
+          schema:
+            type: integer
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                task_id:
+                  type: integer
+                user_id:
+                  type: integer
+              required:
+                - comment
+
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "Tag not found"
+
+  /api/report:
+    post:
+      operationId: R301
+      summary: 'R301: Make a report'
+      description: 'Make a report. Access: RDR'
+      tags:
+        - 'M03: Notifications, Messages, Reports, Favorites' 
+          
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                user_id: 
+                  type: integer
+                report_state:
+                  type: string
+                  enum: ['PENDING', 'IGNORED', 'BANNED']
+                report_type:
+                  type: string
+                  enum: ['User', 'Bug']
+
+              required:
+                - text
+                - report_state
+                - report_type
+
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "Tag not found"
+
+    /api/user/{id}/privatemessage:
+    post:
+      operationId: R302
+      summary: 'R302: Send private message'
+      description: 'Send private message. Access: USR'
+      tags:
+        - 'M03: Notifications, Messages, Reports, Favorites'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: integer
+                user_id:
+                  type: integer
+                user_role:
+                  type: string
+                  enum: ['GUEST', 'MEMBER', 'MANAGER']
+              required:
+                - project_id
+                - user_id
+                - user_role
+
+      responses:
+        "200":
+          description: "OK"
+        "403":
+          description: "Forbidden access"
+        "404":
+          description: "Tag not found"
+
+  /homepage:
+    get:
+      operationId: R401
+      summary: 'R401: View Landing Page'
+      description: "View landing page. Access: PUB"
+      tags:
+        - 'M04: Static pages'
+
+      responses:
+        '200':
+          description: 'OK'
+  
+  /api/search:
+    get:
+      operationId: R402
+      summary: 'R402: Website Search'
+      description: "Search in the website. Access: USR"
+      tags:
+        - 'M04: Static pages'
+
+      parameters:
+        - in: query
+          name: query
+          description: String to use for full-text search
+          schema:
+            type: string
+          required: true
+
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  projects:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+        '400':
+          description: Bad Request
+
+  /admin/users:
+    get:
+      operationId: R501
+      summary: 'R501: View User Management Page'
+      description: "View user management page. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  /admin/statistics:
+    get:
+      operationId: R502
+      summary: 'R502: View Website Statistics Page'
+      description: "View website statistics page. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  /admin/support:
+    get:
+      operationId: R503
+      summary: 'R503: View User Support Page'
+      description: "View user support page. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+
+  components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+
+    TaskComment:
+      type: object
+      properties:
+        id:
+          type: integer
+        comment:
+          type: string
+        task_id:
+          $ref: '#/components/schemas/Task'
+        due_date:
+          type: integer
+        user_id:
+          $ref: '#/components/schemas/User'
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+       name:
+          type: string
+        description:
+          type: string
+        due_date:
+          type: integer
+        reminder_date:
+          type: integer
+        tag:
+          type: string
+          enum: ['TODO', 'DOING', 'REVIEW', 'CLOSED']
+
+
+  
