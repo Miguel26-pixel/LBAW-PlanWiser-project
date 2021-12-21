@@ -13,9 +13,7 @@
 // Home
 Route::get('/', 'Auth\LoginController@home');
 
-// Cards
-Route::get('cards', 'CardController@list');
-Route::get('cards/{id}', 'CardController@show');
+Route::get('/dashboard', 'DashboardController@show');
 
 // API
 Route::put('api/cards', 'CardController@create');
