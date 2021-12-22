@@ -15,6 +15,8 @@ Route::get('/', 'Auth\LoginController@home');
 
 Route::get('/dashboard', 'DashboardController@show');
 
+Route::get('/homepage', 'HomepageController@show');
+
 // API
 Route::put('api/cards', 'CardController@create');
 Route::delete('api/cards/{card_id}', 'CardController@delete');
