@@ -19,6 +19,9 @@ main > header {
 #username-btn {
   grid-area: username;
 }
+#logout-btn {
+    grid-area: login;
+}
 main > header h1 {
   margin: 0;
 }
