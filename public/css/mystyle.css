@@ -8,7 +8,7 @@ body {
     align-items: center;
     border-bottom: solid;
     border-color: black;
-    margin: 1em;
+    margin: 0 1em 1em 1em;
 }
 #signup-btn {
     grid-area: sign-up;
