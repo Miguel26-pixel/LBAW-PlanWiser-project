@@ -3,8 +3,8 @@ use App\Http\Controllers\DashboardController;
 // Home
 Route::get('/', 'Auth\LoginController@home');
 Route::get('/dashboard', [DashboardController::class,'show']);
-
 Route::get('/homepage', 'HomepageController@show');
+Route::get('/profile/{id}', 'UsersController@showProfile');
 
 // API
 
