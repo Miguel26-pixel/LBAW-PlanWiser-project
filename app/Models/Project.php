@@ -26,7 +26,7 @@ class Project extends Model
 
   public function invites()
   {
-    return $this->belongsToMany(Client::class, 'invite', 'project_id', 'client_id')->withPivot('decision');
+    return $this->belongsToMany(Client::class, 'invite', 'project_id', 'client_id')->withPivot('accept');
   }
 
   public function tasks()

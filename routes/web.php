@@ -1,12 +1,17 @@
 <?php
-use App\Http\Controllers\DashboardController;
+namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Route;
 // Home
-Route::get('/', 'Auth\LoginController@home');
+
+
+Route::get('/', [Auth\LoginController::class,'home']);
 Route::get('/dashboard', [DashboardController::class,'show']);
-Route::get('/homepage', 'HomepageController@show');
-Route::get('/profile/{id}', 'UsersController@showProfile');
+Route::get('/homepage', [HomepageController::class,'show']);
+Route::get('/profile/{id}', [UsersController::class,'showProfile']);
 
 // API
+Route::post('/profile/{id}/update', [UsersController::class,'update']);
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
