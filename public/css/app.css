@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);
+
 @charset "UTF-8";
 /*!
  * Bootstrap v5.1.3 (https://getbootstrap.com/)
@@ -3558,6 +3559,22 @@ textarea.form-control-lg {
   margin-left: 0;
 }
 
+/*----- Homepage Style-----*/
+
+.homepage {
+  background-color: white;
+  color: black;
+  display: flex;
+}
+
+.homepage-title {
+  color: black;
+  font-weight: bold;
+  font-size: 36px;
+  margin-left: 20%;
+  margin-top: 15%;
+
+}
 .dropdown-menu {
   position: absolute;
   z-index: 1000;

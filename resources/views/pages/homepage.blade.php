@@ -3,7 +3,10 @@
 @section('homepage')
 
 
-<div></div>
+<div class="homepage">
+  <h class="homepage-title">Project wiser with PlanWiser</h>
+
+</div>
 
 
 @endsection
