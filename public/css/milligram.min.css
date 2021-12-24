@@ -36,8 +36,8 @@ blockquote *:last-child{
 }
 
 .button,button,input[type='button'],input[type='reset'],input[type='submit']{
-    background-color:#9b4dca;
-    border:0.1rem solid #9b4dca;
+    background-color:#1d6460;
+    border:0.1rem solid #1d6460;
     border-radius:.4rem;
     color:#fff;
     cursor:pointer;
