@@ -4,7 +4,7 @@ body {
 main > header {
   display: grid;
   grid-template-columns: auto repeat(12,1fr);
-  grid-template-areas: " . . . . . . . . . . . . sign-up login";
+  grid-template-areas: " . . . . . . . . . . . username sign-up login";
   align-items: center;
   border-bottom: solid;
   border-color: black;
@@ -15,6 +15,9 @@ main > header {
 }
 #login-btn {
   grid-area: login;
+}
+#username-btn {
+  grid-area: username;
 }
 main > header h1 {
   margin: 0;
@@ -91,10 +94,10 @@ main > header span {
   font-weight: normal;
 }
 #content > form {
-  margin: 0 auto;
+  margin: auto;
   padding: 1em;
   max-width: 20em;
-  border: 1px solid #d2afe7;
+  border: 1px solid black;
 }
 #content > form .error {
   font-weight: bold;
@@ -102,6 +105,11 @@ main > header span {
 }
 #content > form input {
   background-color: white;
+  border: 1px solid white;
+}
+#content > form input:hover {
+  background-color: white;
+  border: 1px solid black;
 }
 @media (max-width: 70em) {
   #cards {

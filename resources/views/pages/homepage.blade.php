@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
-@section('navbar')
-  @include('partials.navbar')
+@section('homepage')
+
+
+<div></div>
+
+
 @endsection
