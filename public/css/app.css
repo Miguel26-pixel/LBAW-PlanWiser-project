@@ -169,12 +169,18 @@ input[type=password]:focus {
 }
 
 
-/*----- Navbar Style-----*/
+/*----- Homepage Style-----*/
 
-.navbar {
-  color: green;
-  background-color: grey;
-  width: 100%;
-  height: fit-content;
-  overflow-x: hidden;
+.homepage {
+  background-color: white;
+  color: black;
+  display: flex;
+}
+
+.homepage-title {
+  color: black;
+  font-weight: bold;
+  font-size: 36px;
+  margin-left: 20%;
+  margin-top: 15%;
 }

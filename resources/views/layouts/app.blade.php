@@ -27,6 +27,7 @@
       </header>
       <section id="content">
         @yield('content')
+        @yield('homepage')
       </section>
     </main>
   </body>
