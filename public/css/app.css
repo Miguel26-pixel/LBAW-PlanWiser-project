@@ -60,6 +60,15 @@
   --bs-body-bg: #f8fafc;
 }
 
+#formFile::before {
+    content: "Pick Image:";
+    position: absolute;
+    z-index: 2;
+    display: block;
+    background-color: #eee;
+    width: 80px;
+}
+
 *,
 *::before,
 *::after {
@@ -2276,10 +2285,10 @@ progress {
   }
 }
 .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
-  background-color: #dde0e3;
+  /*background-color: #dde0e3;*/
 }
 .form-control:hover:not(:disabled):not([readonly])::file-selector-button {
-  background-color: #dde0e3;
+  /*background-color: #dde0e3;*/
 }
 .form-control::-webkit-file-upload-button {
   padding: 0.375rem 0.75rem;
@@ -2304,7 +2313,7 @@ progress {
   }
 }
 .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
-  background-color: #dde0e3;
+  /*background-color: #dde0e3;*/
 }
 
 .form-control-plaintext {
