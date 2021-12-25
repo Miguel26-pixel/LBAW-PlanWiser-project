@@ -8,8 +8,6 @@ class Project extends Model
 {
   public $timestamps  = false;
 
-  protected $table = 'projects';
-
   /**
    * The attributes that are mass assignable.
    *
