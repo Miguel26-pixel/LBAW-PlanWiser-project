@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -58,6 +59,7 @@ class ProjectsController extends Controller
         $project->description = $request->description;
         $project->public = $request->public;
         $project->active = $request->active;
+        $project->created_at = Carbon::now();
         $project->save();
 
         return redirect()->back();
