@@ -1,32 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Project;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
 
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/homepage';
+    public function showProjectsForm()
+    {
+        return view('pages.projectsCreate');
+    }
 
     /**
      * Create a new controller instance.
@@ -35,7 +22,7 @@ class ProjectsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     /**
@@ -44,29 +31,35 @@ class ProjectsController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator()
     {
-        return Validator::make($data, [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|email|max:255|unique:users',
+       return  [
+            'title' => ['required','string'],
+            'description' => ['required','string'],
             'public' => 'boolean',
             'active' => 'boolean',
-        ]);
+        ];
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     *
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'public' => $data['public'],
-            'active' => $data['active'],
-        ]);
+
+        $validator = $request->validate($this->validator());
+
+        $project = new Project;
+
+        $project->title = $request->title;
+        $project->description = $request->description;
+        $project->public = $request->public;
+        $project->active = $request->active;
+        $project->save();
+
+        return redirect()->back();
     }
 }

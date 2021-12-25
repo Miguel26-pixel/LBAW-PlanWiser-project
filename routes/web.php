@@ -22,5 +22,5 @@ Route::post('register', 'Auth\RegisterController@register');
 
 
 //Projects
-Route::get('projectsCreate', 'ProjectsController@showProjectsForm')->name('projectsCreate');
-Route::post('projectsCreate', 'ProjectsController@projectsCreate');
+Route::get('projectsCreate', [ProjectsController::class,'showProjectsForm']);
+Route::post('projectsCreate', [ProjectsController::class,'create']);

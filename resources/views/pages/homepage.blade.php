@@ -2,7 +2,7 @@
 
 @section('homepage')
 
-
+@section('content')
 <div class="homepage">
     <div class="homepage-title">Project wiser</br> with</br><h class="green-planwiser">PlanWiser</h></div>
 

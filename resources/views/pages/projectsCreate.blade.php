@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
+@section('projects')
+
 @section('content')
-<form method="POST" action="{{ route('projectsCreate') }}">
-    {{ csrf_field() }}
+<form action='/projectsCreate' method="POST" enctype="multipart/form-data">
+    @csrf
 
     <label for="title">Title</label>
-    <input id="title" type="text" name="title" value="{{ old('title') }}" required autofocus>
+    <input id="title" type="text" name="title" required>
     @if ($errors->has('title'))
       <span class="error">
           {{ $errors->first('title') }}
@@ -13,7 +15,7 @@
     @endif
 
     <label for="description">Description</label>
-    <input id="description" type="text" name="description" value="{{ old('description') }}" required autofocus>
+    <input id="description" type="text" name="description"  required>
     @if ($errors->has('description'))
         <span class="error">
           {{ $errors->first('description') }}
@@ -21,7 +23,7 @@
     @endif
 
     <label for="public">Public</label>
-    <input id="public" type="text" name="public" value="{{ old('public') }}" required>
+    <input id="public" type="boolean" name="public" >
     @if ($errors->has('public'))
       <span class="error">
           {{ $errors->first('public') }}
@@ -29,7 +31,7 @@
     @endif
 
     <label for="active">Active</label>
-    <input id="active" type="text" name="active" required>
+    <input id="active" type="boolean" name="active" >
     @if ($errors->has('active'))
       <span class="error">
           {{ $errors->first('active') }}
