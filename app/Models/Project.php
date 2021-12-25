@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-  public $timestamps  = true;
-
-  protected $table = 'project';
+  public $timestamps  = false;
 
   /**
    * The attributes that are mass assignable.
@@ -31,7 +29,7 @@ class Project extends Model
 
   public function tasks()
   {
-    return $this->hasMany(Task::class, 'project');
+    return $this->hasMany(Task::class, 'projects');
   }
 
   public function getReadableDueDate()

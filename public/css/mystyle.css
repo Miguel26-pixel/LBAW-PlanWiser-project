@@ -1,15 +1,37 @@
 body {
     background-color: #ffffff;
 }
+.my-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.my-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: lightgrey;
+    color: black;
+    min-width: 260px;
+    left: -35px;
+    top: 45px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.my-dropdown:hover .my-dropdown-content {
+    display: block;
+}
+
 .navbar-align {
     display: grid;
-    grid-template-columns: auto repeat(12,1fr);
+    grid-template-columns: auto repeat(8,1fr);
     grid-template-areas: " . . . . . . . . . . . username sign-up login";
     align-items: center;
     margin: 2em 10em 1em 10em;
 }
 .nav-item {
-    border-style:hidden; 
+    border-style:hidden;
     font-size: 20px;
     color: #2F4F4F;
 }
@@ -27,6 +49,9 @@ body {
 }
 #profile-btn {
     grid-area: sign-up;
+}
+#notifications-btn {
+    grid-area: username;
 }
 main > header h1 {
 margin: 0;
@@ -105,7 +130,7 @@ font-weight: normal;
 #content > form {
 margin: auto;
 padding: 1em;
-max-width: 20em;
+max-width: 60em;
 border: 1px solid black;
 }
 #content > form .error {
@@ -182,19 +207,22 @@ border-color: white;
 /*----- Homepage Style-----*/
 
 .homepage {
-background-color: white;
-color: black;
-display: flex;
+    background-color: white;
+    color: black;
+    display: flex;
 }
 
 .homepage-title {
-color: black;
-font-weight: bold;
-font-size: 36px;
-margin-left: 20%;
-margin-top: 15%;
+    color: black;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 30px;
+    margin-left: 13%;
+    margin-top: 10%;
+    white-space: nowrap;
 }
 
+<<<<<<< HEAD
 /*----- Auth forms-----*/
 
   .loginbackground {
@@ -207,7 +235,7 @@ margin-top: 15%;
       z-index: 0;
       overflow: hidden;
   }
-  
+
   .formbg {
       margin: 0px auto;
       width: 100%;
@@ -239,7 +267,7 @@ margin-top: 15%;
       grid-template-columns: 50% 50%;
       align-items: center;
   }
-  
+
   .field input {
       font-size: 16px;
       line-height: 28px;
@@ -250,23 +278,23 @@ margin-top: 15%;
       border-radius: 4px;
       outline-color: rgb(84 105 212 / 0.5);
       background-color: rgb(255, 255, 255);
-      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-                  rgba(60, 66, 87, 0.16) 0px 0px 0px 1px, 
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
                   rgba(0, 0, 0, 0) 0px 0px 0px 0px;
   }
-  
+
   input[type="submit"] {
       background-color: #2F4F4F;
-      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-                  rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, 
-                  #2F4F4F, 
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px, 
+      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+                  #2F4F4F,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
                   rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
       color: #fff;
       font-weight: 600;
@@ -275,7 +303,7 @@ margin-top: 15%;
   .field-checkbox input {
       width: 20px;
       height: 15px;
-      margin-right: 5px; 
+      margin-right: 5px;
       box-shadow: unset;
       min-height: unset;
   }
@@ -284,3 +312,10 @@ margin-top: 15%;
       align-items: center;
       margin: 0;
   }
+=======
+.green-planwiser:hover {
+    color: #198754;
+}
+
+
+>>>>>>> main
