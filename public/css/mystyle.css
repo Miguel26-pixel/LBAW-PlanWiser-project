@@ -1,7 +1,6 @@
 body {
     background-color: #ffffff;
-  }
-
+}
 .my-dropdown {
     position: relative;
     display: inline-block;
@@ -29,9 +28,12 @@ body {
     grid-template-columns: auto repeat(8,1fr);
     grid-template-areas: " . . . . . . . . . . . username sign-up login";
     align-items: center;
-    border-bottom: solid;
-    border-color: black;
-    margin: 0 1em 1em 1em;
+    margin: 2em 10em 1em 10em;
+}
+.nav-item {
+    border-style:hidden;
+    font-size: 20px;
+    color: #2F4F4F;
 }
 #signup-btn {
     grid-area: sign-up;
@@ -194,6 +196,7 @@ color: black;
 border-style: hidden;
 }
 
+/*vale*/
 input[type=text]:focus,
 input[type=email]:focus,
 input[type=password]:focus {
@@ -219,8 +222,95 @@ border-color: white;
     white-space: nowrap;
 }
 
+/*----- Auth forms-----*/
+
+  .loginbackground {
+      min-height: 692px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 0;
+      overflow: hidden;
+  }
+
+  .formbg {
+      margin: 0px auto;
+      width: 100%;
+      max-width: 448px;
+      background: white;
+      border-radius: 4px;
+      box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+  }
+  span {
+      display: block;
+      font-size: 20px;
+      line-height: 28px;
+      color: #1a1f36;
+  }
+  label {
+      margin-bottom: 10px;
+  }
+  .reset-pass a,label {
+      font-size: 14px;
+      font-weight: 600;
+      display: block;
+  }
+  .reset-pass > a {
+      text-align: right;
+      margin-bottom: 10px;
+  }
+  .grid--50-50 {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      align-items: center;
+  }
+
+  .field input {
+      font-size: 16px;
+      line-height: 28px;
+      padding: 8px 16px;
+      width: 100%;
+      min-height: 44px;
+      border: unset;
+      border-radius: 4px;
+      outline-color: rgb(84 105 212 / 0.5);
+      background-color: rgb(255, 255, 255);
+      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+  }
+
+  input[type="submit"] {
+      background-color: #2F4F4F;
+      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+                  #2F4F4F,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                  rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+  }
+  .field-checkbox input {
+      width: 20px;
+      height: 15px;
+      margin-right: 5px;
+      box-shadow: unset;
+      min-height: unset;
+  }
+  .field-checkbox label {
+      display: flex;
+      align-items: center;
+      margin: 0;
+  }
 .green-planwiser:hover {
     color: #198754;
 }
-
-
