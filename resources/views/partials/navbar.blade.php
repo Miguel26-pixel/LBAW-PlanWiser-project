@@ -3,7 +3,7 @@
     <a class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;"> About us </a>
     <a class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;"> Support </a>
     @if (Auth::check())
-    <a class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;"> Projects <a>
+    <a class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="{{ url('/projectsCreate') }}"> New Project <a>
 @endif
 @if (Auth::check())
     <a id="profile-btn" class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="{{ url('/profile/'.Auth::id()) }} "> {{ Auth::user()->username }} </a>

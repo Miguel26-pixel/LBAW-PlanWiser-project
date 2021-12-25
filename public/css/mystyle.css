@@ -3,7 +3,7 @@ body {
   }
 .navbar-align {
     display: grid;
-    grid-template-columns: auto repeat(12,1fr);
+    grid-template-columns: auto repeat(8,1fr);
     grid-template-areas: " . . . . . . . . . . . username sign-up login";
     align-items: center;
     border-bottom: solid;
@@ -178,15 +178,23 @@ border-color: white;
 /*----- Homepage Style-----*/
 
 .homepage {
-background-color: white;
-color: black;
-display: flex;
+    background-color: white;
+    color: black;
+    display: flex;
 }
 
 .homepage-title {
-color: black;
-font-weight: bold;
-font-size: 36px;
-margin-left: 20%;
-margin-top: 15%;
+    color: black;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 30px;
+    margin-left: 13%;
+    margin-top: 10%;
+    white-space: nowrap;
 }
+
+.green-planwiser:hover {
+    color: #198754;
+}
+
+
