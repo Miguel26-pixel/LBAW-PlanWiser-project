@@ -44,11 +44,11 @@
     </button>
 </form> -->
 <div class="formbg-outer">
-  <div class="formbg" method="POST" action="{{ route('register') }}">
+  <div class="formbg">
     <div class="formbg-inner" style="padding: 48px">
       <span style="padding-bottom: 15px">Sign Up</span>
-      <form id="stripe-login">
-        {{ csrf_field() }}
+      <form id="stripe-login" method="POST" action="{{ route('register') }}">
+        @csrf
         <div class="field" style="padding-bottom: 24px">
           <label for="fullname">Full Name</label>
           <input id="fullname" type="text" name="fullname" value="{{ old('fullname') }}" required autofocus>
