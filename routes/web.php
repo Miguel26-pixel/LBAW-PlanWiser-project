@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [Auth\LoginController::class,'home']);
+Route::get('/home', [HomepageController::class,'show']);
 Route::get('/dashboard', [DashboardController::class,'show']);
 Route::get('/profile/{id}', [UsersController::class,'showProfile']);
 
