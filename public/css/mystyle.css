@@ -25,6 +25,9 @@ body {
 #profile-btn {
     grid-area: sign-up;
 }
+#notifications-btn {
+    grid-area: username;
+}
 main > header h1 {
 margin: 0;
 }

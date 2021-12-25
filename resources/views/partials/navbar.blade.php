@@ -1,11 +1,12 @@
 <div class="navbar-align">
-    <a href="{{ url('/homepage') }}"><img src="{{ asset('/images/planwiserlogo.png') }}" style="width: 240px;"/></a>
+    <a href="{{ url('/') }}"><img src="{{ asset('/images/planwiserlogo.png') }}" style="width: 240px;"/></a>
     <a class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;"> About us </a>
     <a class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;"> Support </a>
     @if (Auth::check())
-    <a class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="{{ url('/projectsCreate') }}"> New Project <a>
+    <a class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="{{ url('/projects') }}"> Projects <a>
 @endif
 @if (Auth::check())
+    <a id="notifications-btn" class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="#"><i class="icon-bell"></i></a>
     <a id="profile-btn" class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="{{ url('/profile/'.Auth::id()) }} "> {{ Auth::user()->username }} </a>
     <a id="logout-btn" class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="{{ url('/logout') }}"> Logout </a>
 @else
