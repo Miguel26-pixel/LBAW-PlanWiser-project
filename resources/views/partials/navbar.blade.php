@@ -6,7 +6,12 @@
     <a class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="{{ url('/projects') }}"> Projects <a>
 @endif
 @if (Auth::check())
-    <a id="notifications-btn" class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="#"><i class="icon-bell"></i></a>
+    <div id="notifications-btn" style="width:100%; border-style:hidden; margin-top: 5%;" class="btn btn-outline-success my-dropdown">
+        <span>Notifications <i class="icon-bell"></i></span>
+        <div class="my-dropdown-content">
+            <p>Hello World!</p>
+        </div>
+    </div>
     <a id="profile-btn" class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="{{ url('/profile/'.Auth::id()) }} "> {{ Auth::user()->username }} </a>
     <a id="logout-btn" class="btn btn-outline-success" style="border-style:hidden; margin-top: 5%;" href="{{ url('/logout') }}"> Logout </a>
 @else
