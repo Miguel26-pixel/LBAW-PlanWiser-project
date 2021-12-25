@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
-@section('projects')
+@section('title', 'Create')
 
 @section('content')
-<form action='/projectsCreate' method="POST" enctype="multipart/form-data">
+
+<form action="/projectsCreate" method="POST" enctype="multipart/form-data">
     @csrf
 
     <label for="title">Title</label>
@@ -19,7 +20,7 @@
     @if ($errors->has('description'))
         <span class="error">
           {{ $errors->first('description') }}
-      </span>
+        </span>
     @endif
 
     <label for="public">Public</label>
@@ -27,14 +28,6 @@
     @if ($errors->has('public'))
       <span class="error">
           {{ $errors->first('public') }}
-      </span>
-    @endif
-
-    <label for="active">Active</label>
-    <input id="active" type="boolean" name="active" >
-    @if ($errors->has('active'))
-      <span class="error">
-          {{ $errors->first('active') }}
       </span>
     @endif
 

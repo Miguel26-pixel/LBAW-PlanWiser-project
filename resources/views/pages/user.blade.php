@@ -51,6 +51,7 @@
                         </div>
                     </form>
                     <form action="/profile/{{$user->id}}/update-password" method="POST" enctype="multipart/form-data">
+                        @csrf
                         <div class="card">
                             <div class="card-header">
                                 Change Password
@@ -60,13 +61,13 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">Password: </span>
                                     </div>
-                                    <input name="username" type="password" class="form-control" placeholder="Type a new password">
+                                    <input name="password" type="password" class="form-control" placeholder="Type a new password">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">Password Confirmation: </span>
                                     </div>
-                                    <input name="username" type="password" class="form-control" placeholder="Confirm password">
+                                    <input name="password_confirmation" type="password" class="form-control" placeholder="Confirm password">
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-success">Update Password</button>
@@ -77,8 +78,16 @@
                 </div>
             </div>
             <div class="col-md-5">
+                <div class="container text-center my-3">
+                    <h2>My Projects</h2>
+                </div>
                 <div class="container">
-                    Olá
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            My Projects
+                            <a href="projectsCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Project</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -10,11 +10,16 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller
 {
+    public function showProjects()
+    {
+        return view('pages.projects');
+    }
 
     public function showProjectsForm()
     {
         return view('pages.projectsCreate');
     }
+
 
     /**
      * Create a new controller instance.
@@ -26,19 +31,12 @@ class ProjectsController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
     protected function validator()
     {
        return  [
             'title' => ['required','string'],
             'description' => ['required','string'],
             'public' => 'boolean',
-            'active' => 'boolean',
         ];
     }
 
@@ -58,7 +56,7 @@ class ProjectsController extends Controller
         $project->title = $request->title;
         $project->description = $request->description;
         $project->public = $request->public;
-        $project->active = $request->active;
+        $project->active = true;
         $project->created_at = Carbon::now();
         $project->save();
 
