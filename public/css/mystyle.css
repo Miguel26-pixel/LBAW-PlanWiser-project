@@ -1,6 +1,19 @@
 body {
     background-color: #ffffff;
 }
+
+.my-container {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    border-bottom: 1px solid lightgray;
+    background: white
+}
+
+.my-rocket {
+    text-decoration: none;
+}
+
 .my-dropdown {
     position: relative;
     display: inline-block;
@@ -9,10 +22,10 @@ body {
 .my-dropdown-content {
     display: none;
     position: absolute;
-    background-color: lightgrey;
+    background-color: #e7e7e7;
     color: black;
     min-width: 260px;
-    left: -35px;
+    left: -60px;
     top: 45px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     padding: 12px 16px;
@@ -33,6 +46,16 @@ body {
 .nav-item {
     border-style:hidden;
     font-size: 20px;
+    color: #2F4F4F;
+}
+.sidenav-item {
+    width: 70%;
+    border-style:hidden;
+    font-size: 20px;
+    color: #2F4F4F;
+}
+.sidenav-item:hover {
+    background-color: lightgrey;
     color: #2F4F4F;
 }
 #signup-btn {
@@ -243,12 +266,7 @@ border-color: white;
       border-radius: 4px;
       box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
   }
-  span {
-      display: block;
-      font-size: 20px;
-      line-height: 28px;
-      color: #1a1f36;
-  }
+
   label {
       margin-bottom: 10px;
   }

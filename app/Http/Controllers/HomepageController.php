@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\Project;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -13,6 +14,7 @@ class HomepageController extends Controller
 
     public function show()
     {
-        return view('pages.homepage');
+        $projects = ProjectsController::getPublicProjects(6);
+        return view('pages.homepage', $projects);
     }
 }

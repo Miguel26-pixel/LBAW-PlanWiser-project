@@ -12,12 +12,12 @@
       </div>
   @endif
     <main>
-      <header>
-        @include('partials.navbar')
-      </header>
-      <section id="content">
-        @yield('content')
-      </section>
+        <header>
+            @include('partials.navbar')
+        </header>
+        <div style="margin-top: 107px">
+            @yield('content')
+        </div>
     </main>
   </body>
   @yield('scripts')
