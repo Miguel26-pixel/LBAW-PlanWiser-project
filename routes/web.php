@@ -29,3 +29,7 @@ Route::get('projectsCreate', [ProjectController::class,'showProjectForm']);
 Route::post('projectsCreate', [ProjectController::class,'create']);
 
 Route::get('project/{id}', [ProjectController::class,'showProject']);
+Route::get('project/{id}/files', [ProjectController::class,'showProject']);
+Route::get('project/{id}/tasks', [ProjectController::class,'showProject']);
+Route::get('project/{id}/forum', [ProjectController::class,'showProject']);
+Route::get('project/{id}/members', [ProjectController::class,'showProject']);

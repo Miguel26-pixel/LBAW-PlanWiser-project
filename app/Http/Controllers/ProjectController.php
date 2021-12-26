@@ -27,8 +27,15 @@ class ProjectController extends Controller
     public function showProject($id) {
         $user = Auth::user();
         $projects = $user->projects;
-        if (!(Auth::user()->is_admin))
-        return view('pages.project');
+        $project = Project::find($id);
+        $check = false;
+        foreach ($projects as $p) {
+            if ($p->id == $project->id) $check=true;
+        }
+        if (!(Auth::user()->is_admin || $check || $p->public)) {
+            return redirect('/');
+        }
+        return view('pages.project',['project' => Project::find($id)]);
     }
 
     public function showProjectForm()
