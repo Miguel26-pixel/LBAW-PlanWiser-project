@@ -19,7 +19,7 @@
                         <table class="table table-bordered">
                             <thead class="table-success" >
                             <tr>
-                                <th scope="col" style="width: 5%">#</th>
+                                <th scope="col" class="text-center" style="width: 5%"><i class="icon-arrow-right-circle"></i></th>
                                 <th scope="col">Project</th>
                                 <th scope="col" style="width: 55%">Description</th>
                             </tr>
@@ -29,7 +29,7 @@
                             $count=1;
                             foreach ($my_projects as $project) {
                                 echo '<tr>';
-                                echo '<th scope="row">'.$count.'</th>';
+                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/'.$project['id'].'"><i class="icon-rocket"></i></a></th>';
                                 echo '<td>'.$project['title'].'</td>';
                                 echo '<td>'.$project['description'].'</td>';
                                 echo '</tr>';
@@ -59,7 +59,7 @@
                         <table class="table table-bordered">
                             <thead class="table-success" >
                             <tr>
-                                <th scope="col" style="width: 5%">#</th>
+                                <th scope="col" class="text-center" style="width: 5%"><i class="icon-arrow-right-circle"></i></th>
                                 <th scope="col">Project</th>
                                 <th scope="col" style="width: 55%">Description</th>
                             </tr>
@@ -69,7 +69,7 @@
                             $count=1;
                             foreach ($public_projects as $project) {
                                 echo '<tr>';
-                                echo '<th scope="row">'.$count.'</th>';
+                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/'.$project['id'].'"><i class="icon-rocket"></i></a></th>';
                                 echo '<td>'.$project['title'].'</td>';
                                 echo '<td>'.$project['description'].'</td>';
                                 echo '</tr>';

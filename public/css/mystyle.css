@@ -9,6 +9,11 @@ body {
     border-bottom: 1px solid lightgray;
     background: white
 }
+
+.my-rocket {
+    text-decoration: none;
+}
+
 .my-dropdown {
     position: relative;
     display: inline-block;
