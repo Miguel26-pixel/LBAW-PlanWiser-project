@@ -1,6 +1,14 @@
 body {
     background-color: #ffffff;
 }
+
+.my-container {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    border-bottom: 1px solid lightgray;
+    background: white
+}
 .my-dropdown {
     position: relative;
     display: inline-block;
@@ -33,6 +41,16 @@ body {
 .nav-item {
     border-style:hidden;
     font-size: 20px;
+    color: #2F4F4F;
+}
+.sidenav-item {
+    width: 70%;
+    border-style:hidden;
+    font-size: 20px;
+    color: #2F4F4F;
+}
+.sidenav-item:hover {
+    background-color: lightgrey;
     color: #2F4F4F;
 }
 #signup-btn {

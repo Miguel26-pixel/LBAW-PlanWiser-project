@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 // Home
 
@@ -24,5 +25,7 @@ Route::post('register', 'Auth\RegisterController@register');
 
 //Projects
 Route::get('projects', [ProjectsController::class,'showProjects']);
-Route::get('projectsCreate', [ProjectsController::class,'showProjectsForm']);
-Route::post('projectsCreate', [ProjectsController::class,'create']);
+Route::get('projectsCreate', [ProjectController::class,'showProjectForm']);
+Route::post('projectsCreate', [ProjectController::class,'create']);
+
+Route::get('project/{id}', [ProjectController::class,'showProject']);
