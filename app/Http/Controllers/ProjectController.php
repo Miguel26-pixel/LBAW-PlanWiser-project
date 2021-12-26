@@ -83,6 +83,6 @@ class ProjectController extends Controller
 
         $project_user->save();
 
-        return redirect()->back();
+        return redirect("/projects");
     }
 }
