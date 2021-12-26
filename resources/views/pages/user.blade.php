@@ -79,15 +79,33 @@
             </div>
             <div class="col-md-5">
                 <div class="container text-center my-3">
-                    <h2>My Projects</h2>
+                    <h2>My Favourite Projects</h2>
                 </div>
                 <div class="container">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            My Projects
-                            <a href="projectsCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Project</a>
-                        </div>
-                    </div>
+                    <table class="table table-bordered">
+                        <thead class="table-success" >
+                        <tr>
+                            <th scope="col" style="width: 5%">#</th>
+                            <th scope="col">Project</th>
+                            <th scope="col" style="width: 55%">Description</th>
+                            <th scope="col" class="text-center" style="width: 10%">Unfav</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            $count=0;
+                            foreach ($projects as $project) {
+                                echo '<tr>';
+                                echo '<th scope="row">'.$count.'</th>';
+                                echo '<td>'.$project['title'].'</td>';
+                                echo '<td>'.$project['description'].'</td>';
+                                echo '<td class="text-center"><i class="icon-dislike"></i></td>';
+                                echo '</tr>';
+                                $count++;
+                            }
+                        ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

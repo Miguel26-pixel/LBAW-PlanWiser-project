@@ -29,7 +29,9 @@ class UsersController extends Controller
 
     public function showProfile(int $id) {
         if (Auth::id() == $id || Auth::user()->is_admin){
-            return view('pages.user',['user' => User::find($id)]);
+            $user = User::find($id);
+            $projects = $user->projects->sortByDesc('created_at');
+            return view('pages.user',['user' => $user,'projects' => $projects]);
         } else {
             return view('pages.homepage');
         }
