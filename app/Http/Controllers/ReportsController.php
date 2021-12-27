@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Project;
-use App\Models\ProjectUser;
 use App\Models\User;
+use App\Models\Report;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ProjectController extends Controller
+class ReportsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,7 +24,7 @@ class ProjectController extends Controller
         $this->middleware('auth');
     }
 
-    public function showProject($id) {
+    /*public function showProject($id) {
         $user = Auth::user();
         $projects = $user->projects;
         $project = Project::find($id);
@@ -39,19 +39,17 @@ class ProjectController extends Controller
             return redirect('/');
         }
         return view('pages.project',['project' => Project::find($id)]);
-    }
+    }*/
 
-    public function showProjectForm()
+    public function showReportForm()
     {
-        return view('pages.projectsCreate');
+        return view('pages.reportsCreate');
     }
 
     protected function validator()
     {
         return  [
-            'title' => ['required','string'],
-            'description' => ['required','string'],
-            'public' => 'boolean',
+            'text' => ['required','string'],
         ];
     }
 
@@ -68,28 +66,12 @@ class ProjectController extends Controller
 
         $validator = $request->validate($this->validator());
 
-        $project = new Project;
-
-        $project->title = $request->title;
-        $project->description = $request->description;
-
-        if($request->public == "True")
-            $project->public = true;
-        else 
-            $project->public = false;
-
-        $project->active = true;
-        $project->created_at = Carbon::now();
-        $project->save();
-        $project = Project::where('title','=',$request->title)->first();
-
-        $project_user = new ProjectUser();
-
-        $project_user->project_id = $project->id;
-        $project_user->user_id = Auth::id();
-        $project_user->user_role = 'MANAGER';
-
-        $project_user->save();
+        $report = new Report;
+        $report->text = $request->text;
+        $report->user_id = Auth::id();
+        $report->report_type = $request->report_type;
+        $report->created_at = Carbon::now();
+        $report->save();
 
         return redirect()->back();
     }

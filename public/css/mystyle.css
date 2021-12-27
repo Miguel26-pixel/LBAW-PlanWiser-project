@@ -38,10 +38,10 @@ body {
 
 .navbar-align {
     display: grid;
-    grid-template-columns: auto repeat(8,1fr);
+    grid-template-columns: auto repeat(6,1fr);
     grid-template-areas: " . . . . . . . . . . . username sign-up login";
     align-items: center;
-    margin: 2em 10em 1em 10em;
+    margin: 2em 5em 1em 5em;
 }
 .nav-item {
     border-style:hidden;
@@ -332,3 +332,5 @@ border-color: white;
 .green-planwiser:hover {
     color: #198754;
 }
+
+/*-----Project SideBar-----*/

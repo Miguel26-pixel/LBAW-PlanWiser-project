@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Project;
-use App\Models\ProjectUser;
-use App\Models\User;
+use App\Http\Controllers\DateTime;
+use App\Models\Task;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ProjectController extends Controller
+class TasksController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,7 +24,7 @@ class ProjectController extends Controller
         $this->middleware('auth');
     }
 
-    public function showProject($id) {
+    /*public function showProject($id) {
         $user = Auth::user();
         $projects = $user->projects;
         $project = Project::find($id);
@@ -39,19 +39,18 @@ class ProjectController extends Controller
             return redirect('/');
         }
         return view('pages.project',['project' => Project::find($id)]);
-    }
+    }*/
 
-    public function showProjectForm()
+    public function showTaskForm()
     {
-        return view('pages.projectsCreate');
+        return view('pages.tasksCreate');
     }
 
     protected function validator()
     {
         return  [
-            'title' => ['required','string'],
+            'name' => ['required','string'],
             'description' => ['required','string'],
-            'public' => 'boolean',
         ];
     }
 
@@ -68,28 +67,16 @@ class ProjectController extends Controller
 
         $validator = $request->validate($this->validator());
 
-        $project = new Project;
-
-        $project->title = $request->title;
-        $project->description = $request->description;
-
-        if($request->public == "True")
-            $project->public = true;
-        else 
-            $project->public = false;
-
-        $project->active = true;
-        $project->created_at = Carbon::now();
-        $project->save();
-        $project = Project::where('title','=',$request->title)->first();
-
-        $project_user = new ProjectUser();
-
-        $project_user->project_id = $project->id;
-        $project_user->user_id = Auth::id();
-        $project_user->user_role = 'MANAGER';
-
-        $project_user->save();
+        $task = new Task;
+        $task->name = $request->name;
+        $task->description = $request->description;
+        $task->due_date = $request->due_date;
+        $task->reminder_date = $request->reminder_date;
+        $task->tag = $request->tag;
+        //$task->project_id = $request->project_id;
+        $task->creator_id = Auth::id();
+        $task->created_at = Carbon::now();
+        $task->save();
 
         return redirect()->back();
     }

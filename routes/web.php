@@ -33,3 +33,13 @@ Route::get('project/{id}/files', [ProjectController::class,'showProject']);
 Route::get('project/{id}/tasks', [ProjectController::class,'showProject']);
 Route::get('project/{id}/forum', [ProjectController::class,'showProject']);
 Route::get('project/{id}/members', [ProjectController::class,'showProject']);
+
+
+//Tasks
+Route::get('tasksCreate', [TasksController::class,'showTaskForm']);
+Route::post('tasksCreate', [TasksController::class,'create']);
+
+
+//Reports
+Route::get('reportsCreate', [ReportsController::class,'showReportForm']);
+Route::post('reportsCreate', [ReportsController::class,'create']);
