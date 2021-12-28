@@ -41,7 +41,7 @@ class ProjectsController extends Controller
         return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects]);
     }
 
-    public function searchPublicProjects(Request $request){
+    public static function searchPublicProjects(Request $request){
         
         $projects = Project::where('public','=',true)
                             ->where('title','like',"%{$request->search}%")
@@ -49,8 +49,12 @@ class ProjectsController extends Controller
                             ->orderBy('created_at')
                             ->paginate(10);
         
-        $myprojects = self::getMyProjects();
+        return  $projects;
+    }
 
+    public function projectsSearch(Request $request){
+        $projects = self::searchPublicProjects($request);
+        $myprojects = self::getMyProjects();
         return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects]);
     }
 
