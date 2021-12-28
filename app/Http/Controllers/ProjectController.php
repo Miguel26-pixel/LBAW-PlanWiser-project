@@ -53,7 +53,6 @@ class ProjectController extends Controller
     }
 
 
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -85,4 +84,6 @@ class ProjectController extends Controller
 
         return redirect("/projects");
     }
+
 }
+
