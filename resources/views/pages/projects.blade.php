@@ -2,6 +2,10 @@
 
 @section('title', 'Projects')
 
+@section('topnavbar')
+@include('partials.navbar')
+@endsection
+
 @section('content')
 
 <div class="row m-0">

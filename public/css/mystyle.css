@@ -4,6 +4,7 @@ body {
 
 .my-container {
     position: fixed;
+    z-index: 100;
     width: 100%;
     top: 0;
     border-bottom: 1px solid lightgray;
@@ -38,10 +39,10 @@ body {
 
 .navbar-align {
     display: grid;
-    grid-template-columns: auto repeat(8,1fr);
+    grid-template-columns: auto repeat(6,1fr);
     grid-template-areas: " . . . . . . . . . . . username sign-up login";
     align-items: center;
-    margin: 2em 10em 1em 10em;
+    margin: 2em 5em 1em 5em;
 }
 .nav-item {
     border-style:hidden;
@@ -330,5 +331,26 @@ border-color: white;
       margin: 0;
   }
 .green-planwiser:hover {
+    color: #198754;
+}
+
+/*-----Project SideBar-----*/
+
+  
+
+.sidebar-btn {
+    margin-top: 80%;
+    color: grey;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.sidebar-btn:hover {
+    color: #198754;
+}
+
+.sidebar-btn:focus {
     color: #198754;
 }
