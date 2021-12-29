@@ -6,6 +6,6 @@
         <a class="btn btn-outline-success nav-item" href="{{ url('/projects') }}"> Projects <a>
 
         <a id="profile-btn" class="btn btn-outline-success nav-item" href="{{ url('/profile/'.Auth::id()) }} "> {{ Auth::user()->username }} </a>
-        <a id="logout-btn" class="btn btn-outline-success nav-item" href="{{ url('/logout') }}"> Logout </a>
+        <a id="logout-btn" class="btn btn-outline-success nav-item" href="{{ url('/logout') }}"> Log Out </a>
     </div>
 </div>

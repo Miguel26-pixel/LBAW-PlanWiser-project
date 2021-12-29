@@ -17,7 +17,7 @@ class HomepageController extends Controller
     public function show()
     {
         $public_projects = ProjectsController::getPublicProjects(6);
-        $view = Auth::user()->is_admin ? view('pages.admin.user', ['public_projects' => $public_projects]) : view('pages.homepage', ['public_projects' => $public_projects]);
+        $view = Auth::user()->is_admin ? view('pages.admin.home', ['public_projects' => $public_projects]) : view('pages.homepage', ['public_projects' => $public_projects]);
         return $view;
     }
 

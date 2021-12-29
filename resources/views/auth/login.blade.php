@@ -67,7 +67,7 @@
                     </label>
                 </div>
                 <div class="field" style="padding-bottom: 24px">
-                    <input type="submit" name="submit" value="Login">
+                    <input type="submit" name="submit" value="Log In">
                 </div>
             </form>
         </div>
