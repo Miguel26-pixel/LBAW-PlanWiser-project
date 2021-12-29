@@ -51,10 +51,24 @@ class Project extends Model
         return $this->invites()->where('accept', null)->get();
     }
 
-    public function projects()
+    public function users()
     {
-        return $this->belongsToMany(Project::class)->using(ProjectUser::class);
+        return $this->belongsToMany(User::class,'projectusers');
     }
 
+    public function managers() {
+        return $this->belongsToMany(User::class,'projectusers')->where('user_role','=','MANAGER');
+    }
 
+    public function members() {
+        return $this->belongsToMany(User::class,'projectusers')->where('user_role','=','MEMBER');
+    }
+
+    public function guests() {
+        return $this->belongsToMany(User::class,'projectusers')->where('user_role','=','GUEST');
+    }
+
+    public function getNumFavs() {
+        return FavoriteProject::where('project_id','=',$this->id)->get()->count();
+    }
 }

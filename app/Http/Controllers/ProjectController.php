@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\FavoriteProject;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\User;
@@ -31,19 +32,48 @@ class ProjectController extends Controller
         $check = false;
         foreach ($projects as $p) {
             if ($p->id == $project->id) $check=true;
-            if (!(Auth::user()->is_admin || $check || $p->public)) {
-                return redirect('/');
+
         }
-    }
         if (!(Auth::user()->is_admin || $check || $project->public)) {
             return redirect('/');
         }
-        return view('pages.project',['project' => Project::find($id)]);
+        $admins = $project->managers;
+        $members = $project->members;
+        $guests = $project->guests;
+        $num_favs = $project->getNumFavs();
+        $is_fav = FavoriteProject::where('user_id' ,'=', $user->id)->where('project_id','=',$id)->exists();
+        return view('pages.project',['project' => $project,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs]);
     }
 
     public function showProjectForm()
     {
         return view('pages.projectsCreate');
+    }
+
+    public function addFavorite($id) {
+        $project = Project::find($id);
+        $users = $project->users;
+        $check = false;
+        foreach ($users as $user) { if ($user->id == Auth::id()) $check = true; }
+        if ($check) {
+            $fav = new FavoriteProject();
+            $fav->project_id = $id;
+            $fav->user_id = Auth::id();
+            $fav->save();
+        }
+        return redirect()->back();
+    }
+
+    public function removeFavorite($id) {
+        $project = Project::find($id);
+        $users = $project->users;
+        $check = false;
+        foreach ($users as $user) { if ($user->id == Auth::id()) $check = true; }
+        if ($check) {
+            $fav = FavoriteProject::find(['user_id' => Auth::id(),'project_id' => $id]);
+            $fav->delete();
+        }
+        return redirect()->back();
     }
 
     protected function validator()
@@ -55,13 +85,6 @@ class ProjectController extends Controller
         ];
     }
 
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     *
-     */
     protected function create(Request $request)
     {
 
@@ -74,7 +97,7 @@ class ProjectController extends Controller
 
         if($request->public == "True")
             $project->public = true;
-        else 
+        else
             $project->public = false;
 
         $project->active = true;

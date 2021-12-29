@@ -13,17 +13,16 @@
         <div class="col-2">
     @include('partials.project_nav', ['project' => $project])
         </div>
-            <div class="col">
-                <div class="container">
+        <div class="col">
+            <div class="row m-0">
+                <div class="col-md-9">
                     <form action="/project/{{$project->id}}/update" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mt-3 container text-center align-items-center">
-                            <p><?php echo $project->title; ?></p>
+                            <h3><?php echo $project->title; ?></h3>
                         </div>
                         <div class="card my-3">
-                            <div class="card-header">
-                                {{$project->title}}
-                            </div>
+
                             <div class="card-body">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -32,28 +31,31 @@
                                     <input name="title" type="text" class="form-control" placeholder="Title" value="{{$project->title}}">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">Description: </span>
+                                    <h5 class="text-center col-md-12">Description</h5>
+                                    <div class="input-group">
+                                        <!--span class="input-group-text">Description:</span-->
+                                        <textarea name="description" class="form-control" aria-label="With textarea" rows="10" placeholder="Description">{{$project->description}}</textarea>
                                     </div>
-                                    <input name="description" type="text" class="form-control" placeholder="Description" value="{{$project->description}}">
                                 </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"> Tag: </span>
+                                <div class="row m-0 col-md-12 ">
+                                    <div class="input-group mb-3 " style="width: 50%; padding-left: 0">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"> Public: </span>
+                                        </div>
+                                        <select name="public" class="form-select" >
+                                            <option value="True">True</option>
+                                            <option value="False">False</option>
+                                        </select>
                                     </div>
-                                    <select name="public" class="form-select" >
-                                        <option value="True">True</option>
-                                        <option value="False">False</option>
-                                    </select>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"> Active: </span>
+                                    <div class="input-group mb-3 " style="width: 50%; padding-right: 0">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1"> Active: </span>
+                                        </div>
+                                        <select name="active" class="form-select">
+                                            <option value="True">True</option>
+                                            <option value="False">False</option>
+                                        </select>
                                     </div>
-                                    <select name="active" class="form-select">
-                                        <option value="True">True</option>
-                                        <option value="False">False</option>
-                                    </select>
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-success">Update Project</button>
@@ -61,6 +63,92 @@
                             </div>
                         </div>
                     </form>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="mt-3 container text-center align-items-center">
+                        <h3>More Informations</h3>
+                    </div>
+                    <div class="card my-3">
+                        <div class="card-body">
+                            <div class="col-md-12 text-center">
+                                <a class="btn btn-outline-danger col-md-10" href="/project/{{$project->id}}/{{($is_fav) ? 'remove-fav' : 'add-fav'}}">
+                                    {{($is_fav) ? 'Remove from Favorites ' : 'Add to Favorites '}}
+                                    <?php
+                                        if ($is_fav) {
+                                            echo '<i class="icon-dislike"></i>';
+                                        } else { echo '<i class="icon-heart"></i>'; }
+                                    ?>
+                                </a>
+                            </div>
+                            <br>
+                            <div style="max-height: 250px; overflow: auto">
+                                <h4 class="text-center">Managers ({{count($admins->toArray())}})</h4>
+                                <?php
+                                foreach ($admins as $admin) {
+                                    $path = '/images/users/no_img.png';
+                                    if (!is_null($admin->img_url) && file_exists(public_path($admin->img_url))) {
+                                        $path = $admin->img_url;
+                                    }
+                                    echo '<div class="row m-0 my-4" style="display: flex;align-items: center;justify-content: center;">';
+                                            echo '<img class="col-md-3" style="object-fit: contain; max-height: 60px" src="'. asset($path) .'">';
+                                            echo '<div class="col-md-6">';
+                                                echo $admin->username;
+                                            echo '</div>';
+                                            echo '<a href="#" class="col-md-3 btn btn-outline-success">';
+                                                echo '<i class="icon-envelope"></i>';
+                                            echo'</a>';
+                                    echo '</div>';
+                                }
+                                ?>
+                            </div>
+                            <div style="max-height: 350px; overflow: auto">
+                                <h4 class="text-center">Members ({{count($members->toArray())}})</h4>
+                                <?php
+                                foreach ($members as $member) {
+                                    $path = '/images/users/no_img.png';
+                                    if (!is_null($member->img_url) && file_exists(public_path($member->img_url))) {
+                                        $path = $member->img_url;
+                                    }
+                                    echo '<div class="row m-0 my-4" style="display: flex;align-items: center;justify-content: center;">';
+                                    echo '<img class="col-md-3" style="object-fit: contain; max-height: 60px" src="'. asset($path) .'">';
+                                    echo '<div class="col-md-6">';
+                                    echo $member->username;
+                                    echo '</div>';
+                                    echo '<a href="#" class="col-md-3 btn btn-outline-success">';
+                                    echo '<i class="icon-envelope"></i>';
+                                    echo'</a>';
+                                    echo '</div>';
+                                }
+                                ?>
+                            </div>
+                            <div style="max-height: 250px; overflow: auto">
+                                <h4 class="text-center">Guests ({{count($guests->toArray())}})</h4>
+                                <?php
+                                foreach ($guests as $guest) {
+                                    $path = '/images/users/no_img.png';
+                                    if (!is_null($guest->img_url) && file_exists(public_path($guest->img_url))) {
+                                        $path = $guest->img_url;
+                                    }
+                                    echo '<div class="row m-0 my-4" style="display: flex;align-items: center;justify-content: center;">';
+                                    echo '<img class="col-md-3" style="object-fit: contain; max-height: 60px" src="'. asset($path) .'">';
+                                    echo '<div class="col-md-6">';
+                                    echo $guest->username;
+                                    echo '</div>';
+                                    echo '<a href="#" class="col-md-3 btn btn-outline-success">';
+                                    echo '<i class="icon-envelope"></i>';
+                                    echo'</a>';
+                                    echo '</div>';
+                                }
+                                ?>
+                            </div>
+                            <br>
+                            <div class="col-md-12 text-center">
+                                <h3 class="text-danger"><i class="icon-heart"></i> : {{$num_favs}} </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

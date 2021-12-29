@@ -31,7 +31,8 @@ class UsersController extends Controller
         if (Auth::id() == $id || Auth::user()->is_admin){
             $user = User::find($id);
             $projects = $user->projects->sortByDesc('created_at');
-            return view('pages.user',['user' => $user,'projects' => $projects]);
+            $fav_projects = $user->favorites->sortByDesc('created_at');
+            return view('pages.user',['user' => $user,'projects' => $projects, 'fav_projects' => $fav_projects]);
         } else {
             $public_projects=ProjectsController::getPublicProjects(10);
             return view('pages.homepage',['public_projects'=> $public_projects]);
