@@ -20,5 +20,6 @@
                     <a href="/project/{{$project->id}}/members" class="sidebar-btn" >Members</a>
                 </li>
             </ul>
+        </div>
     </nav>
 </div>
