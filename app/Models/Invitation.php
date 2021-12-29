@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invitation extends Model
 {
+  use HasCompositePrimaryKey;
   public $timestamps  = false;
 
-  protected $table = 'project_user';
+  protected $table = 'invitations';
+
+  protected $primaryKey = ['user_id', 'project_id'];
 
   /**
    * The attributes that are mass assignable.

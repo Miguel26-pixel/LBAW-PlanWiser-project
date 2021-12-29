@@ -28,16 +28,22 @@ Route::get('projects', [ProjectsController::class,'showProjects']);
 Route::get('projectsCreate', [ProjectController::class,'showProjectForm']);
 Route::post('projectsCreate', [ProjectController::class,'create']);
 
-Route::get('project/{id}', [ProjectController::class,'showProject']);
+Route::get('/project/{id}', [ProjectController::class,'showProject']);
+Route::post('/project/{id}/update', [ProjectController::class,'updateProject']);
 Route::get('project/{id}/files', [ProjectController::class,'showProject']);
-Route::get('project/{id}/tasks', [ProjectController::class,'showProject']);
+Route::get('project/{id}/tasks', [TasksController::class,'showTasks']);
 Route::get('project/{id}/forum', [ProjectController::class,'showProject']);
-Route::get('project/{id}/members', [ProjectController::class,'showProject']);
+Route::get('project/{id}/members', [ProjectUsersController::class,'showProjectUsers']);
+
+Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);
+Route::post('/project/{id}/members/invitation', [InvitationsController::class,'create']);
 
 
 //Tasks
-Route::get('tasksCreate', [TasksController::class,'showTaskForm']);
+Route::get('project/{id}/tasksCreate', [TasksController::class,'showTaskForm']);
 Route::post('tasksCreate', [TasksController::class,'create']);
+Route::get('/project/{id}/task/{task_id}', [TasksController::class,'showTask']);
+Route::post('/project/{id}/task/{task_id}/update', [TasksController::class,'updateTask']);
 
 
 //Reports

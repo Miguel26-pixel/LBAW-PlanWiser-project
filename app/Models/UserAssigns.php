@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserAssign extends Model
+class UserAssigns extends Model
 {
+  use HasCompositePrimaryKey;
   public $timestamps  = false;
 
-  protected $table = 'user_assign';
+  protected $table = 'userassigns';
+
+  protected $primaryKey = ['user_id', 'task_id'];
 
   /**
    * The attributes that are mass assignable.

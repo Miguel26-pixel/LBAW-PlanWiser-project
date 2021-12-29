@@ -8,7 +8,7 @@
     <div class="formbg">
         <div class="formbg-inner" style="padding: 48px">
             <span style="padding-bottom: 15px">Create a task</span>
-            <form id="stripe-login" method="POST" action='/tasksCreate'>
+            <form method="POST" action='/tasksCreate'>
                 {{ csrf_field() }}
                 <div class="field" style="padding-bottom: 24px" required autofocus>
                     <label for="name">Name</label>
@@ -48,7 +48,7 @@
                 @endif
                 <div class="field" style="padding-bottom: 24px">
                     <label for="due_date">Due Date</label>
-                    <input class="date form-control" type="date" name="due_date" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}>
+                    <input class="date form-control" type="date" name="due_date" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
                 </div>
                 @if ($errors->has('due_date'))
                 <span class="error">
@@ -57,7 +57,7 @@
                 @endif
                 <div class="field" style="padding-bottom: 24px">
                     <label for="reminder_date">Reminder Date</label>
-                    <input class="date form-control" type="date" name="reminder_date" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}>
+                    <input class="date form-control" type="date" name="reminder_date" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
                 </div>
                 @if ($errors->has('reminder_date'))
                 <span class="error">
@@ -65,10 +65,10 @@
                 </span>
                 @endif
                 <div class="field" style="padding-bottom: 24px">
-                    <input type="submit" name="submit" value="Create task">
+                    <input type="submit" name="submit" value="Create Task">
+                    <input name="project_id" type="hidden" value="{{$project -> id}}">
                 </div>
             </form>
         </div>
     </div>
 @endsection
-

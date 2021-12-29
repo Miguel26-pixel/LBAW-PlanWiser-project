@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\User;
+use App\Models\UserAssigns;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ProjectsController extends Controller
+class ProjectUsersController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,13 +26,14 @@ class ProjectsController extends Controller
         $this->middleware('auth');
     }
 
-    public function showProjects()
+    public function showProjectUsers($project_id)
     {
-        $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
-        $myprojects = Project::whereIn('id', $project_users)->paginate(10);
-        $projects = self::getPublicProjects(10);
-        //dd($myprojects);
-        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects]);
+        $myusers = DB::table('users')
+                        ->join('projectusers', 'users.id', '=', 'projectusers.user_id')
+                        ->where('projectusers.project_id', $project_id)
+                        ->get(['username','email','user_role']);
+        $myusers = json_decode($myusers,true);
+        return view('pages.projectUsers',['project_users' => $myusers,'project' => Project::find($project_id)]);
     }
 
     static function getPublicProjects($pag_num) {
