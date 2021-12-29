@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\ProjectsController;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -42,6 +44,8 @@ class LoginController extends Controller
     }
 
     public function home() {
-        return view('pages.homepage');
+        $public_projects = ProjectsController::getPublicProjects(6);
+        $view = Auth::user()->is_admin ? view('pages.admin.user', ['public_projects' => $public_projects]) : view('pages.homepage', ['public_projects' => $public_projects]);
+        return $view;
     }
 }

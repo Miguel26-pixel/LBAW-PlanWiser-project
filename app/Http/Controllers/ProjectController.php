@@ -56,7 +56,6 @@ class ProjectController extends Controller
     }
 
 
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -91,6 +90,8 @@ class ProjectController extends Controller
 
         $project_user->save();
 
-        return redirect()->back();
+        return redirect("/projects");
     }
+
 }
+

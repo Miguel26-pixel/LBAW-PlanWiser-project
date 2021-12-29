@@ -3,13 +3,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
+
 // Home
-
-
 Route::get('/', [Auth\LoginController::class,'home']);
 Route::get('/home', [HomepageController::class,'show']);
 Route::get('/dashboard', [DashboardController::class,'show']);
 Route::get('/profile/{id}', [UsersController::class,'showProfile']);
+Route::post('projectsSearch', [HomepageController::class,'searchProjects']);
 
 // API
 Route::post('/profile/{id}/update', [UsersController::class,'update']);
@@ -22,11 +22,12 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');
 
-
 //Projects
 Route::get('projects', [ProjectsController::class,'showProjects']);
 Route::get('projectsCreate', [ProjectController::class,'showProjectForm']);
 Route::post('projectsCreate', [ProjectController::class,'create']);
+Route::post('publicProjectsSearch', [ProjectsController::class,'projectsSearch']);
+Route::post('myProjectsSearch', [ProjectsController::class,'searchMyProjects']);
 
 Route::get('/project/{id}', [ProjectController::class,'showProject']);
 Route::post('/project/{id}/update', [ProjectController::class,'updateProject']);
