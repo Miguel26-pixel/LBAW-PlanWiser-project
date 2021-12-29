@@ -100,10 +100,10 @@
                             $count=0;
                             foreach ($fav_projects as $fav_project) {
                                 echo '<tr>';
-                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/'.$fav_project['id'].'"><i class="icon-rocket"></i></a></th>';
-                                echo '<td>'.$fav_project['title'].'</td>';
-                                echo '<td>'.$fav_project['description'].'</td>';
-                                echo '<td class="text-center"><a class="btn btn-outline-danger" href="/project/'.$fav_project['id'].'/remove-fav"><i class="icon-dislike"></i></td>';
+                                    echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/'.$fav_project['id'].'"><i class="icon-rocket"></i></a></th>';
+                                    echo '<td>'.$fav_project['title'].'</td>';
+                                    echo '<td>'.$fav_project['description'].'</td>';
+                                    echo '<td class="text-center"><a class="btn btn-outline-danger" href="/project/'.$fav_project['id'].'/remove-fav"><i class="icon-dislike"></i></td>';
                                 echo '</tr>';
                                 $count++;
                             }
