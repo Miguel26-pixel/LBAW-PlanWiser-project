@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-  public $timestamps  = true;
+  public $timestamps  = false;
 
-  protected $table = 'notification';
 
   /**
    * The attributes that are mass assignable.

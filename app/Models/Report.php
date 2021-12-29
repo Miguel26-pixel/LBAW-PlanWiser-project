@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-  public $timestamps  = true;
-
-  protected $table = 'report';
+  public $timestamps  = false;
 
   /**
    * The attributes that are mass assignable.
