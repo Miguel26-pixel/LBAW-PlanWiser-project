@@ -2,6 +2,10 @@
 
 @section('title', 'Create')
 
+@section('topnavbar')
+@include('partials.navbar')
+@endsection
+
 @section('content')
 <div class="formbg-outer">
   <div class="formbg">

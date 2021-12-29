@@ -33,13 +33,15 @@ class UsersController extends Controller
             $projects = $user->projects->sortByDesc('created_at');
             return view('pages.user',['user' => $user,'projects' => $projects]);
         } else {
-            return view('pages.homepage');
+            $public_projects=ProjectsController::getPublicProjects(10);
+            return view('pages.homepage',['public_projects'=> $public_projects]);
         }
     }
 
     public function update(int $id, Request $request) {
         if (!(Auth::id() == $id || Auth::user()->is_admin)) {
-            return view('pages.homepage');
+            $public_projects=ProjectsController::getPublicProjects(10);
+            return view('pages.homepage',['public_projects'=> $public_projects]);
         }
         $validator = $request->validate($this->validator());
 
@@ -59,7 +61,8 @@ class UsersController extends Controller
 
     function updatePassword(int $id, Request $request) {
         if (!(Auth::id() == $id || Auth::user()->is_admin)) {
-            return view('pages.homepage');
+            $public_projects=ProjectsController::getPublicProjects(10);
+            return view('pages.homepage',['public_projects'=> $public_projects]);
         }
         $validator = $request->validate($this->passValidator());
 

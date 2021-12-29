@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\ProjectsController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProjectsController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -27,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -39,13 +41,12 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function getUser(){
+    public function getUser(Request $request){
         return $request->user();
     }
 
     public function home() {
-        $public_projects = ProjectsController::getPublicProjects(6);
-        $view = Auth::user()->is_admin ? view('pages.admin.user', ['public_projects' => $public_projects]) : view('pages.homepage', ['public_projects' => $public_projects]);
-        return $view;
+        $public_projects=ProjectsController::getPublicProjects(10);
+        return view('pages.homepage',['public_projects'=> $public_projects]);
     }
 }
