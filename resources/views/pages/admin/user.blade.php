@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Homepage')
+@section('title', 'AdminDashBoard')
 
 @section('topnavbar')
-@include('partials.navbar')
+@include('partials.adminnavbar')
 @endsection
 
 @section('content')
@@ -58,6 +58,4 @@
     </div>
 
 </div>
-
-
 @endsection

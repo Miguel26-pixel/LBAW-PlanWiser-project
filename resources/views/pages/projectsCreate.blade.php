@@ -2,6 +2,10 @@
 
 @section('title', 'Create')
 
+@section('topnavbar')
+@include('partials.navbar')
+@endsection
+
 @section('content')
 
 <form action="/projectsCreate" method="POST" enctype="multipart/form-data">

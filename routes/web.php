@@ -11,6 +11,9 @@ Route::get('/dashboard', [DashboardController::class,'show']);
 Route::get('/profile/{id}', [UsersController::class,'showProfile']);
 Route::post('projectsSearch', [HomepageController::class,'searchProjects']);
 
+//Admin
+Route::get('admin',[AdminController::class,'show']);
+
 // API
 Route::post('/profile/{id}/update', [UsersController::class,'update']);
 Route::post('/profile/{id}/update-password', [UsersController::class,'updatePassword']);

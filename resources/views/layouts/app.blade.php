@@ -13,7 +13,7 @@
   @endif
     <main>
         <header>
-            @include('partials.navbar')
+            @yield('topnavbar')
         </header>
         <div style="margin-top: 107px">
             @yield('content')
