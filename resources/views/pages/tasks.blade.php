@@ -19,8 +19,16 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-
-                        <a href="projectsCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-magnifier"></i></a>
+                        
+                        <form  method="POST" action="/project/{{$project->id}}/tasks-search" enctype="multipart/form-data" class="input-group rounded w-50">
+                        {{@csrf_field()}}
+                            <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <button type="submit" class="input-group-text border-0" id="search-addon">
+                                <i class="icon-magnifier"></i>
+                            </button>
+                        </form> 
+                       
+                        <!-- <a href="tasksSearch" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-magnifier"></i></a> -->
                         <a href="tasksCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Task</a>
                         
                     </div>
@@ -38,7 +46,7 @@
                             </thead>
                             <tbody>
                             <?php
-                            foreach ($tasks_ALL as $task) {
+                            foreach ($tasks as $task) {
                                 echo '<tr>';
                                 echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/'.$project['id'].'/task/'.$task['id'].'"><i class="icon-rocket"></i></a></th>';
                                 echo '<td>'.$task['name'].'</td>';

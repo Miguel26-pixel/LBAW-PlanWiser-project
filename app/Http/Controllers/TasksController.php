@@ -81,13 +81,14 @@ class TasksController extends Controller
 
     public function showTasks($project_id)
     {
-        $my_ALL = DB::table('tasks')
+        $my_TASKS = DB::table('tasks')
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
                         ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
                         ->where('tasks.project_id', $project_id)
                         ->get(['tasks.id','name','description','due_date','username', 'tasks.tag']);
-        $my_ALL = json_decode($my_ALL,true);
+        $my_TASKS = json_decode($my_TASKS,true);
 
+        /*
         $my_TODO = DB::table('tasks')
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
                         ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
@@ -120,7 +121,11 @@ class TasksController extends Controller
                         ->get(['tasks.id', 'name','description','due_date','username']);
         $my_CLOSED = json_decode($my_CLOSED,true);
         //dd($my_CLOSED);
-        return view('pages.tasks',['tasks_ALL' => $my_ALL, 'tasks_ALL', 'tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
+
+        return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
+        */
+        return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'project' => Project::find($project_id)]);
+
     }
 
     /**
@@ -146,5 +151,24 @@ class TasksController extends Controller
         $task->save();
 
         return redirect()->action([TasksController::class,'showTasks'], ['id'=> $id]);
+    }
+/*
+    static function getProjectTasks($project_id) {
+        return (new Tasks())->where('project_id','=',$project_id)->orderBy('due_date');
+    }
+*/
+    public function searchProjectTasks(int $project_id, Request $request)
+    {
+        $tasks_result = Tasks::where('project_id', '=', $project_id)
+                               ->where('name','like',"%{$request->search}%")
+                               ->orWhere('description','like',"%{$request->search}%")
+                               //->orWhere('due_date','like',"%{$request->search}%")
+                               //->orWhere('reminder_date','like',"%{$request->search}%")
+                               ->orWhere('tag','like',"%{$request->search}%")
+                               //->orWhere('reminder_date','like',"%{$request->search}%")
+                               ->orderBy('due_date')
+                               ->paginate(10);
+
+        return view('pages.tasks',['tasks' => $tasks_result, 'project' => Project::find($project_id)]);
     }
 }
