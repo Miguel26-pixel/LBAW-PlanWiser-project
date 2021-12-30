@@ -12,11 +12,11 @@
         <div class="col-2">
     @include('partials.project_nav', ['project' => $project])
         </div>
-        <div class="col-md-7">
+        <div class="col-md-9">
             <div class="container text-center my-3">
                 <h2>All Tasks</h2>
             </div>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
 
