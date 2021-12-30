@@ -63,20 +63,27 @@ class TasksController extends Controller
 
 
     public function updateTask(int $project_id, int $id, Request $request) {
-        if (!(Auth::id() == $id || Auth::user()->is_admin)) {
-            $public_projects = ProjectsController::searchPublicProjects($request);
-            return view('pages.homepage', ['public_projects' => $public_projects]);
-        }
-        $validator = $request->validate($this->validator());
 
-        $task = Tasks::find($id);
-        $task->name = $request->name;
-        $task->description = $request->description;
-        $task->due_date = $request->due_date;
-        $task->tag = $request->tag;
-        $task->save();
+        switch ($request->input('action')) 
+        {
+            case 'update':
+                $validator = $request->validate($this->validator());
         
-        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
+                $task = Tasks::find($id);
+                $task->name = $request->name;
+                $task->description = $request->description;
+                $task->due_date = $request->due_date;
+                $task->tag = $request->tag;
+                $task->save();
+                break;
+
+            case 'delete':
+                $task=Tasks::find($id);
+                $task->delete(); //returns true/false 
+                break;
+        }
+
+       return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
     }
 
     public function showTasks($project_id)
@@ -162,10 +169,8 @@ class TasksController extends Controller
         $tasks_result = Tasks::where('project_id', '=', $project_id)
                                ->where('name','like',"%{$request->search}%")
                                ->orWhere('description','like',"%{$request->search}%")
-                               //->orWhere('due_date','like',"%{$request->search}%")
-                               //->orWhere('reminder_date','like',"%{$request->search}%")
+                               ->orWhere('due_date','like',"%{$request->search}%")
                                ->orWhere('tag','like',"%{$request->search}%")
-                               //->orWhere('reminder_date','like',"%{$request->search}%")
                                ->orderBy('due_date')
                                ->paginate(10);
 
