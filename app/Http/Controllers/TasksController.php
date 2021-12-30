@@ -64,7 +64,8 @@ class TasksController extends Controller
 
     public function updateTask(int $project_id, int $id, Request $request) {
         if (!(Auth::id() == $id || Auth::user()->is_admin)) {
-            return view('pages.homepage');
+            $public_projects = ProjectsController::searchPublicProjects($request);
+            return view('pages.homepage', ['public_projects' => $public_projects]);
         }
         $validator = $request->validate($this->validator());
 
@@ -80,6 +81,13 @@ class TasksController extends Controller
 
     public function showTasks($project_id)
     {
+        $my_ALL = DB::table('tasks')
+                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
+                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
+                        ->where('tasks.project_id', $project_id)
+                        ->get(['tasks.id','name','description','due_date','username', 'tasks.tag']);
+        $my_ALL = json_decode($my_ALL,true);
+        //dd($my_ALL);
         $my_TODO = DB::table('tasks')
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
                         ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
@@ -112,7 +120,7 @@ class TasksController extends Controller
                         ->get(['tasks.id', 'name','description','due_date','username']);
         $my_CLOSED = json_decode($my_CLOSED,true);
         //dd($my_CLOSED);
-        return view('pages.tasks',['tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
+        return view('pages.tasks',['tasks_ALL' => $my_ALL, 'tasks_ALL', 'tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
     }
 
     /**
