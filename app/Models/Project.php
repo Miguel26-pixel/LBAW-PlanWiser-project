@@ -71,4 +71,8 @@ class Project extends Model
     public function getNumFavs() {
         return FavoriteProject::where('project_id','=',$this->id)->get()->count();
     }
+
+    public function files() {
+        return $this->hasMany(ProjectFile::class);
+    }
 }

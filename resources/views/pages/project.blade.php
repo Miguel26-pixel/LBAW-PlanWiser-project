@@ -9,11 +9,9 @@
 @section('content')
 
 
-        <div class="row m-0">
-        <div class="col-2">
-    @include('partials.project_nav', ['project' => $project])
-        </div>
-        <div class="col">
+    <div class="row m-0">
+        <div class="col-md-2"> @include('partials.project_nav', ['project' => $project])</div>
+        <div class="col-md-10">
             <div class="row m-0">
                 <div class="col-md-9">
                     <form action="/project/{{$project->id}}/update" method="POST" enctype="multipart/form-data">
@@ -151,7 +149,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
 
 
 @endsection

@@ -2,6 +2,10 @@ body {
     background-color: #ffffff;
 }
 
+.row {
+    margin: 0;
+}
+
 .my-container {
     position: fixed;
     z-index: 100;
@@ -336,7 +340,7 @@ border-color: white;
 
 /*-----Project SideBar-----*/
 
-  
+
 
 .sidebar-btn {
     margin-top: 80%;
