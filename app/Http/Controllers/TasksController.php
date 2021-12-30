@@ -75,8 +75,8 @@ class TasksController extends Controller
         $task->due_date = $request->due_date;
         $task->tag = $request->tag;
         $task->save();
-
-        return redirect()->back();
+        
+        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $id]);
     }
 
     public function showTasks($project_id)
@@ -87,7 +87,7 @@ class TasksController extends Controller
                         ->where('tasks.project_id', $project_id)
                         ->get(['tasks.id','name','description','due_date','username', 'tasks.tag']);
         $my_ALL = json_decode($my_ALL,true);
-        //dd($my_ALL);
+
         $my_TODO = DB::table('tasks')
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
                         ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
@@ -145,6 +145,6 @@ class TasksController extends Controller
         $task->created_at = Carbon::now();
         $task->save();
 
-        return redirect()->back();
+        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $id]);
     }
 }
