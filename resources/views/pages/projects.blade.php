@@ -3,7 +3,7 @@
 @section('title', 'Projects')
 
 @section('topnavbar')
-@include('partials.navbar')
+@include('partials.navbar', ['notifications' => $notifications])
 @endsection
 
 @section('content')

@@ -6,6 +6,8 @@ use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Http\Controllers\NotificationsController;
+use App\Models\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -38,7 +40,8 @@ class ProjectsController extends Controller
     {
         $projects = self::getPublicProjects(10);
         $myprojects = self::getMyProjects();
-        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects]);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects, 'notifications' => $notifications]);
     }
 
     public static function searchPublicProjects(Request $request){
@@ -55,12 +58,15 @@ class ProjectsController extends Controller
     public function projectsSearch(Request $request){
         $projects = self::searchPublicProjects($request);
         $myprojects = self::getMyProjects();
-        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects]);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects, 'notifications' => $notifications]);
     }
 
     public function searchMyProjects(Request $request){
         
         $projects = self::getPublicProjects(10);
+
+        $notifications = NotificationsController::getNotifications(Auth::id());
 
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
         $myprojects = Project::whereIn('id', $project_users)
@@ -69,6 +75,6 @@ class ProjectsController extends Controller
                                ->orderBy('created_at')
                                ->paginate(10);
 
-        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects]);
+        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects, 'notifications' => $notifications]);
     }
 }

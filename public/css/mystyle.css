@@ -354,3 +354,16 @@ border-color: white;
 .sidebar-btn:focus {
     color: #198754;
 }
+
+
+
+/*------Notifications-------*/
+
+.notification-pop {
+    border-bottom: 1px solid lightgray;
+    font-size: 16px;
+}
+
+.notification-btn {
+    width: 100%;
+}

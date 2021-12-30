@@ -7,6 +7,8 @@ use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Notification;
+use App\Http\Controllers\NotificationsController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +28,7 @@ class ProjectController extends Controller
 
     public function showProject($id) {
         $user = Auth::user();
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $projects = $user->projects;
         $project = Project::find($id);
         $check = false;
@@ -38,12 +41,13 @@ class ProjectController extends Controller
         if (!(Auth::user()->is_admin || $check || $project->public)) {
             return redirect('/');
         }
-        return view('pages.project',['project' => Project::find($id)]);
+        return view('pages.project',['project' => Project::find($id), 'notifications' => $notifications]);
     }
 
     public function showProjectForm()
     {
-        return view('pages.projectsCreate');
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.projectsCreate', ['notifications' => $notifications]);
     }
 
     protected function validator()
@@ -65,6 +69,7 @@ class ProjectController extends Controller
     protected function create(Request $request)
     {
 
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
 
         $project = new Project;
@@ -90,7 +95,7 @@ class ProjectController extends Controller
 
         $project_user->save();
 
-        return redirect("/projects");
+        return redirect("/projects", ['notifications' => $notifications]);
     }
 
 }

@@ -256,6 +256,7 @@ CREATE TABLE notifications --povoar
     task_id integer,
     task_comment_id integer,
     invitation_project_id integer,
+    seen boolean NOT NULL DEFAULT false,
     CONSTRAINT notifications_pk PRIMARY KEY (id),
     CONSTRAINT invitation_fk FOREIGN KEY (invitation_project_id, invitation_user_id)
         REFERENCES invitations (project_id, user_id) 

@@ -7,6 +7,7 @@ use App\Models\Tasks;
 use App\Models\Project;
 use App\Models\Notification;
 use App\Models\UserAssigns;
+use App\Http\Controllers\NotificationsController;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,26 +27,10 @@ class TasksController extends Controller
         $this->middleware('auth');
     }
 
-    /*public function showProject($id) {
-        $user = Auth::user();
-        $projects = $user->projects;
-        $project = Project::find($id);
-        $check = false;
-        foreach ($projects as $p) {
-            if ($p->id == $project->id) $check=true;
-            if (!(Auth::user()->is_admin || $check || $p->public)) {
-                return redirect('/');
-        }
-    }
-        if (!(Auth::user()->is_admin || $check || $project->public)) {
-            return redirect('/');
-        }
-        return view('pages.project',['project' => Project::find($id)]);
-    }*/
-
     public function showTaskForm(int $id)
     {
-        return view('pages.tasksCreate',['project' => Project::find($id)]);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.tasksCreate',['project' => Project::find($id), 'notifications' => $notifications]);
     }
 
     protected function validator()
@@ -58,13 +43,17 @@ class TasksController extends Controller
 
     public function showTask(int $project_id, int $id)
     {
-        return view('pages.task',['project' => Project::find($project_id), 'task' => Tasks::find($id)]);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.task',['project' => Project::find($project_id), 'task' => Tasks::find($id), 'notifications' => $notifications]);
     }
 
 
     public function updateTask(int $project_id, int $id, Request $request) {
+
+        $notifications = NotificationsController::getNotifications(Auth::id());
+
         if (!(Auth::id() == $id || Auth::user()->is_admin)) {
-            return view('pages.homepage');
+            return view('pages.homepage', ['notifications' => $notifications]);
         }
         $validator = $request->validate($this->validator());
 
@@ -80,6 +69,8 @@ class TasksController extends Controller
 
     public function showTasks($project_id)
     {
+        $notifications = NotificationsController::getNotifications(Auth::id());
+
         $my_TODO = DB::table('tasks')
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
                         ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
@@ -112,7 +103,7 @@ class TasksController extends Controller
                         ->get(['tasks.id', 'name','description','due_date','username']);
         $my_CLOSED = json_decode($my_CLOSED,true);
         //dd($my_CLOSED);
-        return view('pages.tasks',['tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
+        return view('pages.tasks',['tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id), 'notifications' => $notifications]);
     }
 
     /**
@@ -123,7 +114,7 @@ class TasksController extends Controller
      */
     protected function create(Request $request)
     {
-        //dd($request);
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
 
         $task = new Tasks;

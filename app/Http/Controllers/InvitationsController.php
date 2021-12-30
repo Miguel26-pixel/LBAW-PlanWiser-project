@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\Invitation;
 use App\Models\Report;
 use App\Models\Notification;
+use App\Http\Controllers\NotificationsController;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -29,7 +30,8 @@ class InvitationsController extends Controller
 
     public function showInvitationForm($id)
     {
-        return view('pages.invitationsCreate', ['project' => Project::find($id)]);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.invitationsCreate', ['project' => Project::find($id), 'notifications' => $notifications]);
     }
 
 
@@ -42,15 +44,24 @@ class InvitationsController extends Controller
      */
     protected function create(int $project_id, Request $request)
     {
+
+        $notifications = NotificationsController::getNotifications(Auth::id());
+
         $user_id = User::where('username', '=', $request->username)->get('id');
 
+        //dd($user_id);
+
         $user_id = json_decode($user_id, true);
+
+        //dd($user_id);
 
         $old_invite = Invitation::where('project_id', '=', $project_id)
                                     ->where('user_id', '=', $user_id[0]['id'])->get();
 
-        if($old_invite !== null)
-            return view('pages.project',['project' => Project::find($project_id)]);
+        $old_invite = json_decode($old_invite, true);
+
+        if($old_invite !== [])
+            return view('pages.project',['project' => Project::find($project_id), 'notifications' => $notifications]);
 
         if($user_id !== null) {
 
@@ -58,11 +69,11 @@ class InvitationsController extends Controller
             $invitation->user_id = $user_id[0]['id'];
             $invitation->project_id = $project_id;
             $invitation->accept = false;
-            $invitation->user_role = $request->user_role;
+            $invitation->user_role = $request->user_role;;
             $invitation->save();
 
         }
 
-        return view('pages.project',['project' => Project::find($project_id)]);
+        return view('pages.project',['project' => Project::find($project_id), 'notifications' => $notifications]);
     }
 }
