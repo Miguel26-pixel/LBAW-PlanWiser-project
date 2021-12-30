@@ -30,15 +30,19 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $check = false;
         foreach ($projects as $p) {
-            if ($p->id == $project->id) $check=true;
-            if (!(Auth::user()->is_admin || $check || $p->public)) {
-                return redirect('/');
+            if ($p->id == $id) {
+                $check=true;
+                break;
+            }
         }
-    }
+        
         if (!(Auth::user()->is_admin || $check || $project->public)) {
             return redirect('/');
         }
+
+
         return view('pages.project',['project' => Project::find($id)]);
+
     }
 
     public function showProjectForm()
