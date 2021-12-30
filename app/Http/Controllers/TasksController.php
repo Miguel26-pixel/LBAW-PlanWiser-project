@@ -76,7 +76,7 @@ class TasksController extends Controller
         $task->tag = $request->tag;
         $task->save();
         
-        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $id]);
+        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
     }
 
     public function showTasks($project_id)
@@ -150,7 +150,7 @@ class TasksController extends Controller
         $task->created_at = Carbon::now();
         $task->save();
 
-        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $id]);
+        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
     }
 /*
     static function getProjectTasks($project_id) {
