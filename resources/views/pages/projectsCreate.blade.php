@@ -34,9 +34,9 @@
 
         <div class="field" style="padding-bottom: 24px">
           <label for="public">Public</label>
-          <select class="form-select" aria-label="Disabled select example" required>
-              <option name="public" value="True">True</option>
-              <option name="public" value="False">False</option>
+          <select name="public" class="form-select" required>
+              <option value="1">True</option>
+              <option value="0">False</option>
           </select>
         </div>
         @if ($errors->has('public'))

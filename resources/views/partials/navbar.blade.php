@@ -11,7 +11,7 @@
                         Notifications
                         <div class="my-dropdown-content">
                             <?php
-                            dd($notifications);
+                            //dd($notifications);
                             foreach ($notifications as $notification) {
                                 //dd($notification);
                                 if($notification['notification_type'] == 'INVITE') {
