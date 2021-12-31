@@ -2,7 +2,7 @@
     <div class="navbar-align">
         <a href="{{ url('/') }}"><img src="{{ asset('/images/planwiserlogo.png') }}" style="width: 200px;"/></a>
         <a class="btn btn-outline-success nav-item"> About us </a>
-        <a class="btn btn-outline-success nav-item"> Support </a>
+        <a class="btn btn-outline-success nav-item" href="{{ url('/reportsCreate') }}"> Support </a>
         @if (Auth::check())
             <a class="btn btn-outline-success nav-item" href="{{ url('/projects') }}"> Projects <a>
                     @endif

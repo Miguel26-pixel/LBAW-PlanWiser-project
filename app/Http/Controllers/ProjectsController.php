@@ -9,7 +9,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller
@@ -38,6 +40,7 @@ class ProjectsController extends Controller
     {
         $projects = self::getPublicProjects(10);
         $myprojects = self::getMyProjects();
+        return  Redirect::route('project', 1);
         return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects]);
     }
 

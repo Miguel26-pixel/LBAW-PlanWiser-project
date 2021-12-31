@@ -27,9 +27,13 @@ class UsersController extends Controller
         ];
     }
 
+    static function getUser(int $id){
+        return  User::find($id);
+    }
+
     public function showProfile(int $id) {
         if (Auth::id() == $id || Auth::user()->is_admin){
-            $user = User::find($id);
+            $user = self::getUser($id);
             $projects = $user->projects->sortByDesc('created_at');
             return view('pages.user',['user' => $user,'projects' => $projects]);
         } else {

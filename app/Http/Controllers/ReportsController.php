@@ -75,4 +75,11 @@ class ReportsController extends Controller
 
         return redirect()->back();
     }
+
+    static function getReports()
+    {
+        return Report::orderBy('created_at')
+                       ->paginate(10);
+
+    }
 }

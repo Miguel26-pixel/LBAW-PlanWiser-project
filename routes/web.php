@@ -12,7 +12,11 @@ Route::get('/profile/{id}', [UsersController::class,'showProfile']);
 Route::post('projectsSearch', [HomepageController::class,'searchProjects']);
 
 //Admin
-Route::get('admin',[AdminController::class,'show']);
+Route::get('admin', [AdminController::class,'show']);
+Route::get('admin/reportsInformations', [AdminController::class,'showReports']);
+Route::get('admin/manageUsers', [AdminController::class,'showUsersManagement']);
+Route::get('admin/projects', [AdminController::class,'showProjects']);
+Route::get('admin/profile/{id}', [AdminController::class,'showProfile']);
 
 // API
 Route::post('/profile/{id}/update', [UsersController::class,'update']);
@@ -42,13 +46,11 @@ Route::get('project/{id}/members', [ProjectUsersController::class,'showProjectUs
 Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);
 Route::post('/project/{id}/members/invitation', [InvitationsController::class,'create']);
 
-
 //Tasks
 Route::get('project/{id}/tasksCreate', [TasksController::class,'showTaskForm']);
 Route::post('tasksCreate', [TasksController::class,'create']);
 Route::get('/project/{id}/task/{task_id}', [TasksController::class,'showTask']);
 Route::post('/project/{id}/task/{task_id}/update', [TasksController::class,'updateTask']);
-
 
 //Reports
 Route::get('reportsCreate', [ReportsController::class,'showReportForm']);
