@@ -6,13 +6,13 @@ use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\User;
 use Carbon\Carbon;
-use DB;
 use App\Http\Controllers\NotificationsController;
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller
@@ -46,37 +46,19 @@ class ProjectsController extends Controller
     }
 
     public static function searchPublicProjects(Request $request){
-        
-        $projects = Project::where('public','=',true)
-                            ->where('title','like',"%{$request->search}%")
-                            ->orWhere('description','like',"%{$request->search}%")
+        return DB::table('projects')
+                            ->where('public','=',true)
+                            ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ to_tsquery(\'english\', ?))',[$request->search])
                             ->orderBy('created_at')
                             ->paginate(10);
-        
-        return  $projects;
-    }
-
-    public function projectsSearch(Request $request){
-        $projects = self::searchPublicProjects($request);
-        $myprojects = self::getMyProjects();
-        $notifications = NotificationsController::getNotifications(Auth::id());
-        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects, 'notifications' => $notifications]);
     }
 
     public function searchMyProjects(Request $request){
-        
-        $projects = self::getPublicProjects(10);
-
-        $notifications = NotificationsController::getNotifications(Auth::id());
-
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
         return  DB::table('projects')
                     ->whereIn('id', $project_users)
-                    ->where('title','like',"%".$request->input('search')."%")
-                    //->orWhere('description','like',"%{$request->search}%")
+                    ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ to_tsquery(\'english\', ?))',[$request->search])
                     ->orderBy('created_at')
                     ->paginate(10);
-
-        //return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects, 'notifications' => $notifications]);
     }
 }

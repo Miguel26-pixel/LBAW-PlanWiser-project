@@ -31,7 +31,7 @@ class ProjectController extends Controller
     }
 
     public function showProject($id) {
-        $notifications = NotificationsController::getNotifications(Auth::id());        
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $check = $this->checkUserInProject($id);
         $project = Project::find($id);
         $user = Auth::user();
@@ -45,7 +45,7 @@ class ProjectController extends Controller
     }
 
     public function showProjectFiles($id) {
-        $notifications = NotificationsController::getNotifications(Auth::id());  
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $check = $this->checkUserInProject($id);
         $project = Project::find($id);
         if (!(Auth::user()->is_admin || $check || $project->public)) { return redirect('/'); }
@@ -99,7 +99,7 @@ class ProjectController extends Controller
         $project->title = $request->title;
         $project->description = $request->description;
 
-        if($request->public == "True")
+        if($request->public == "1")
             $project->public = true;
         else
             $project->public = false;

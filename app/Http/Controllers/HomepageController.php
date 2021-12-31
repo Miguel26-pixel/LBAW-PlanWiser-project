@@ -27,8 +27,6 @@ class HomepageController extends Controller
 
     public function searchProjects(Request $request)
     {
-        $public_projects = ProjectsController::searchPublicProjects($request);
-        $notifications = NotificationsController::getNotifications(Auth::id());
-        return view('pages.homepage', ['public_projects' => $public_projects, 'notifications' => $notifications]);
+        return ProjectsController::searchPublicProjects($request);
     }
 }
