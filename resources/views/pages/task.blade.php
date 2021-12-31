@@ -54,9 +54,11 @@
                                     </select>
                                 </div>
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-success">Update Task</button>
+                                    <button type="submit" name="action" value="update" class="btn btn-success">Update Task</button>
+                                    <button type="submit" name="action" value="delete" class="btn btn-outline-danger">Delete Task</button>
                                 </div>
                             </div>
                         </div>
                     </form>
 @endsection
+
