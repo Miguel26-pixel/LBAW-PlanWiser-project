@@ -8,7 +8,7 @@
                     <a href="/project/{{$project->id}}" class="sidebar-btn" aria-current="page">About</a>
                 </li>
                 <li>
-                    <a href="#" class="sidebar-btn">Files</a>
+                    <a href="/project/{{$project->id}}/files" class="sidebar-btn">Files</a>
                 </li>
                 <li>
                     <a href="/project/{{$project->id}}/tasks" class="sidebar-btn" >Tasks</a>
@@ -20,5 +20,6 @@
                     <a href="/project/{{$project->id}}/members" class="sidebar-btn" >Members</a>
                 </li>
             </ul>
+        </div>
     </nav>
 </div>

@@ -2,6 +2,10 @@
 
 @section('report')
 
+@section('topnavbar')
+@include('partials.navbar')
+@endsection
+
 @section('content')
 
 <div class="formbg-outer">

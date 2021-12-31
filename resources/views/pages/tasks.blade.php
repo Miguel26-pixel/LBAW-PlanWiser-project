@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('topnavbar')
+@include('partials.navbar')
+@endsection
+
 @section('title', 'Tasks')
 
 @section('content')

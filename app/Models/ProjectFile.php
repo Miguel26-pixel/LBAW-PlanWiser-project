@@ -8,7 +8,7 @@ class ProjectFile extends Model
 {
   public $timestamps  = true;
 
-  protected $table = 'project_file';
+  protected $table = 'projectfiles';
 
   /**
    * The attributes that are mass assignable.
@@ -16,6 +16,6 @@ class ProjectFile extends Model
    * @var array
    */
   protected $fillable = [
-      'url', 'project_id'
+      'url', 'project_id', 'name'
   ];
 }
