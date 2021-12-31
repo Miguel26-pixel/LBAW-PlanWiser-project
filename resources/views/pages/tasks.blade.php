@@ -19,18 +19,18 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        
+
                         <form  method="POST" action="/project/{{$project->id}}/tasks-search" enctype="multipart/form-data" class="input-group rounded w-50">
                         {{@csrf_field()}}
-                            <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <button type="submit" class="input-group-text border-0" id="search-addon">
                                 <i class="icon-magnifier"></i>
                             </button>
-                        </form> 
-                       
+                        </form>
+
                         <!-- <a href="tasksSearch" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-magnifier"></i></a> -->
                         <a href="tasksCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Task</a>
-                        
+
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">
@@ -44,7 +44,7 @@
                                 <th scope="col">Stage</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="table-tasks-body">
                             <?php
                             foreach ($tasks as $task) {
                                 echo '<tr>';
@@ -64,4 +64,40 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        const search = document.getElementById("mySearch");
+        search.addEventListener("keyup", searchTask);
+        function searchTask() {
+            console.log('/project/{{$project->id}}/tasks-search');
+            sendAjaxRequest('post', '/project/{{$project->id}}/tasks-search', {search: search.value}, mySearchHandler);
+        }
+        function mySearchHandler() {
+            //if(this.status != 200) window.location = '/';
+            let tasks = JSON.parse(this.responseText);
+            console.log(tasks);
+            let body = document.getElementById("table-tasks-body");
+
+            body.innerHTML = "";
+
+            for(let task of tasks.data) {
+                let tr = body.insertRow();
+                let link = tr.insertCell();
+                link.classList.add('text-center');
+                link.innerHTML = '<a class="text-info my-rocket" href="/project/' + task['project_id'] + '/tasks/' + task['id'] + '"><i class="icon-rocket"></i></a>';
+                let title = tr.insertCell();
+                title.innerHTML = task['name'];
+                let description = tr.insertCell();
+                description.innerHTML = task['description'];
+                let duedate = tr.insertCell();
+                duedate.innerHTML = task['due_date'];
+                let assignee = tr.insertCell();
+                assignee.innerHTML = '';
+                let stage = tr.insertCell();
+                stage.innerHTML = task['tag'];
+            }
+        }
+    </script>
 @endsection

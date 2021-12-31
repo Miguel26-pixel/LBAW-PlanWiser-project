@@ -151,16 +151,13 @@ class TasksController extends Controller
 */
     public function searchProjectTasks(int $project_id, Request $request)
     {
-        $notifications = NotificationsController::getNotifications(Auth::id());
-
-        $tasks_result = Tasks::where('project_id', '=', $project_id)
-                               ->where('name','like',"%{$request->search}%")
-                               ->orWhere('description','like',"%{$request->search}%")
-                               ->orWhere('due_date','like',"%{$request->search}%")
-                               ->orWhere('tag','like',"%{$request->search}%")
-                               ->orderBy('due_date')
-                               ->paginate(10);
-
-        return view('pages.tasks',['tasks' => $tasks_result, 'project' => Project::find($project_id), 'notifications' => $notifications]);
+        return DB::table('tasks')
+                            ->where('project_id', '=', $project_id)
+                            ->whereRaw("(name like '%".$request->search."%'
+                                                or description like '%".$request->search."%'
+                                                or CAST(due_date AS VARCHAR) like '%".$request->search."%'
+                                                or CAST(tag AS VARCHAR) like '".$request->search."%')")
+                            ->orderBy('due_date')
+                            ->paginate(10);
     }
 }
