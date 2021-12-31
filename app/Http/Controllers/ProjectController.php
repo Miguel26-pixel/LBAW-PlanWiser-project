@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\FavoriteProject;
 use App\Models\Project;
 use App\Models\ProjectFile;
 use App\Models\ProjectUser;
-use App\Models\User;
 use Carbon\Carbon;
-use App\Models\Notification;
-use App\Http\Controllers\NotificationsController;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use ZipArchive;
 
 class ProjectController extends Controller

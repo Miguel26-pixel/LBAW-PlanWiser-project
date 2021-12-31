@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Tasks;
 use App\Models\Project;
-use App\Models\Notification;
-use App\Models\UserAssigns;
-use App\Http\Controllers\NotificationsController;
 use Carbon\Carbon;
-use DB;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class TasksController extends Controller
 {
@@ -51,11 +45,11 @@ class TasksController extends Controller
     public function updateTask(int $project_id, int $id, Request $request) {
         $notifications = NotificationsController::getNotifications(Auth::id());
 
-        switch ($request->input('action')) 
+        switch ($request->input('action'))
         {
             case 'update':
                 $validator = $request->validate($this->validator());
-        
+
                 $task = Tasks::find($id);
                 $task->name = $request->name;
                 $task->description = $request->description;
@@ -66,7 +60,7 @@ class TasksController extends Controller
 
             case 'delete':
                 $task=Tasks::find($id);
-                $task->delete(); //returns true/false 
+                $task->delete(); //returns true/false
                 break;
         }
 

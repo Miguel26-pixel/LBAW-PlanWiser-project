@@ -4,16 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\ProjectUser;
-use App\Models\User;
-use Carbon\Carbon;
-use App\Http\Controllers\NotificationsController;
-use App\Models\Notification;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
 class ProjectsController extends Controller
 {

@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\ProjectUser;
+
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Invitation;
-use App\Models\Report;
-use App\Models\Notification;
-use App\Http\Controllers\NotificationsController;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class InvitationsController extends Controller
 {
