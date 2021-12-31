@@ -4,7 +4,7 @@
 @include('partials.navbar')
 @endsection
 
-@section('title', 'ProjectUsers')
+@section('title', 'ProjectUsers', ['notifications' => $notifications])
 
 @section('content')
 

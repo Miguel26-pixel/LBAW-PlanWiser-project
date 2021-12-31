@@ -9,6 +9,8 @@ use App\Models\ProjectFile;
 use App\Models\ProjectUser;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Notification;
+use App\Http\Controllers\NotificationsController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +31,7 @@ class ProjectController extends Controller
     }
 
     public function showProject($id) {
+        $notifications = NotificationsController::getNotifications(Auth::id());        
         $check = $this->checkUserInProject($id);
         $project = Project::find($id);
         $user = Auth::user();
@@ -38,20 +41,22 @@ class ProjectController extends Controller
         $guests = $project->guests;
         $num_favs = $project->getNumFavs();
         $is_fav = FavoriteProject::where('user_id' ,'=', $user->id)->where('project_id','=',$id)->exists();
-        return view('pages.project',['project' => $project,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs]);
+        return view('pages.project',['project' => $project,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs, 'notifications' => $notifications]);
     }
 
     public function showProjectFiles($id) {
+        $notifications = NotificationsController::getNotifications(Auth::id());  
         $check = $this->checkUserInProject($id);
         $project = Project::find($id);
         if (!(Auth::user()->is_admin || $check || $project->public)) { return redirect('/'); }
         $files = $project->files;
-        return view('pages.projectFiles',['project' => $project,'files' => $files]);
+        return view('pages.projectFiles',['project' => $project,'files' => $files, 'notifications' => $notifications]);
     }
 
     public function showProjectForm()
     {
-        return view('pages.projectsCreate');
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.projectsCreate', ['notifications' => $notifications]);
     }
 
     public function addFavorite($id) {
@@ -86,6 +91,7 @@ class ProjectController extends Controller
     protected function create(Request $request)
     {
 
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
 
         $project = new Project;

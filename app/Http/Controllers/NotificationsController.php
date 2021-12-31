@@ -27,11 +27,11 @@ class NotificationsController extends Controller
         $this->middleware('auth');
     }
 
-    public function getNotifications($id)
+    static function getNotifications($id)
     {
-        $my_notifications = Notification::where('user_id','=',$id)->get();
+        $my_notifications = Notification::where('user_id','=',$id)->where('seen', '=', false)->get();
         $my_notifications = json_decode($my_notifications, true);
-        return $my_notifications;
+        return array_reverse($my_notifications);
     }
 
 }

@@ -7,12 +7,26 @@
             <a class="btn btn-outline-success nav-item" href="{{ url('/projects') }}"> Projects <a>
                     @endif
                     @if (Auth::check())
-                        <div id="notifications-btn" class="btn btn-outline-success nav-item my-dropdown">
-                            Notifications
-                            <div class="my-dropdown-content">
-                                <p>Hello World!</p>
-                            </div>
+                    <div id="notifications-btn" class="btn btn-outline-success nav-item my-dropdown">
+                        Notifications
+                        <div class="my-dropdown-content">
+                            <?php
+                            //dd($notifications);
+                            foreach ($notifications as $notification) {
+                                //dd($notification);
+                                if($notification['notification_type'] == 'INVITE') {
+                                    echo '<div  class="notification-pop">';
+                                    echo '<th scope="row"><a class="text-info my-rocket"></a></th>';
+                                    echo '<button class="notification-btn">'.$notification['notification_type'].'</button>';
+                                    //echo '<td>'.$notification['description'].'</td>';
+                                    //echo '<td>'.$notification['due_date'].'</td>';
+                                    //echo '<td>'.$notification['username'].'</td>';
+                                    echo '</div>';
+                                }
+                            }
+                            ?>
                         </div>
+                    </div>
                         <a id="profile-btn" class="btn btn-outline-success nav-item" href="{{ url('/profile/'.Auth::id()) }} "> {{ Auth::user()->username }} </a>
                         <a id="logout-btn" class="btn btn-outline-success nav-item" href="{{ url('/logout') }}"> Logout </a>
                     @else

@@ -1,3 +1,5 @@
+create schema if not exists lbaw2181;
+
 SET search_path TO lbaw2181;
 
 
@@ -86,12 +88,12 @@ CREATE TABLE privateMessages --falta povoar
     created_at timestamp NOT NULL,
     CONSTRAINT private_messages_pk PRIMARY KEY (id),
     CONSTRAINT emitter_fk FOREIGN KEY (emitter_id)
-        REFERENCES users (id)
-        ON DELETE CASCADE,
+    REFERENCES users (id)
+    ON DELETE CASCADE,
     CONSTRAINT receiver_fk FOREIGN KEY (receiver_id)
-        REFERENCES users (id)
-        ON DELETE CASCADE
-);
+    REFERENCES users (id)
+    ON DELETE CASCADE
+    );
 
 CREATE TABLE projects
 (
@@ -260,40 +262,40 @@ CREATE TABLE notifications --povoar
     seen boolean NOT NULL DEFAULT false,
     CONSTRAINT notifications_pk PRIMARY KEY (id),
     CONSTRAINT invitation_fk FOREIGN KEY (invitation_project_id, invitation_user_id)
-        REFERENCES invitations (project_id, user_id)
-        ON DELETE CASCADE,
+    REFERENCES invitations (project_id, user_id)
+    ON DELETE CASCADE,
     CONSTRAINT private_message_fk FOREIGN KEY (private_message_id)
-        REFERENCES privateMessages (id)
-        ON DELETE CASCADE,
+    REFERENCES privateMessages (id)
+    ON DELETE CASCADE,
     CONSTRAINT project_message_fk FOREIGN KEY (project_message_id)
-        REFERENCES projectMessages (id)
-        ON DELETE CASCADE,
+    REFERENCES projectMessages (id)
+    ON DELETE CASCADE,
     CONSTRAINT report_fk FOREIGN KEY (report_id)
-        REFERENCES reports (id)
-        ON DELETE CASCADE,
+    REFERENCES reports (id)
+    ON DELETE CASCADE,
     CONSTRAINT task_comment_fk FOREIGN KEY (task_comment_id)
-        REFERENCES taskComments (id)
-        ON DELETE CASCADE,
+    REFERENCES taskComments (id)
+    ON DELETE CASCADE,
     CONSTRAINT task_fk FOREIGN KEY (task_id)
-        REFERENCES tasks (id)
-        ON DELETE CASCADE,
+    REFERENCES tasks (id)
+    ON DELETE CASCADE,
     CONSTRAINT user_fk FOREIGN KEY (user_id)
-        REFERENCES users (id)
-        ON DELETE CASCADE,
+    REFERENCES users (id)
+    ON DELETE CASCADE,
     CONSTRAINT notification_type_ck CHECK (notification_type = ANY (ARRAY['INVITE'::notificationType, 'FORUM'::notificationType, 'REPORT'::notificationType, 'MESSAGE'::notificationType, 'REMINDER'::notificationType, 'COMMENT'::notificationType]))
-);
+    );
 
 --functions
 
 CREATE OR REPLACE FUNCTION check_private_message() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
     if new.receiver_id in (select user_id from projectUsers where project_id in (select id from projects where id in (select project_id from projectUsers where user_id = new.emitter_id)))
     then
         return new;
-    else
+else
         raise exception 'The users dont have projects in common';
-    end if;
+end if;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -301,41 +303,41 @@ $BODY$
 
 
 CREATE OR REPLACE FUNCTION check_project_message() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
     if new.user_id in (select user_id from projectUsers where project_id = new.project_id)
     then
         if 'GUEST' in (select user_role from projectUsers where user_id = new.user_id and project_id = new.project_id limit 1)
         then raise exception 'The user dont have permissions to send messages';
-        else return new;
-        end if;
-    else
+else return new;
+end if;
+else
         raise exception 'The user dont belong to the project so he cant send messages';
-    end if;
+end if;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION check_user_task() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
     if new.creator_id in (select user_id from projectUsers where project_id = new.project_id)
     then
         if 'MANAGER' in (select user_role from projectUsers where user_id = new.creator_id and project_id = new.project_id limit 1)
         then return new;
-        else raise exception 'The user dont have permissions to create tasks';
-        end if;
-    else
+else raise exception 'The user dont have permissions to create tasks';
+end if;
+else
         raise exception 'The user dont belong to the project so he cant create tasks';
-    end if;
+end if;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION check_task_assign() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
     if new.user_id in (select pu.user_id from tasks as t
                             join projects as p on t.project_id = p.id
@@ -347,97 +349,97 @@ BEGIN
                             join projectUsers as pu on pu.project_id = p.id
                             where t.id = new.task_id and pu.user_id = new.user_id)
         then raise exception 'The user cannot be assigned to tasks';
-        else return new;
-        end if;
-    else
+else return new;
+end if;
+else
         raise exception 'The user dont belong to the project so he cannot be assigned to tasks';
-    end if;
+end if;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION add_invite_notification() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
 
-    INSERT INTO notifications (created_at, notification_type, user_id, invitation_user_id, invitation_project_id)
-    VALUES (NOW(), 'INVITE', NEW.user_id, NEW.user_id, NEW.project_id);
-    RETURN NEW;
+INSERT INTO notifications (created_at, notification_type, user_id, invitation_user_id, invitation_project_id)
+VALUES (NOW(), 'INVITE', NEW.user_id, NEW.user_id, NEW.project_id);
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION add_forum_notification() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
 
-    INSERT INTO notifications (created_at, notification_type, user_id, project_message_id)
-    VALUES (NOW(), 'FORUM', NEW.user_id, NEW.id);
-    RETURN NEW;
+INSERT INTO notifications (created_at, notification_type, user_id, project_message_id)
+VALUES (NOW(), 'FORUM', NEW.user_id, NEW.id);
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION add_report_notification() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
 
-    INSERT INTO notifications (created_at, notification_type, user_id, report_id)
-    VALUES (NOW(), 'REPORT', NEW.user_id, NEW.id);
-    RETURN NEW;
+INSERT INTO notifications (created_at, notification_type, user_id, report_id)
+VALUES (NOW(), 'REPORT', NEW.user_id, NEW.id);
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION add_message_notification() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
 
-    INSERT INTO notifications (created_at, notification_type, user_id, private_message_id)
-    VALUES (NOW(), 'MESSAGE', NEW.emitter_id, NEW.id);
-    RETURN NEW;
+INSERT INTO notifications (created_at, notification_type, user_id, private_message_id)
+VALUES (NOW(), 'MESSAGE', NEW.emitter_id, NEW.id);
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION add_reminder_notification() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
 
-    INSERT INTO notifications (created_at, notification_type, user_id, task_id)
-    VALUES (NOW(), 'REMINDER', NEW.creator_id, NEW.id);
-    RETURN NEW;
+INSERT INTO notifications (created_at, notification_type, user_id, task_id)
+VALUES (NOW(), 'REMINDER', NEW.creator_id, NEW.id);
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION add_comment_notification() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
 
-    INSERT INTO notifications (created_at, notification_type, user_id, task_comment_id)
-    VALUES (NOW(), 'COMMENT', NEW.user_id, NEW.id );
-    RETURN NEW;
+INSERT INTO notifications (created_at, notification_type, user_id, task_comment_id)
+VALUES (NOW(), 'COMMENT', NEW.user_id, NEW.id );
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION users_search_update() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.search = (SELECT setweight(to_tsvector(NEW.username), 'A')  || setweight(to_tsvector(users.email), 'A') || setweight(to_tsvector(users.fullname), 'B') FROM users WHERE NEW.id=users.id);
-    ELSIF TG_OP = 'UPDATE' AND (NEW.username <> OLD.username) THEN
+ELSIF TG_OP = 'UPDATE' AND (NEW.username <> OLD.username) THEN
         NEW.search = (SELECT setweight(to_tsvector(NEW.username), 'A')  || setweight(to_tsvector(users.email), 'A') || setweight(to_tsvector(users.fullname), 'B') FROM users WHERE NEW.id=users.id);
-    END IF;
-    RETURN NEW;
+END IF;
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE 'plpgsql';
@@ -445,54 +447,54 @@ $BODY$
 
 
 CREATE OR REPLACE FUNCTION projects_search_update() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.search = (SELECT setweight(to_tsvector(NEW.title), 'A') || setweight(to_tsvector(NEW.description), 'B'));
-    ELSIF TG_OP = 'UPDATE' AND (NEW.title <> OLD.title OR NEW.description <> OLD.description) THEN
+ELSIF TG_OP = 'UPDATE' AND (NEW.title <> OLD.title OR NEW.description <> OLD.description) THEN
         NEW.search = (SELECT setweight(to_tsvector(NEW.title), 'A') || setweight(to_tsvector(NEW.description), 'B'));
-    END IF;
-    RETURN NEW;
+END IF;
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE 'plpgsql';
 
 
 CREATE OR REPLACE FUNCTION tasks_search_update() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
-    ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
+ELSIF TG_OP = 'UPDATE' AND (NEW.name <> OLD.name OR NEW.description <> OLD.description) THEN
         NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
-    END IF;
-    RETURN NEW;
+END IF;
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE 'plpgsql';
 
 
 CREATE OR REPLACE FUNCTION add_project_user() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
     if new.accept is true
     then INSERT INTO projectUsers (user_id, project_id, user_role)
          VALUES (NEW.user_id, NEW.project_id, NEW.user_role);
-         RETURN NEW;
-    else
+RETURN NEW;
+else
         raise exception 'The invite was declined';
-    end if;
+end if;
 END;
 $BODY$
     LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION check_notification_type() RETURNS TRIGGER AS
-$BODY$
+              $BODY$
 BEGIN
     if
-        (new.notification_type = 'INVITE' and new.invitation_project_id IS NOT NULL and new.invitation_user_id IS NOT NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
-    then
+(new.notification_type = 'INVITE' and new.invitation_project_id IS NOT NULL and new.invitation_user_id IS NOT NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
+then
 
     elsif
         (new.project_message_id IS NOT NULL and new.notification_type = 'FORUM' and new.invitation_user_id IS NULL and new.invitation_project_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
@@ -515,9 +517,9 @@ BEGIN
     then
 
     else
-        delete from notifications where id = new.id;
-    end if;
-    RETURN NEW;
+delete from notifications where id = new.id;
+end if;
+RETURN NEW;
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -545,61 +547,61 @@ CREATE TRIGGER check_private_message
     BEFORE INSERT
     ON privateMessages
     FOR EACH ROW
-EXECUTE PROCEDURE check_private_message();
+    EXECUTE PROCEDURE check_private_message();
 
 CREATE TRIGGER check_user_project
     BEFORE INSERT
     ON projectMessages
     FOR EACH ROW
-EXECUTE PROCEDURE check_project_message();
+    EXECUTE PROCEDURE check_project_message();
 
 CREATE TRIGGER check_user_task
     BEFORE INSERT
     ON tasks
     FOR EACH ROW
-EXECUTE PROCEDURE check_user_task();
+    EXECUTE PROCEDURE check_user_task();
 
 CREATE TRIGGER check_task_assign
     BEFORE INSERT
     ON userAssigns
     FOR EACH ROW
-EXECUTE PROCEDURE check_task_assign();
+    EXECUTE PROCEDURE check_task_assign();
 
 CREATE TRIGGER add_invite_notification
     AFTER INSERT
     ON invitations
     FOR EACH ROW
-EXECUTE PROCEDURE add_invite_notification();
+    EXECUTE PROCEDURE add_invite_notification();
 
 CREATE TRIGGER add_forum_notification
     AFTER INSERT
     ON projectMessages
     FOR EACH ROW
-EXECUTE PROCEDURE add_forum_notification();
+    EXECUTE PROCEDURE add_forum_notification();
 
 CREATE TRIGGER add_report_notification
     AFTER INSERT
     ON reports
     FOR EACH ROW
-EXECUTE PROCEDURE add_report_notification();
+    EXECUTE PROCEDURE add_report_notification();
 
 CREATE TRIGGER add_message_notification
     AFTER INSERT
     ON privateMessages
     FOR EACH ROW
-EXECUTE PROCEDURE add_message_notification();
+    EXECUTE PROCEDURE add_message_notification();
 
 CREATE TRIGGER add_reminder_notification
     AFTER INSERT
     ON tasks
     FOR EACH ROW
-EXECUTE PROCEDURE add_reminder_notification();
+    EXECUTE PROCEDURE add_reminder_notification();
 
 CREATE TRIGGER add_comment_notification
     AFTER INSERT
     ON taskComments
     FOR EACH ROW
-EXECUTE PROCEDURE add_comment_notification();
+    EXECUTE PROCEDURE add_comment_notification();
 
 CREATE TRIGGER update_users_search
     BEFORE INSERT OR UPDATE
@@ -623,13 +625,13 @@ CREATE TRIGGER add_project_user
     AFTER UPDATE
     ON invitations
     FOR EACH ROW
-EXECUTE PROCEDURE add_project_user();
+    EXECUTE PROCEDURE add_project_user();
 
 CREATE TRIGGER check_notification_type
     AFTER INSERT
     ON notifications
     FOR EACH ROW
-EXECUTE PROCEDURE check_notification_type();
+    EXECUTE PROCEDURE check_notification_type();
 
 --PlanWiser Indexes
 

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\NotificationsController;
 use Illuminate\Http\Request;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,21 +32,24 @@ class UsersController extends Controller
     }
 
     public function showProfile(int $id) {
+        $notifications = NotificationsController::getNotifications(Auth::id());
+
         if (Auth::id() == $id || Auth::user()->is_admin){
             $user = User::find($id);
             $projects = $user->projects->sortByDesc('created_at');
             $fav_projects = $user->favorites->sortByDesc('created_at');
-            return view('pages.user',['user' => $user,'projects' => $projects, 'fav_projects' => $fav_projects]);
+            return view('pages.user',['user' => $user,'projects' => $projects, 'fav_projects' => $fav_projects, 'notifications' => $notifications]);
         } else {
             $public_projects=ProjectsController::getPublicProjects(10);
-            return view('pages.homepage',['public_projects'=> $public_projects]);
+            return view('pages.homepage',['public_projects'=> $public_projects, 'notifications' => $notifications]);
         }
     }
 
     public function update(int $id, Request $request) {
+        $notifications = NotificationsController::getNotifications(Auth::id());
         if (!(Auth::id() == $id || Auth::user()->is_admin)) {
             $public_projects=ProjectsController::getPublicProjects(10);
-            return view('pages.homepage',['public_projects'=> $public_projects]);
+            return view('pages.homepage',['public_projects'=> $public_projects, 'notifications' => $notifications]);
         }
         $validator = $request->validate($this->validator());
 
@@ -61,9 +68,11 @@ class UsersController extends Controller
     }
 
     function updatePassword(int $id, Request $request) {
+    
+        $notifications = NotificationsController::getNotifications(Auth::id());
         if (!(Auth::id() == $id || Auth::user()->is_admin)) {
             $public_projects=ProjectsController::getPublicProjects(10);
-            return view('pages.homepage',['public_projects'=> $public_projects]);
+            return view('pages.homepage',['public_projects'=> $public_projects, 'notifications' => $notifications]);
         }
         $validator = $request->validate($this->passValidator());
 
