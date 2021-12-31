@@ -117,7 +117,7 @@ class ProjectController extends Controller
 
         $project_user->save();
 
-        return redirect("/projects", ['notifications' => $notifications]);
+        return redirect("/projects");
     }
 
     public function uploadFiles($id, Request $request) {
