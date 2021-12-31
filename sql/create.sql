@@ -262,26 +262,26 @@ CREATE TABLE notifications --povoar
     seen boolean NOT NULL DEFAULT false,
     CONSTRAINT notifications_pk PRIMARY KEY (id),
     CONSTRAINT invitation_fk FOREIGN KEY (invitation_project_id, invitation_user_id)
-    REFERENCES invitations (project_id, user_id)
-    ON DELETE CASCADE,
+        REFERENCES invitations (project_id, user_id)
+        ON DELETE CASCADE,
     CONSTRAINT private_message_fk FOREIGN KEY (private_message_id)
-    REFERENCES privateMessages (id)
-    ON DELETE CASCADE,
+        REFERENCES privateMessages (id)
+        ON DELETE CASCADE,
     CONSTRAINT project_message_fk FOREIGN KEY (project_message_id)
-    REFERENCES projectMessages (id)
-    ON DELETE CASCADE,
+        REFERENCES projectMessages (id)
+        ON DELETE CASCADE,
     CONSTRAINT report_fk FOREIGN KEY (report_id)
-    REFERENCES reports (id)
-    ON DELETE CASCADE,
+        REFERENCES reports (id)
+        ON DELETE CASCADE,
     CONSTRAINT task_comment_fk FOREIGN KEY (task_comment_id)
-    REFERENCES taskComments (id)
-    ON DELETE CASCADE,
+        REFERENCES taskComments (id)
+        ON DELETE CASCADE,
     CONSTRAINT task_fk FOREIGN KEY (task_id)
-    REFERENCES tasks (id)
-    ON DELETE CASCADE,
+        REFERENCES tasks (id)
+        ON DELETE CASCADE,
     CONSTRAINT user_fk FOREIGN KEY (user_id)
-    REFERENCES users (id)
-    ON DELETE CASCADE,
+        REFERENCES users (id)
+        ON DELETE CASCADE,
     CONSTRAINT notification_type_ck CHECK (notification_type = ANY (ARRAY['INVITE'::notificationType, 'FORUM'::notificationType, 'REPORT'::notificationType, 'MESSAGE'::notificationType, 'REMINDER'::notificationType, 'COMMENT'::notificationType]))
     );
 
@@ -387,9 +387,15 @@ CREATE OR REPLACE FUNCTION add_report_notification() RETURNS TRIGGER AS
               $BODY$
 BEGIN
 
+<<<<<<< HEAD
 INSERT INTO notifications (created_at, notification_type, user_id, report_id)
 VALUES (NOW(), 'REPORT', NEW.user_id, NEW.id);
 RETURN NEW;
+=======
+    INSERT INTO notifications (created_at, notification_type, user_id, report_id)
+    VALUES (NOW(), 'REPORT', NEW.user_id, NEW.id);
+    RETURN NEW;
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 END;
 $BODY$
     LANGUAGE plpgsql;
@@ -432,7 +438,11 @@ $BODY$
 
 
 CREATE OR REPLACE FUNCTION users_search_update() RETURNS TRIGGER AS
+<<<<<<< HEAD
               $BODY$
+=======
+$BODY$
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.search = (SELECT setweight(to_tsvector(NEW.username), 'A')  || setweight(to_tsvector(users.email), 'A') || setweight(to_tsvector(users.fullname), 'B') FROM users WHERE NEW.id=users.id);
@@ -447,7 +457,11 @@ $BODY$
 
 
 CREATE OR REPLACE FUNCTION projects_search_update() RETURNS TRIGGER AS
+<<<<<<< HEAD
               $BODY$
+=======
+$BODY$
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.search = (SELECT setweight(to_tsvector(NEW.title), 'A') || setweight(to_tsvector(NEW.description), 'B'));
@@ -461,7 +475,11 @@ $BODY$
 
 
 CREATE OR REPLACE FUNCTION tasks_search_update() RETURNS TRIGGER AS
+<<<<<<< HEAD
               $BODY$
+=======
+$BODY$
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.search = (SELECT setweight(to_tsvector(NEW.name), 'A') || setweight(to_tsvector(NEW.description), 'B'));
@@ -493,8 +511,13 @@ CREATE OR REPLACE FUNCTION check_notification_type() RETURNS TRIGGER AS
               $BODY$
 BEGIN
     if
+<<<<<<< HEAD
 (new.notification_type = 'INVITE' and new.invitation_project_id IS NOT NULL and new.invitation_user_id IS NOT NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
 then
+=======
+        (new.notification_type = 'INVITE' and new.invitation_project_id IS NOT NULL and new.invitation_user_id IS NOT NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
+    then
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 
     elsif
         (new.project_message_id IS NOT NULL and new.notification_type = 'FORUM' and new.invitation_user_id IS NULL and new.invitation_project_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
@@ -571,37 +594,61 @@ CREATE TRIGGER add_invite_notification
     AFTER INSERT
     ON invitations
     FOR EACH ROW
+<<<<<<< HEAD
     EXECUTE PROCEDURE add_invite_notification();
+=======
+EXECUTE PROCEDURE add_invite_notification();
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 
 CREATE TRIGGER add_forum_notification
     AFTER INSERT
     ON projectMessages
     FOR EACH ROW
+<<<<<<< HEAD
     EXECUTE PROCEDURE add_forum_notification();
+=======
+EXECUTE PROCEDURE add_forum_notification();
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 
 CREATE TRIGGER add_report_notification
     AFTER INSERT
     ON reports
     FOR EACH ROW
+<<<<<<< HEAD
     EXECUTE PROCEDURE add_report_notification();
+=======
+EXECUTE PROCEDURE add_report_notification();
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 
 CREATE TRIGGER add_message_notification
     AFTER INSERT
     ON privateMessages
     FOR EACH ROW
+<<<<<<< HEAD
     EXECUTE PROCEDURE add_message_notification();
+=======
+EXECUTE PROCEDURE add_message_notification();
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 
 CREATE TRIGGER add_reminder_notification
     AFTER INSERT
     ON tasks
     FOR EACH ROW
+<<<<<<< HEAD
     EXECUTE PROCEDURE add_reminder_notification();
+=======
+EXECUTE PROCEDURE add_reminder_notification();
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 
 CREATE TRIGGER add_comment_notification
     AFTER INSERT
     ON taskComments
     FOR EACH ROW
+<<<<<<< HEAD
     EXECUTE PROCEDURE add_comment_notification();
+=======
+EXECUTE PROCEDURE add_comment_notification();
+>>>>>>> 9796f185b190ff816aec808d96836c2f85922043
 
 CREATE TRIGGER update_users_search
     BEFORE INSERT OR UPDATE
