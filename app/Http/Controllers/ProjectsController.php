@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\User;
 use Carbon\Carbon;
+use DB;
 use App\Http\Controllers\NotificationsController;
 use App\Models\Notification;
 use Illuminate\Database\Eloquent\Builder;
@@ -69,12 +70,13 @@ class ProjectsController extends Controller
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
-        $myprojects = Project::whereIn('id', $project_users)
-                               ->where('title','like',"%{$request->search}%")
-                               ->orWhere('description','like',"%{$request->search}%")
-                               ->orderBy('created_at')
-                               ->paginate(10);
+        return  DB::table('projects')
+                    ->whereIn('id', $project_users)
+                    ->where('title','like',"%".$request->input('search')."%")
+                    //->orWhere('description','like',"%{$request->search}%")
+                    ->orderBy('created_at')
+                    ->paginate(10);
 
-        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects, 'notifications' => $notifications]);
+        //return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects, 'notifications' => $notifications]);
     }
 }
