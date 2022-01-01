@@ -27,11 +27,9 @@
                                 <i class="icon-magnifier"></i>
                             </button>
                         </form> 
-                       
-                        <!-- <a href="tasksSearch" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-magnifier"></i></a> -->
                         <a href="tasksCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Task</a>
-                        
                     </div>
+                    
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead class="table-success" >

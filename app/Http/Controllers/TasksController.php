@@ -117,6 +117,7 @@ class TasksController extends Controller
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
                         ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
                         ->where('tasks.project_id', $project_id)
+                        ->orderby('tasks.due_date')
                         ->get(['tasks.id','name','description','due_date','username', 'tasks.tag']);
         $my_TASKS = json_decode($my_TASKS,true);
 
