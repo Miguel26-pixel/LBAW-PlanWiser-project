@@ -72,6 +72,7 @@ class TasksController extends Controller
                 $task->name = $request->name;
                 $task->description = $request->description;
                 $task->due_date = $request->due_date;
+                $task->reminder_date = $request->reminder_date;
                 $task->tag = $request->tag;
                 $task->save();
                 

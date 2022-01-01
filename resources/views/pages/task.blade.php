@@ -32,6 +32,7 @@
                                     </div>
                                     <input name="description" type="text" class="form-control" placeholder="Description" value="{{$task->description}}">
                                 </div>
+                                
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"> Due Date: </span>
@@ -40,8 +41,18 @@
                                     $task->due_date = explode(' ', $task->due_date)[0];
                                     ?>
                                     <input name="due_date" type="date" class="form-control" value="{{$task->due_date}}">
-                                    
                                 </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"> Reminder Date: </span>
+                                    </div>
+                                    <?php
+                                        $task->reminder_date = explode(' ', $task->reminder_date)[0];
+                                    ?>
+                                    <input name="reminder_date" type="date" class="form-control" value="{{$task->reminder_date}}">
+                                </div>
+
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">Status:</span>
