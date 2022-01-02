@@ -33,15 +33,15 @@
                         </thead>
                         <tbody id="table-projects-body">
                             <?php
-                            $count = 1;
-                            foreach ($public_projects as $project) {
-                                echo '<tr>';
-                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/' . $project['id'] . '"><i class="icon-rocket"></i></a></th>';
-                                echo '<td>' . $project['title'] . '</td>';
-                                echo '<td>' . $project['description'] . '</td>';
-                                echo '</tr>';
-                                $count++;
-                            }
+                                $count = 1;
+                                foreach ($public_projects as $project) {
+                                    echo '<tr>';
+                                    echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/' . $project['id'] . '"><i class="icon-rocket"></i></a></th>';
+                                    echo '<td>' . $project['title'] . '</td>';
+                                    echo '<td>' . $project['description'] . '</td>';
+                                    echo '</tr>';
+                                    $count++;
+                                }
                             ?>
                         </tbody>
                     </table>

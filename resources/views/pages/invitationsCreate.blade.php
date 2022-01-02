@@ -18,9 +18,9 @@
           <input id="username" type="username" name="username" value="{{ old('username') }}" required autofocus>
         </div>
         @if ($errors->has('username'))
-        <span class="error">
-          {{ $errors->first('username') }}
-        </span>
+          <span class="error">
+            {{ $errors->first('username') }}
+          </span>
         @endif
         <div class="field" style="padding-bottom: 24px">
           <label for="user_role">Role</label>
@@ -31,9 +31,9 @@
           </select>
         </div>
         @if ($errors->has('user_role'))
-        <span class="error">
-          {{ $errors->first('user_role') }}
-        </span>
+          <span class="error">
+            {{ $errors->first('user_role') }}
+          </span>
         @endif
 
         <div class="field" style="padding-bottom: 24px">

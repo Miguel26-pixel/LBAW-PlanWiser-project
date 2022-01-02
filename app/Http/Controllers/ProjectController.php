@@ -77,13 +77,11 @@ class ProjectController extends Controller
         return  [
             'title' => ['required','string'],
             'description' => ['required','string'],
-            'public' => 'boolean',
         ];
     }
 
     protected function createProject(Request $request)
     {
-
         $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
 
@@ -92,7 +90,7 @@ class ProjectController extends Controller
         $project->title = $request->title;
         $project->description = $request->description;
 
-        if($request->public == "1")
+        if($request->public == "True")
             $project->public = true;
         else
             $project->public = false;
@@ -113,48 +111,43 @@ class ProjectController extends Controller
         return redirect("/projects");
     }
 
-
     protected function updateProject(int $id, Request $request)
     {
-
         $notifications = NotificationsController::getNotifications(Auth::id());
-        dd($request->active);
+
         switch ($request->input('action'))
         {
             case 'update':
                 $validator = $request->validate($this->validator());
-
-                $project = Project::find();
-
+                
+                $project = Project::find($id);
+                
                 $project->title = $request->title;
                 $project->description = $request->description;
 
-                if($request->public == "1")
+                if ($request->public == "True")
                     $project->public = true;
                 else
                     $project->public = false;
                 
                 $project->active = $request->active;
-                $project->created_at = Carbon::now();
                 $project->save();
-                $project = Project::where('title','=',$request->title)->first();
 
-                $project_user = new ProjectUser();
-
-                $project_user->project_id = $project->id;
-                $project_user->user_id = Auth::id();
-                $project_user->user_role = 'MANAGER';
-
-                $project_user->save();
                 break;
 
             case 'delete':
                 $project=Project::find($id);
+
+                $project_user = ProjectUser::where('project_id', '=', $id)
+                                            ->delete(['user_id'=>$request->user_id]);
+
                 $project->delete();
-                break;
+
+                return redirect("/projects");
         }
 
-        return redirect("/projects");
+        return redirect()->action([ProjectController::class,'showProject'], ['id'=> $id, 'notifications' => $notifications]);
+
     }
 
     public function uploadFiles($id, Request $request) {

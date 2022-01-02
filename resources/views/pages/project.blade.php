@@ -18,7 +18,6 @@
                             <h3><?php echo $project->title; ?></h3>
                         </div>
                         <div class="card my-3">
-
                             <div class="card-body">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -26,42 +25,68 @@
                                     </div>
                                     <input name="title" type="text" class="form-control" placeholder="Title" value="{{$project->title}}">
                                 </div>
+                                @if ($errors->has('title'))
+                                    <span class="error">
+                                    {{ $errors->first('title') }}
+                                    </span>
+                                @endif
+
                                 <div class="input-group mb-3">
                                     <h5 class="text-center col-md-12">Description</h5>
                                     <div class="input-group">
                                         <textarea name="description" class="form-control" aria-label="With textarea" rows="10" placeholder="Description">{{$project->description}}</textarea>
                                     </div>
                                 </div>
+                                @if ($errors->has('description'))
+                                    <span class="error">
+                                    {{ $errors->first('description') }}
+                                    </span>
+                                @endif
+
                                 <div class="row m-0 col-md-12 ">
+
                                     <div class="input-group mb-3 " style="width: 50%; padding-left: 0">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1"> Public: </span>
                                         </div>
-                                        <select name="public" class="form-select" >
+                                        <select name="public" class="form-select">
                                             @if($project['public'] == 1)
-                                                <option selected value="{{$project['public']}}">True</option>
+                                                <option selected value="True">True</option>
                                                 <option value="False">False</option>
                                             @else
-                                                <option selected value="{{$project['public']}}">False</option>
-                                                <option value="True">True</option>
+                                                <option value="True">True</option> 
+                                                <option selected value="False">False</option>
                                             @endif
                                         </select>
                                     </div>
+                                    @if ($errors->has('public'))
+                                        <span class="error">
+                                            {{ $errors->first('public') }}
+                                        </span>
+                                    @endif
+
                                     <div class="input-group mb-3 " style="width: 50%; padding-right: 0">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1"> Active: </span>
                                         </div>
                                         <select name="active" class="form-select">
                                             @if($project['active'] == 1)
-                                                <option selected value="{{$project['active']}}">True</option>
+                                                <option selected value="True">True</option>
                                                 <option value="False">False</option>
                                             @else
-                                                <option selected value="{{$project['active']}}">False</option>
                                                 <option value="True">True</option>
+                                                <option selected value="False">False</option>
                                             @endif
                                         </select>
                                     </div>
+                                    @if ($errors->has('active'))
+                                        <span class="error">
+                                            {{ $errors->first('active') }}
+                                        </span>
+                                    @endif
+                                    
                                 </div>
+
                                 <div class="col-md-12 text-center">
                                     <button type="submit" name="action" value="update" class="btn btn-success">Update Project</button>
                                     <button type="submit" name="action" value="delete" class="btn btn-outline-danger">Delete Project</button>
@@ -69,8 +94,8 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
+
                 <div class="col-md-3">
                     <div class="mt-3 container text-center align-items-center">
                         <h3>More Informations</h3>

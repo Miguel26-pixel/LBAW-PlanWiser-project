@@ -78,12 +78,12 @@ class TasksController extends Controller
                 
                 if ($request->user_id == -1){
                     $user_assigned = UserAssigns::where('task_id', '=', $id)
-                                            ->delete(['user_id' =>$request->user_id]);
+                                            ->delete(['user_id'=>$request->user_id]);
                     break;
                 }
 
                 $user_assigned = UserAssigns::where('task_id', '=', $id)
-                                            ->update(['user_id' =>$request->user_id]);
+                                            ->update(['user_id'=>$request->user_id]);
 
                 $user_assigned = json_decode($user_assigned, true);
                 
@@ -98,7 +98,13 @@ class TasksController extends Controller
 
             case 'delete':
                 $task=Tasks::find($id);
+
+                $user_assigned = UserAssigns::where('task_id', '=', $id)
+                                            ->delete(['user_id'=>$request->user_id]);
+
                 $task->delete();
+
+                
                 break;
         }
 

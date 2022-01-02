@@ -108,7 +108,7 @@
                                     <span class="input-group-text" id="basic-addon1"> Due Date: </span>
                                 </div>
                                 <?php
-                                $task->due_date = explode(' ', $task->due_date)[0];
+                                    $task->due_date = explode(' ', $task->due_date)[0];
                                 ?>
                                 <input name="due_date" type="date" class="form-control" value="{{$task->due_date}}">
                             </div>

@@ -19,7 +19,6 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-
                         <form  method="POST" action="/project/{{$project->id}}/tasks-search" enctype="multipart/form-data" class="input-group rounded w-50">
                         {{@csrf_field()}}
                             <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />

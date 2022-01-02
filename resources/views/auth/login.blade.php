@@ -22,6 +22,7 @@
                     </span>
                 </div>
                 @endif
+
                 <div class="field" style="padding-bottom: 24px">
                     <div class="grid--50-50">
                         <label for="password">Password</label>
@@ -36,11 +37,13 @@
                     {{ $errors->first('password') }}
                 </span>
                 @endif
+
                 <div class="field field-checkbox flex align-center" style="padding-bottom: 24px">
                     <label for="checkbox">
                         <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
                     </label>
                 </div>
+
                 <div class="field" style="padding-bottom: 24px">
                     <input type="submit" name="submit" value="Log In">
                 </div>
