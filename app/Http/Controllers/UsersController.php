@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use DB;
+
+use Illuminate\Support\Facades\Gate;
 
 class UsersController extends Controller
 {
@@ -39,36 +40,29 @@ class UsersController extends Controller
 
     public function showProfile(int $id)
     {
+        Gate::authorize('show' ,User::find($id));
         $notifications = NotificationsController::getNotifications(Auth::id());
 
-        if (Auth::id() == $id || Auth::user()->is_admin) {
-            $user = self::getUser($id);
-            $projects = $user->projects->sortByDesc('created_at');
-            $fav_projects = $user->favorites->sortByDesc('created_at');
-            return view('pages.user', ['user' => $user, 'projects' => $projects, 'fav_projects' => $fav_projects, 'notifications' => $notifications]);
-        } else {
-            $public_projects = ProjectsController::getPublicProjects(10);
-            return view('pages.homepage', ['public_projects' => $public_projects, 'notifications' => $notifications]);
-        }
+        $user = self::getUser($id);
+        $projects = $user->projects->sortByDesc('created_at');
+        $fav_projects = $user->favorites->sortByDesc('created_at');
+        return view('pages.user', ['user' => $user, 'projects' => $projects, 'fav_projects' => $fav_projects, 'notifications' => $notifications]);
     }
 
     public function update(int $id, Request $request)
     {
-        $notifications = NotificationsController::getNotifications(Auth::id());
-        if (!(Auth::id() == $id || Auth::user()->is_admin)) {
-            $public_projects = ProjectsController::getPublicProjects(10);
-            return view('pages.homepage', ['public_projects' => $public_projects, 'notifications' => $notifications]);
-        }
+        Gate::authorize('update',User::find($id));
 
         $request->validate($this->validator($id));
-        if ($request->hasFile('img_url')) {
-            $request->img_url->storeAs('images/users', 'img_user_' . $id . '.png', 'public_files');
-        }
+
         $user = User::find($id);
         $user->fullname = $request->fullname;
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->img_url = 'images/users/img_user_' . $id . '.png';
+        if ($request->hasFile('img_url')) {
+            $request->img_url->storeAs('images/users', 'img_user_' . $id . '.png', 'public_files');
+            $user->img_url = 'images/users/img_user_' . $id . '.png';
+        }
         $user->save();
 
         return redirect()->back();
@@ -76,12 +70,8 @@ class UsersController extends Controller
 
     function updatePassword(int $id, Request $request)
     {
+        Gate::authorize('update',User::find($id));
 
-        $notifications = NotificationsController::getNotifications(Auth::id());
-        if (!(Auth::id() == $id || Auth::user()->is_admin)) {
-            $public_projects = ProjectsController::getPublicProjects(10);
-            return view('pages.homepage', ['public_projects' => $public_projects, 'notifications' => $notifications]);
-        }
         $validator = $request->validate($this->passValidator());
 
         $user = User::find($id);
@@ -93,7 +83,6 @@ class UsersController extends Controller
 
     public static function getUsersSearch(Request $request)
     {
-
         $users = User::where('is_admin', '=', false)
             ->whereRaw('(username like \'%' . $request->search . '%\' or email like \'%' . $request->search . '%\')')
             ->get();

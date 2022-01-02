@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectUsersController extends Controller
 {
@@ -30,8 +31,9 @@ class ProjectUsersController extends Controller
 
     public function showProjectUsers($project_id)
     {
+        Gate::authorize('inProject',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
-        
+
         $myusers = $this->getProjectUsers($project_id);
 
         return view('pages.projectUsers',['project_users' => $myusers,'project' => Project::find($project_id), 'notifications' => $notifications]);

@@ -9,6 +9,7 @@ use App\Models\ProjectUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
@@ -26,10 +27,9 @@ class ProjectController extends Controller
 
     public function showProject($id) {
         $notifications = NotificationsController::getNotifications(Auth::id());
-        $check = $this->checkUserInProject($id);
         $project = Project::find($id);
         $user = Auth::user();
-        if (!(Auth::user()->is_admin || $check || $project->public)) { return redirect('/'); }
+        Gate::authorize('show',$project);
         $admins = $project->managers;
         $members = $project->members;
         $guests = $project->guests;
@@ -40,9 +40,8 @@ class ProjectController extends Controller
 
     public function showProjectFiles($id) {
         $notifications = NotificationsController::getNotifications(Auth::id());
-        $check = $this->checkUserInProject($id);
         $project = Project::find($id);
-        if (!(Auth::user()->is_admin || $check || $project->public)) { return redirect('/'); }
+        Gate::authorize('show',$project);
         $files = $project->files;
         return view('pages.projectFiles',['project' => $project,'files' => $files, 'notifications' => $notifications]);
     }
@@ -54,22 +53,20 @@ class ProjectController extends Controller
     }
 
     public function addFavorite($id) {
-        $check = $this->checkUserInProject($id);
-        if ($check) {
-            $fav = new FavoriteProject();
-            $fav->project_id = $id;
-            $fav->user_id = Auth::id();
-            $fav->save();
-        }
+        Gate::authorize('isPublic',Project::find($id));
+
+        $fav = new FavoriteProject();
+        $fav->project_id = $id;
+        $fav->user_id = Auth::id();
+        $fav->save();
+
         return redirect()->back();
     }
 
     public function removeFavorite($id) {
-        $check = $this->checkUserInProject($id);
-        if ($check) {
-            $fav = FavoriteProject::find(['user_id' => Auth::id(),'project_id' => $id]);
-            $fav->delete();
-        }
+        Gate::authorize('isPublic',Project::find($id));
+        $fav = FavoriteProject::find(['user_id' => Auth::id(),'project_id' => $id]);
+        $fav->delete();
         return redirect()->back();
     }
 
@@ -115,10 +112,8 @@ class ProjectController extends Controller
     }
 
     public function uploadFiles($id, Request $request) {
-        $check = $this->checkUserInProject($id);
-        if (!$check) {
-            return redirect()->back();
-        }
+        Gate::authorize('inProject',Project::find($id));
+
         foreach ($request->input_files as $file) {
             $pfile = new ProjectFile();
             $pfile->name = $file->getClientOriginalName();
@@ -142,19 +137,13 @@ class ProjectController extends Controller
     }
 
     public function downloadFile($id,$file_id) {
-        $check = $this->checkUserInProject($id);
-        if (!$check) {
-            return redirect()->back();
-        }
+        Gate::authorize('isPublic',Project::find($id));
         $file = ProjectFile::find($file_id);
         return Storage::disk('public')->download($file->url,$file->name);
     }
 
     public function deleteFile($id,$file_id) {
-        $check = $this->checkUserInProject($id);
-        if (!$check) {
-            return redirect()->back();
-        }
+        Gate::authorize('inProject',Project::find($id));
         $file = ProjectFile::find($file_id);
         Storage::disk('public')->delete($file->url);
         $file->delete();
@@ -181,10 +170,7 @@ class ProjectController extends Controller
     }
 
     public function downloadZIP($id) {
-        $check = $this->checkUserInProject($id);
-        if (!$check) {
-            return redirect()->back();
-        }
+        Gate::authorize('isPublic',Project::find($id));
         $files = Project::find($id)->files;
 
         $zip = new ZipArchive();
@@ -194,8 +180,11 @@ class ProjectController extends Controller
         foreach ($files as $file) {
             $zip->addFile(storage_path('app/public/'.$file->url),$file->name);
         }
-        $zip->close();
-        return response()->download(storage_path('app/public/project_'.$id.'/project_'.$id.'.zip'));
+        if ($zip->close() && file_exists(storage_path('app/public/project_'.$id.'/project_'.$id.'.zip'))) {
+            return response()->download(storage_path('app/public/project_'.$id.'/project_'.$id.'.zip'));
+        } else {
+            return redirect()->back();
+        }
     }
 }
 

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserAssigns extends Model
+class UserAssign extends Model
 {
   use HasCompositePrimaryKey;
   public $timestamps  = false;

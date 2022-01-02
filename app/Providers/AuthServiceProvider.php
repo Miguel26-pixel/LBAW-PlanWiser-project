@@ -2,6 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Project;
+use App\Models\Report;
+use App\Models\Task;
+use App\Models\User;
+use App\Policies\ProjectPolicy;
+use App\Policies\ReportPolicy;
+use App\Policies\TaskPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,8 +21,10 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-      'App\Models\Card' => 'App\Policies\CardPolicy',
-      'App\Models\Item' => 'App\Policies\ItemPolicy'
+        User::class => UserPolicy::class,
+        Project::class => ProjectPolicy::class,
+        Report::class => ReportPolicy::class,
+        Task::class => TaskPolicy::class
     ];
 
     /**
