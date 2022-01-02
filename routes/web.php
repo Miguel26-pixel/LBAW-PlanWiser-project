@@ -54,7 +54,7 @@ Route::post('/project/{id}/members/invitation', [InvitationsController::class,'c
 
 //Tasks
 Route::get('project/{id}/tasksCreate', [TasksController::class,'showTaskForm']);
-Route::post('tasksCreate', [TasksController::class,'create']);
+Route::post('tasksCreate', [TasksController::class,'createTask']);
 Route::get('/project/{id}/task/{task_id}', [TasksController::class,'showTask']);
 Route::post('/project/{id}/task/{task_id}/update', [TasksController::class,'updateTask']);
 Route::post('/project/{id}/tasks-search', [TasksController::class,'searchProjectTasks']);

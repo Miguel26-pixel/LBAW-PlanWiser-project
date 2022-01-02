@@ -165,7 +165,7 @@ class TasksController extends Controller
      * @param  array  $data
      *
      */
-    protected function create(Request $request)
+    protected function createTask(Request $request)
     {
         $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
@@ -183,11 +183,7 @@ class TasksController extends Controller
 
         return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
     }
-/*
-    static function getProjectTasks($project_id) {
-        return (new Tasks())->where('project_id','=',$project_id)->orderBy('due_date');
-    }
-*/
+
     public function searchProjectTasks(int $project_id, Request $request)
     {
         return DB::table('tasks')
