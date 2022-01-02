@@ -117,44 +117,6 @@ class TasksController extends Controller
                         ->get(['tasks.id','name','description','due_date','username', 'tasks.tag']);
         $my_TASKS = json_decode($my_TASKS,true);
 
-        /*
-        $my_TODO = DB::table('tasks')
-                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
-                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
-                        ->where('tasks.project_id', $project_id)
-                        ->where('tasks.tag', 'TODO')
-                        ->get(['tasks.id','name','description','due_date','username']);
-        $my_TODO = json_decode($my_TODO,true);
-        //dd($my_TODO);
-        $my_DOING = DB::table('tasks')
-                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
-                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
-                        ->where('tasks.project_id', $project_id)
-                        ->where('tasks.tag', 'DOING')
-                        ->get(['tasks.id', 'name','description','due_date','username']);
-        $my_DOING = json_decode($my_DOING,true);
-        //dd($my_DOING);
-        $my_REVIEW = DB::table('tasks')
-                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
-                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
-                        ->where('tasks.project_id', $project_id)
-                        ->where('tasks.tag', 'REVIEW')
-                        ->get(['tasks.id', 'name','description','due_date','username']);
-        $my_REVIEW = json_decode($my_REVIEW,true);
-        //dd($my_REVIEW);
-        $my_CLOSED = DB::table('tasks')
-                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
-                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
-                        ->where('tasks.project_id', $project_id)
-                        ->where('tasks.tag', 'CLOSED')
-                        ->get(['tasks.id', 'name','description','due_date','username']);
-        $my_CLOSED = json_decode($my_CLOSED,true);
-        //dd($my_CLOSED);
-        return view('pages.tasks',['tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id), 'notifications' => $notifications]);
-
-        return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
-        */
-
         return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'project' => Project::find($project_id), 'notifications' => $notifications]);
 
     }
