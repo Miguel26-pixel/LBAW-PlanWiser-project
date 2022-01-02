@@ -4,7 +4,7 @@
 @include('partials.navbar', ['notifications' => $notifications])
 @endsection
 
-@section('title', 'Tasks')
+@section('title', 'Task')
 
 @section('content')
 
@@ -26,10 +26,10 @@
                             <button type="submit" class="input-group-text border-0" id="search-addon">
                                 <i class="icon-magnifier"></i>
                             </button>
-                        </form> 
+                        </form>
                         <a href="tasksCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Task</a>
                     </div>
-                    
+
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead class="table-success" >

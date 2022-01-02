@@ -4,11 +4,11 @@ info:
   version: '1.0'
   title: PlanWiser Web API
   description: Web Resources Specification (A7) for PlanWiser
-  
+
 servers:
 - url: "http://lbaw2181-prod.fe.up.pt"
   description: "Production server"
-  
+
 externalDocs:
   description: "Find more info here."
   url: "https://git.fe.up.pt/lbaw/lbaw2122/lbaw2181/-/wikis/home"
@@ -207,14 +207,14 @@ paths:
           description: 'Ok'
         "401":
           description: 'Permission denied'
-  
+
     delete:
       operationId: R108
       summary: 'R108: Delete Account'
       description: 'Delete account. Access: AOR'
       tags:
         - 'M01: Authentication and Individual Profile'
-        
+
       parameters:
         - in: path
           name: username
@@ -232,24 +232,24 @@ paths:
       description: "Searches for projects and returns the results as JSON. Access: RDR"
       tags:
         - 'M02: Projects'
-        
-      parameters: 
-        - in: query 
-          name: query 
+
+      parameters:
+        - in: query
+          name: query
           description: 'String to use for full-text search'
-          schema: 
-            type: string 
-          required: false 
-        - in: query 
-          name: closed 
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: closed
           description: 'Boolean with the closed flag value'
-          schema: 
-            type: boolean 
-          required: false 
+          schema:
+            type: boolean
+          required: false
       responses:
         '200':
           description: 'Success'
-          content: 
+          content:
             application/json:
               schema:
                 type: array
@@ -257,7 +257,7 @@ paths:
                   $ref: '#/components/schemas/Project'
         '400':
           description: 'Bad Request'
-      
+
     post:
       operationId: R202
       summary: 'R202: Create Project'
@@ -309,7 +309,7 @@ paths:
       responses:
         '200':
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Project'
@@ -317,21 +317,21 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-          
+
     delete:
       operationId: R204
       summary: 'R204: Leave Project'
       description: 'Leave a project. Access: RDR'
       tags:
-        - 'M02: Projects'    
-        
+        - 'M02: Projects'
+
       parameters:
         - in: path
           name: id
           schema:
             type: integer
           required: true
-        
+
       responses:
         '302':
           description: 'Redirect after processing the leave request.'
@@ -373,7 +373,7 @@ paths:
           description: Forbidden
         '404':
           description: 'Not Found'
-  
+
   /project/{id}/status_board:
     get:
       operationId: R206
@@ -394,7 +394,7 @@ paths:
           description: Forbidden
         '404':
           description: 'Not Found'
-  
+
   /project/{id}/assignments:
     get:
       operationId: R207
@@ -415,7 +415,7 @@ paths:
           description: Forbidden
         '404':
           description: 'Not Found'
-  
+
   /project/{id}/settings:
     get:
       operationId: R208
@@ -436,21 +436,21 @@ paths:
           description: Forbidden
         '404':
           description: 'Not Found'
-  
+
     patch:
       operationId: R209
       summary: 'R209: Update Project'
       description: 'Processes the project settings form submission. Access: OWN'
       tags:
         - 'M02: Projects'
-        
+
       parameters:
         - in: path
           name: id
           schema:
             type: integer
           required: true
-        
+
       requestBody:
         required: true
         content:
@@ -462,7 +462,7 @@ paths:
                   type: string
                 description:
                   type: string
-      
+
       responses:
         "200":
           description: Success
@@ -470,21 +470,21 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-  
+
     delete:
       operationId: R210
       summary: 'R210: Delete Project'
       description: 'Delete project project. Access: OWN'
       tags:
-        - 'M02: Projects'    
-        
+        - 'M02: Projects'
+
       parameters:
         - in: path
           name: id
           schema:
             type: integer
           required: true
-        
+
       responses:
         '302':
           description: 'Redirect after processing the delete project request.'
@@ -504,34 +504,34 @@ paths:
   /api/project/{id}/task:
     get:
       operationId: R211
-      summary: "R211: Search Tasks API"
+      summary: "R211: Search Task API"
       description: "Searches for tasks and returns the results as JSON. Access: EDT"
       tags:
         - 'M02: Projects'
-        
-      parameters: 
-        - in: path 
-          name: id 
-          schema: 
-            type: integer 
-          required: true 
-        - in: query 
-          name: query 
-          description: String to use for full-text search 
-          schema: 
-            type: string 
-          required: false 
-        - in: query 
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: query
+          name: query
+          description: String to use for full-text search
+          schema:
+            type: string
+          required: false
+        - in: query
           name: tag
           description: Stage of the tasks
-          schema: 
+          schema:
             type: string
             enum: ['TODO', 'DOING', 'REVIEW', 'CLOSED']
           required: false
       responses:
         '200':
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 type: array
@@ -543,14 +543,14 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-          
+
     post:
       operationId: R212
       summary: 'R212: Create Task'
       description: 'Processes the task creation form submission. Access: EDT'
       tags:
         - 'M02: Projects'
-        
+
       parameters:
         - in: path
           name: id
@@ -623,7 +623,7 @@ paths:
       responses:
         '200':
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
@@ -631,14 +631,14 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-          
+
     patch:
       operationId: R214
       summary: 'R214: Update Task'
       description: 'Processes the task settings form submission. Access: EDT'
       tags:
         - 'M02: Projects'
-        
+
       parameters:
         - in: path
           name: id
@@ -650,7 +650,7 @@ paths:
           schema:
             type: integer
           required: true
-        
+
       requestBody:
         required: true
         content:
@@ -668,7 +668,7 @@ paths:
                   type: integer
                 tag:
                   type: string
-      
+
       responses:
         "200":
           description: Success
@@ -676,14 +676,14 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-          
+
     delete:
       operationId: R215
       summary: 'R215: Delete Task'
       description: 'Removes task from project. Access: EDT'
       tags:
         - 'M02: Projects'
-        
+
       parameters:
         - in: path
           name: id
@@ -695,7 +695,7 @@ paths:
           schema:
             type: integer
           required: true
-        
+
       responses:
         '302':
           description: 'Redirect after processing the new project information.'
@@ -714,23 +714,23 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-  
+
   /api/project/{id}/invitation:
     post:
       operationId: R219
       summary: 'R219: Invite member'
       description: 'Invite a member to a project. Access: MGR'
       tags:
-        - 'M02: Projects' 
-        
+        - 'M02: Projects'
+
       parameters:
         - in: path
           name: id
           schema:
             type: integer
           required: true
-          
-          
+
+
       requestBody:
         required: true
         content:
@@ -742,12 +742,12 @@ paths:
                   type: integer
                 project_id:
                   type: integer
-                accept: 
+                accept:
                   type: boolean
                 user_role:
                   type: string
                   enum: ['GUEST', 'MEMBER', 'MANAGER']
-                
+
               required:
                 - user_id
                 - project_id
@@ -761,15 +761,15 @@ paths:
           description: "Forbidden access"
         "404":
           description: "Tag not found"
-  
+
   /api/project/{id}/invitation/{invitation}:
     patch:
       operationId: R220
       summary: 'R220: Respond to project invite'
       description: 'Accept or refuse an invite to a project. Access: USR'
       tags:
-        - 'M02: Projects' 
-        
+        - 'M02: Projects'
+
       parameters:
         - in: path
           name: id
@@ -792,7 +792,7 @@ paths:
                   type: boolean
               required:
                 - accept
-        
+
       responses:
         "200":
           description: "OK"
@@ -800,15 +800,15 @@ paths:
           description: "Forbidden access"
         "404":
           description: "Tag not found"
-  
+
   /api/project/{id}/task/{task}/assignment:
     post:
       operationId: R221
       summary: 'R221: Add an assignment'
       description: 'Add an user assign. Access: MGR'
       tags:
-        - 'M02: Projects' 
-        
+        - 'M02: Projects'
+
       parameters:
         - in: path
           name: id
@@ -820,7 +820,7 @@ paths:
           schema:
             type: integer
           required: true
-          
+
       requestBody:
         required: true
         content:
@@ -835,7 +835,7 @@ paths:
               required:
                 - user_id
                 - task_id
-        
+
       responses:
         "200":
           description: "OK"
@@ -843,22 +843,22 @@ paths:
           description: "Forbidden access"
         "404":
           description: "Tag not found"
-  
+
   /api/project/{id}/projectmessage:
     post:
       operationId: R222
       summary: 'R222: Add a message to the project'
       description: 'Add a message to the project. Access: EDT'
       tags:
-        - 'M02: Projects' 
-        
+        - 'M02: Projects'
+
       parameters:
         - in: path
           name: id
           schema:
             type: integer
           required: true
-          
+
       requestBody:
         required: true
         content:
@@ -873,7 +873,7 @@ paths:
               required:
                 - url
                 - integer
-        
+
       responses:
         "200":
           description: "OK"
@@ -888,15 +888,15 @@ paths:
       summary: 'R223: Add a file to the project'
       description: 'Add a file to the project. Access: EDT'
       tags:
-        - 'M02: Projects' 
-        
+        - 'M02: Projects'
+
       parameters:
         - in: path
           name: id
           schema:
             type: integer
           required: true
-          
+
       requestBody:
         required: true
         content:
@@ -911,7 +911,7 @@ paths:
               required:
                 - url
                 - integer
-        
+
       responses:
         "200":
           description: "OK"
@@ -1012,8 +1012,8 @@ paths:
       summary: 'R301: Make a report'
       description: 'Make a report. Access: RDR'
       tags:
-        - 'M03: Notifications, Messages, Reports, Favorites' 
-          
+        - 'M03: Notifications, Messages, Reports, Favorites'
+
       requestBody:
         required: true
         content:
@@ -1023,7 +1023,7 @@ paths:
               properties:
                 text:
                   type: string
-                user_id: 
+                user_id:
                   type: integer
                 report_state:
                   type: string
@@ -1098,7 +1098,7 @@ paths:
       responses:
         '200':
           description: 'OK'
-  
+
   /api/search:
     get:
       operationId: R402
@@ -1237,4 +1237,4 @@ paths:
           enum: ['TODO', 'DOING', 'REVIEW', 'CLOSED']
 
 
-  
+

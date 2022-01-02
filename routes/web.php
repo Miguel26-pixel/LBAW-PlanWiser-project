@@ -63,7 +63,7 @@ Route::post('/project/{id}/members/invitation', [InvitationsController::class,'c
 Route::get('/invitation/{id}', [InvitationsController::class,'showInvite']);
 Route::post('/invitation/{id}/deal', [InvitationsController::class,'dealWithInvite']);
 
-//Tasks
+//Task
 Route::get('project/{id}/tasksCreate', [TasksController::class,'showTaskForm']);
 Route::post('tasksCreate', [TasksController::class,'create']);
 Route::get('/project/{id}/task/{task_id}', [TasksController::class,'showTask']);
