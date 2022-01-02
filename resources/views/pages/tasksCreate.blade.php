@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('topnavbar')
+@include('partials.navbar', ['notifications' => $notifications])
+@endsection
+
 @section('tasks')
 
 @section('content')

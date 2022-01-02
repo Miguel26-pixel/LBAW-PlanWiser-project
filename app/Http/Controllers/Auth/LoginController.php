@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -45,6 +49,7 @@ class LoginController extends Controller
 
     public function home() {
         $public_projects=ProjectsController::getPublicProjects(10);
-        return view('pages.homepage',['public_projects'=> $public_projects]);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.homepage', ['public_projects' => $public_projects, 'notifications' => $notifications]);
     }
 }

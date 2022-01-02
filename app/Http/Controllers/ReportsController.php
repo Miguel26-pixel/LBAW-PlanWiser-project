@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Notification;
+use App\Http\Controllers\NotificationsController;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -24,26 +25,10 @@ class ReportsController extends Controller
         $this->middleware('auth');
     }
 
-    /*public function showProject($id) {
-        $user = Auth::user();
-        $projects = $user->projects;
-        $project = Project::find($id);
-        $check = false;
-        foreach ($projects as $p) {
-            if ($p->id == $project->id) $check=true;
-            if (!(Auth::user()->is_admin || $check || $p->public)) {
-                return redirect('/');
-        }
-    }
-        if (!(Auth::user()->is_admin || $check || $project->public)) {
-            return redirect('/');
-        }
-        return view('pages.project',['project' => Project::find($id)]);
-    }*/
-
     public function showReportForm()
     {
-        return view('pages.reportsCreate');
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.reportsCreate', ['notifications' => $notifications]);
     }
 
     protected function validator()
@@ -64,6 +49,7 @@ class ReportsController extends Controller
     protected function create(Request $request)
     {
 
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
 
         $report = new Report;

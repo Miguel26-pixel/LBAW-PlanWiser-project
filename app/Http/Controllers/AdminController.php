@@ -15,7 +15,8 @@ class AdminController extends Controller
     public function show()
     {
         $public_projects = ProjectsController::getPublicProjects(6);
-        return view('pages.admin.home', ['public_projects'=>$public_projects]);
+        $users = UsersController::getUsers();
+        return view('pages.admin.home', ['public_projects'=>$public_projects, 'users'=>$users]);
     }
 
     public function showReports()
@@ -27,8 +28,8 @@ class AdminController extends Controller
 
     public function showUsersManagement()
     {
-        $public_projects = ProjectsController::getPublicProjects(6);
-        return view('pages.admin.manageUsers', ['public_projects'=>$public_projects]);
+        $users = UsersController::getUsers();
+        return view('pages.admin.manageUsers',['users' => $users]);
     }
 
     public function showProjects()
@@ -41,6 +42,29 @@ class AdminController extends Controller
     {
         $user = UsersController::getUser($id);
         return view('pages.admin.profile',['user' => $user]);
+    }
+
+    public function showUsers()
+    {
+        $users = UsersController::getUsers();
+        return view('pages.admin.manageUsers',['users' => $users]);
+    }
+
+    public function searchUsers(Request $request){
+        $users = UsersController::getUsersSearch($request);
+        return view('pages.admin.manageUsers', ['users'=>$users]);  
+    }
+
+    public function showUsersForm()
+    {
+        return view('pages.admin.createUser');
+    }
+
+    public function createUser(Request $request)
+    {
+        $user = UsersController::createUser($request);
+        return redirect()->action([self::class,'showProfile'], ['id'=> $user->id]);
+
     }
 
 }

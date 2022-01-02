@@ -2,6 +2,10 @@
 
 @section('title', 'Invite')
 
+@section('topnavbar')
+@include('partials.navbar', ['notifications' => $notifications])
+@endsection
+
 @section('content')
 <div class="formbg-outer">
   <div class="formbg">

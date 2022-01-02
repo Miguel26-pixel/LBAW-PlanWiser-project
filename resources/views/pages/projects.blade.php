@@ -3,7 +3,7 @@
 @section('title', 'Projects')
 
 @section('topnavbar')
-@include('partials.navbar')
+@include('partials.navbar', ['notifications' => $notifications])
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
                     My Projects
                     <form  method="POST" action="/myProjectsSearch" enctype="multipart/form-data" class="input-group rounded w-50">
                     {{@csrf_field()}}
-                        <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <input id="search" type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                         <button type="submit" class="input-group-text border-0" id="search-addon">
                             <i class="icon-magnifier"></i>
                         </button>
@@ -35,7 +35,7 @@
                                 <th scope="col" style="width: 55%">Description</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="table-myprojects-body">
                             <?php
                             $count = 1;
                             foreach ($my_projects as $project) {
@@ -103,4 +103,37 @@
         </div>
     </div>
 </div>
+@endsection
+
+
+@section('scripts') 
+<script>
+    var search = document.getElementById("search");
+    search.addEventListener("keyup", searchProject);
+    function searchProject() {
+        sendAjaxRequest('post', '/myProjectsSearch', {search: search.value}, searchHandler);
+    }
+    function searchHandler() {
+        if(this.status != 200) window.location = '/';
+
+        let projects = JSON.parse(this.responseText);
+        console.log(projects);
+        let body = document.getElementById("table-myprojects-body");
+
+        body.innerHTML = "";
+
+        for(project of projects.data) {
+            let tr = body.insertRow();
+            let link = tr.insertCell();
+            link.innerHTML = '<a class="text-info my-rocket" href="/project/' + project['id'] + '"><i class="icon-rocket"></i></a>';
+            let title = tr.insertCell();
+            title.innerHTML = project['title'];
+            let description = tr.insertCell();
+            description.innerHTML = project['description'];
+
+        }
+        
+
+    }
+    </script>
 @endsection

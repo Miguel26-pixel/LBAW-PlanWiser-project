@@ -7,6 +7,7 @@ use App\Models\Tasks;
 use App\Models\Project;
 use App\Models\Notification;
 use App\Models\UserAssigns;
+use App\Http\Controllers\NotificationsController;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,26 +27,10 @@ class TasksController extends Controller
         $this->middleware('auth');
     }
 
-    /*public function showProject($id) {
-        $user = Auth::user();
-        $projects = $user->projects;
-        $project = Project::find($id);
-        $check = false;
-        foreach ($projects as $p) {
-            if ($p->id == $project->id) $check=true;
-            if (!(Auth::user()->is_admin || $check || $p->public)) {
-                return redirect('/');
-        }
-    }
-        if (!(Auth::user()->is_admin || $check || $project->public)) {
-            return redirect('/');
-        }
-        return view('pages.project',['project' => Project::find($id)]);
-    }*/
-
     public function showTaskForm(int $id)
     {
-        return view('pages.tasksCreate',['project' => Project::find($id)]);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.tasksCreate',['project' => Project::find($id), 'notifications' => $notifications]);
     }
 
     protected function validator()
@@ -58,28 +43,48 @@ class TasksController extends Controller
 
     public function showTask(int $project_id, int $id)
     {
-        return view('pages.task',['project' => Project::find($project_id), 'task' => Tasks::find($id)]);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        return view('pages.task',['project' => Project::find($project_id), 'task' => Tasks::find($id), 'notifications' => $notifications]);
     }
 
 
     public function updateTask(int $project_id, int $id, Request $request) {
-        if (!(Auth::id() == $id || Auth::user()->is_admin)) {
-            return view('pages.homepage');
+        $notifications = NotificationsController::getNotifications(Auth::id());
+
+        switch ($request->input('action')) 
+        {
+            case 'update':
+                $validator = $request->validate($this->validator());
+        
+                $task = Tasks::find($id);
+                $task->name = $request->name;
+                $task->description = $request->description;
+                $task->due_date = $request->due_date;
+                $task->tag = $request->tag;
+                $task->save();
+                break;
+
+            case 'delete':
+                $task=Tasks::find($id);
+                $task->delete(); //returns true/false 
+                break;
         }
-        $validator = $request->validate($this->validator());
 
-        $task = Tasks::find($id);
-        $task->name = $request->name;
-        $task->description = $request->description;
-        $task->due_date = $request->due_date;
-        $task->tag = $request->tag;
-        $task->save();
-
-        return redirect()->back();
+       return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id, 'notifications' => $notifications]);
     }
 
     public function showTasks($project_id)
     {
+        $notifications = NotificationsController::getNotifications(Auth::id());
+
+        $my_TASKS = DB::table('tasks')
+                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
+                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
+                        ->where('tasks.project_id', $project_id)
+                        ->get(['tasks.id','name','description','due_date','username', 'tasks.tag']);
+        $my_TASKS = json_decode($my_TASKS,true);
+
+        /*
         $my_TODO = DB::table('tasks')
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
                         ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
@@ -112,7 +117,13 @@ class TasksController extends Controller
                         ->get(['tasks.id', 'name','description','due_date','username']);
         $my_CLOSED = json_decode($my_CLOSED,true);
         //dd($my_CLOSED);
-        return view('pages.tasks',['tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
+        return view('pages.tasks',['tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id), 'notifications' => $notifications]);
+
+        return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
+        */
+
+        return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'project' => Project::find($project_id), 'notifications' => $notifications]);
+
     }
 
     /**
@@ -123,7 +134,7 @@ class TasksController extends Controller
      */
     protected function create(Request $request)
     {
-        //dd($request);
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
 
         $task = new Tasks;
@@ -137,6 +148,25 @@ class TasksController extends Controller
         $task->created_at = Carbon::now();
         $task->save();
 
-        return redirect()->back();
+        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
+    }
+/*
+    static function getProjectTasks($project_id) {
+        return (new Tasks())->where('project_id','=',$project_id)->orderBy('due_date');
+    }
+*/
+    public function searchProjectTasks(int $project_id, Request $request)
+    {
+        $notifications = NotificationsController::getNotifications(Auth::id());
+
+        $tasks_result = Tasks::where('project_id', '=', $project_id)
+                               ->where('name','like',"%{$request->search}%")
+                               ->orWhere('description','like',"%{$request->search}%")
+                               ->orWhere('due_date','like',"%{$request->search}%")
+                               ->orWhere('tag','like',"%{$request->search}%")
+                               ->orderBy('due_date')
+                               ->paginate(10);
+
+        return view('pages.tasks',['tasks' => $tasks_result, 'project' => Project::find($project_id), 'notifications' => $notifications]);
     }
 }

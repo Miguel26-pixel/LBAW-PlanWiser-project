@@ -2,6 +2,10 @@
 
 @section('report')
 
+@section('topnavbar')
+@include('partials.navbar', ['notifications' => $notifications])
+@endsection
+
 @section('content')
 
 <div class="formbg-outer">
@@ -21,12 +25,30 @@
                     </span>
                 </div>
                 @endif
-                <div class="field" style="padding-bottom: 24px">
+                <div style="padding-bottom: 24px">
                     <label for="report_type">Report Type</label>
-                    <select name="report_type" class="form-select" aria-label="Disabled select example" required>
-                        <option value='USER'>User</option>
-                        <option value='BUG'>Bug</option>
-                    </select>
+                    <div class="d-flex flex-direction-row align-items-center gap-5">
+                        <div class="d-flex gap-2">
+                            <input type="radio" id="user" name="bug" value="user">
+                            <label class="pt-2 for=" user">User</label><br>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <input type="radio" id="bug" name="bug" value="bug">
+                            <label class="pt-2" for="bug">Bug</label><br>
+                        </div>
+                    </div>
+                </div>
+                {{ csrf_field() }}
+                <label for="text">User name</label>
+
+                <div class="field" style="padding-bottom: 24px" autofocus>
+                    <form method="POST" action="/projectsSearch" enctype="multipart/form-data" class="input-group rounded">
+                        {{@csrf_field()}}
+                        <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" class="input-group-text border-0" id="search-addon">
+                            <i class="icon-magnifier"></i>
+                        </button>
+                    </form>
                 </div>
                 @if ($errors->has('report_type'))
                 <span class="error">

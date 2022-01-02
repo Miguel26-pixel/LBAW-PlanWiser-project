@@ -17,6 +17,10 @@ Route::get('admin/reportsInformations', [AdminController::class,'showReports']);
 Route::get('admin/manageUsers', [AdminController::class,'showUsersManagement']);
 Route::get('admin/projects', [AdminController::class,'showProjects']);
 Route::get('admin/profile/{id}', [AdminController::class,'showProfile']);
+Route::get('admin/users', [AdminController::class,'showUsers']);
+Route::post('admin/searchUsers', [AdminController::class,'searchUsers']);
+Route::get('admin/createUser', [AdminController::class,'showUsersForm']);
+Route::post('admin/createUser', [AdminController::class,'createUser']);
 
 // API
 Route::post('/profile/{id}/update', [UsersController::class,'update']);
@@ -37,12 +41,21 @@ Route::post('publicProjectsSearch', [ProjectsController::class,'projectsSearch']
 Route::post('myProjectsSearch', [ProjectsController::class,'searchMyProjects']);
 
 Route::get('/project/{id}', [ProjectController::class,'showProject']);
+Route::get('/project/{id}/add-fav', [ProjectController::class,'addFavorite']);
+Route::get('/project/{id}/remove-fav', [ProjectController::class,'removeFavorite']);
 Route::post('/project/{id}/update', [ProjectController::class,'updateProject']);
-Route::get('project/{id}/files', [ProjectController::class,'showProject']);
+
+Route::get('project/{id}/files', [ProjectController::class,'showProjectFiles']);
+Route::post('project/{id}/files/upload-files', [ProjectController::class,'uploadFiles']);
+Route::get('project/{id}/files/{file_id}/download', [ProjectController::class,'downloadFile']);
+Route::get('project/{id}/files/{file_id}/delete', [ProjectController::class,'deleteFile']);
+Route::post('project/{id}/files/upload-folder', [ProjectController::class,'uploadFolder']);
+Route::get('project/{id}/files/downloadZIP', [ProjectController::class,'downloadZIP']);
+
 Route::get('project/{id}/tasks', [TasksController::class,'showTasks']);
 Route::get('project/{id}/forum', [ProjectController::class,'showProject']);
-Route::get('project/{id}/members', [ProjectUsersController::class,'showProjectUsers']);
 
+Route::get('project/{id}/members', [ProjectUsersController::class,'showProjectUsers']);
 Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);
 Route::post('/project/{id}/members/invitation', [InvitationsController::class,'create']);
 
@@ -51,6 +64,7 @@ Route::get('project/{id}/tasksCreate', [TasksController::class,'showTaskForm']);
 Route::post('tasksCreate', [TasksController::class,'create']);
 Route::get('/project/{id}/task/{task_id}', [TasksController::class,'showTask']);
 Route::post('/project/{id}/task/{task_id}/update', [TasksController::class,'updateTask']);
+Route::post('/project/{id}/tasks-search', [TasksController::class,'searchProjectTasks']);
 
 //Reports
 Route::get('reportsCreate', [ReportsController::class,'showReportForm']);

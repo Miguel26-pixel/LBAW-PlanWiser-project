@@ -9,7 +9,12 @@
 @section('content')
 
 <div class="row m-0  justify-content-center">
-    <div class="col-md-5 mt-5">
+    <div class="col-md-10 mt-5">
+        <div class="container text-center my-3">
+            <h2>Coming soon</h2>
+        </div>
+    </div>
+    <!-- <div class="col-md-5 mt-5">
         <div class="container text-center my-3">
             <h2>Relevant Projects</h2>
         </div>
@@ -100,6 +105,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 @endsection
