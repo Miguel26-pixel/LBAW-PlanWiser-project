@@ -98,7 +98,7 @@ class TasksController extends Controller
 
             case 'delete':
                 $task=Tasks::find($id);
-                $task->delete(); //returns true/false
+                $task->delete();
                 break;
         }
 

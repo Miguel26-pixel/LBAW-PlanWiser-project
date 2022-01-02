@@ -54,10 +54,19 @@
                                     <span class="input-group-text" id="basic-addon1">Status:</span>
                                 </div>
                                 <select name="tag" class="form-select" aria-label="Disabled select example">
-                                    <option value='TODO'>TODO</option>
-                                    <option value='DOING'>DOING</option>
-                                    <option value='REVIEW'>REVIEW</option>
-                                    <option value='CLOSED'>CLOSED</option>
+                                    <option selected value="{{$task['tag']}}">{{$task['tag']}}</option>
+                                    @if ($task['tag'] != 'TODO')
+                                        <option value='TODO'>TODO</option>
+                                    @endif 
+                                    @if($task['tag'] != 'DOING')
+                                        <option value='DOING'>DOING</option>
+                                    @endif 
+                                    @if ($task['tag'] != 'REVIEW')
+                                        <option value='REVIEW'>REVIEW</option>
+                                    @endif 
+                                    @if ($task['tag'] != 'CLOSED')
+                                        <option value='CLOSED'>CLOSED</option>
+                                    @endif
                                 </select>
                             </div>
                             @if ($errors->has('tag'))
