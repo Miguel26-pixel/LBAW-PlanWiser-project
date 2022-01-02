@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ProjectsController;
-use App\Http\Controllers\NotificationsController;
 use Illuminate\Http\Request;
-use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use DB;
 

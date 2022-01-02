@@ -36,7 +36,7 @@
                             <?php
                             foreach ($project_users as $user) {
                                 echo '<tr>';
-                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/'.$project['id'].'"><i class="icon-rocket"></i></a></th>';
+                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href=""><i class="icon-rocket"></i></a></th>'; //TODO href
                                 echo '<td>'.$user["username"].'</td>';
                                 echo '<td>'.$user['email'].'</td>';
                                 echo '<td>'.$user['user_role'].'</td>';

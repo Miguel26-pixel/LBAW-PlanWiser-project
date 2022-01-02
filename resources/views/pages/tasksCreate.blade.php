@@ -37,12 +37,21 @@
                 </div>
                 @endif
                 <div class="field" style="padding-bottom: 24px">
-                    <label for="tag">Tag</label>
+                    <label for="tag">Status</label>
                     <select name="tag" class="form-select" aria-label="Disabled select example" required>
                         <option value='TODO'>TODO</option>
                         <option value='DOING'>DOING</option>
                         <option value='REVIEW'>REVIEW</option>
                         <option value='CLOSED'>CLOSED</option>
+                    </select>
+                </div>
+                <div class="field" style="padding-bottom: 24px">
+                    <label for="tag">Assignee</label>
+                    <select name="user_id" class="form-select" aria-label="Disabled select example">
+                        <option selected value="-1"> </option>
+                        @foreach ($users as $user)
+                                <option value="{{ $user['user_id'] }}">{{$user['username']}} </option>
+                        @endforeach 
                     </select>
                 </div>
                 @if ($errors->has('tag'))

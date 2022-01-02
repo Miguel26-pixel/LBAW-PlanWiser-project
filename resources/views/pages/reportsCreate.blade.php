@@ -8,7 +8,7 @@
 
 @section('content')
 
-<div class="formbg-outer">
+<div class="formbg-outer pt-5">
     <div class="formbg">
         <div class="formbg-inner" style="padding: 48px">
             <span style="padding-bottom: 15px">Make a report</span>
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                {{ csrf_field() }}
+                <!-- {{ csrf_field() }}
                 <label for="text">User name</label>
 
                 <div class="field" style="padding-bottom: 24px" autofocus>
@@ -49,7 +49,7 @@
                             <i class="icon-magnifier"></i>
                         </button>
                     </form>
-                </div>
+                </div> -->
                 @if ($errors->has('report_type'))
                 <span class="error">
                     {{ $errors->first('report_type') }}

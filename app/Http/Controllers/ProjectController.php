@@ -2,20 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\FavoriteProject;
 use App\Models\Project;
 use App\Models\ProjectFile;
 use App\Models\ProjectUser;
-use App\Models\User;
 use Carbon\Carbon;
-use App\Models\Notification;
-use App\Http\Controllers\NotificationsController;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use ZipArchive;
 
 class ProjectController extends Controller
@@ -31,7 +25,7 @@ class ProjectController extends Controller
     }
 
     public function showProject($id) {
-        $notifications = NotificationsController::getNotifications(Auth::id());        
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $check = $this->checkUserInProject($id);
         $project = Project::find($id);
         $user = Auth::user();
@@ -45,7 +39,7 @@ class ProjectController extends Controller
     }
 
     public function showProjectFiles($id) {
-        $notifications = NotificationsController::getNotifications(Auth::id());  
+        $notifications = NotificationsController::getNotifications(Auth::id());
         $check = $this->checkUserInProject($id);
         $project = Project::find($id);
         if (!(Auth::user()->is_admin || $check || $project->public)) { return redirect('/'); }
@@ -99,7 +93,7 @@ class ProjectController extends Controller
         $project->title = $request->title;
         $project->description = $request->description;
 
-        if($request->public == "True")
+        if($request->public == "1")
             $project->public = true;
         else
             $project->public = false;
