@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"> Tag: </span>
+                                        <span class="input-group-text" id="basic-addon1">Status:</span>
                                     </div>
                                     <select name="tag" class="form-select" aria-label="Disabled select example">
                                         <option value='TODO'>TODO</option>
@@ -53,6 +53,33 @@
                                         <option value='CLOSED'>CLOSED</option>
                                     </select>
                                 </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"> Assignee: </span>
+                                    </div>
+                                    
+                                    <select name="user_id" class="form-select" aria-label="Disabled select example">
+                                        @if (count($user_assigned) == 0)
+                                            <option selected value="-1"> </option>
+                                            @foreach ($users as $user)
+                                                    <option value="{{ $user['user_id'] }}">{{$user['username']}} </option>
+                                            @endforeach 
+                                        @else
+                                            <option selected value="{{$user_assigned[0]['user_id'] }}">{{$user_assigned[0]['username'] }}</option>
+                                            <option value="-1"> </option>
+                                            @foreach ($users as $user)
+                                                @if ($user_assigned[0]['user_id'] != $user['user_id'])
+                                                    <option value="{{ $user['user_id'] }}">{{$user['username']}} </option>
+                                                @endif
+                                            @endforeach 
+                                        @endif
+                                        
+
+                                    </select>
+                                </div>
+
+
                                 <div class="col-md-12 text-center">
                                     <button type="submit" name="action" value="update" class="btn btn-success">Update Task</button>
                                     <button type="submit" name="action" value="delete" class="btn btn-outline-danger">Delete Task</button>

@@ -26,12 +26,10 @@
                             <button type="submit" class="input-group-text border-0" id="search-addon">
                                 <i class="icon-magnifier"></i>
                             </button>
-                        </form>
-
-                        <!-- <a href="tasksSearch" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-magnifier"></i></a> -->
+                        </form> 
                         <a href="tasksCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Task</a>
-
                     </div>
+                    
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead class="table-success" >

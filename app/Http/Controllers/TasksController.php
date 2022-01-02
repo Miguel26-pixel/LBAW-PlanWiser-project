@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tasks;
 use App\Models\Project;
+use App\Models\UserAssigns;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,10 @@ class TasksController extends Controller
     public function showTaskForm(int $id)
     {
         $notifications = NotificationsController::getNotifications(Auth::id());
-        return view('pages.tasksCreate',['project' => Project::find($id), 'notifications' => $notifications]);
+
+        $users = ProjectUsersController::getProjectUsers($id);
+
+        return view('pages.tasksCreate',['project' => Project::find($id), 'notifications' => $notifications, 'users' => $users]);
     }
 
     protected function validator()
@@ -38,7 +42,21 @@ class TasksController extends Controller
     public function showTask(int $project_id, int $id)
     {
         $notifications = NotificationsController::getNotifications(Auth::id());
-        return view('pages.task',['project' => Project::find($project_id), 'task' => Tasks::find($id), 'notifications' => $notifications]);
+
+        $users = ProjectUsersController::getProjectUsers($project_id);
+
+        $user_assigned = DB::table('userassigns')
+                            ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
+                            ->where('task_id', '=', $id)
+                            ->get(['userassigns.user_id','users.username']);
+        
+        $user_assigned = json_decode($user_assigned, true);
+
+        return view('pages.task',['project' => Project::find($project_id),
+                                    'task' => Tasks::find($id), 
+                                    'notifications' => $notifications, 
+                                    'users' => $users, 
+                                    'user_assigned' => $user_assigned]);
     }
 
 
@@ -56,6 +74,25 @@ class TasksController extends Controller
                 $task->due_date = $request->due_date;
                 $task->tag = $request->tag;
                 $task->save();
+                
+                if ($request->user_id == -1){
+                    $user_assigned = UserAssigns::where('task_id', '=', $id)
+                                            ->delete(['user_id' =>$request->user_id]);
+                    break;
+                }
+
+                $user_assigned = UserAssigns::where('task_id', '=', $id)
+                                            ->update(['user_id' =>$request->user_id]);
+
+                $user_assigned = json_decode($user_assigned, true);
+                
+                if (!$user_assigned){
+                    $user_assign = new UserAssigns;
+                    $user_assign->task_id = $task->id;
+                    $user_assign->user_id = $request->user_id;
+                    $user_assign->save();
+                }
+                
                 break;
 
             case 'delete':
@@ -75,6 +112,7 @@ class TasksController extends Controller
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
                         ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
                         ->where('tasks.project_id', $project_id)
+                        ->orderby('tasks.due_date')
                         ->get(['tasks.id','name','description','due_date','username', 'tasks.tag']);
         $my_TASKS = json_decode($my_TASKS,true);
 
