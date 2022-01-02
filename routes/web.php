@@ -51,6 +51,8 @@ Route::get('project/{id}/members', [ProjectUsersController::class,'showProjectUs
 Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);
 Route::post('/project/{id}/members/invitation', [InvitationsController::class,'create']);
 
+Route::get('/invitation/{id}', [InvitationsController::class,'showInvite']);
+Route::post('/invitation/{id}/deal', [InvitationsController::class,'dealWithInvite']);
 
 //Tasks
 Route::get('project/{id}/tasksCreate', [TasksController::class,'showTaskForm']);

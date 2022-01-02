@@ -5,22 +5,22 @@
         <a class="btn btn-outline-success nav-item"> Support </a>
         @if (Auth::check())
             <a class="btn btn-outline-success nav-item" href="{{ url('/projects') }}"> Projects <a>
-                    @endif
-                    @if (Auth::check())
                     <div id="notifications-btn" class="btn btn-outline-success nav-item my-dropdown">
                         Notifications
                         <div class="my-dropdown-content">
+                            <!-- @foreach ($notifications as $notification)
+                            <div  class="notification-pop">
+                            <th scope="row"><a class="text-info my-rocket"></a></th>
+                            <a href="/notification/'.$notification['id'].'" class=" btn-outline-success">'.$notification['notification_type'].'  '.'Notification'.'</a>
+                            </div>
+                            @endforeach -->
                             <?php
                             //dd($notifications);
                             foreach ($notifications as $notification) {
-                                //dd($notification);
                                 if($notification['notification_type'] == 'INVITE') {
                                     echo '<div  class="notification-pop">';
-                                    echo '<th scope="row"><a class="text-info my-rocket"></a></th>';
-                                    echo '<button class="notification-btn">'.$notification['notification_type'].'</button>';
-                                    //echo '<td>'.$notification['description'].'</td>';
-                                    //echo '<td>'.$notification['due_date'].'</td>';
-                                    //echo '<td>'.$notification['username'].'</td>';
+                                    echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
+                                    echo '<a href="/invitation/'.$notification['id'].'" class=" btn-outline-success">'.$notification['notification_type'].'  '.'Notification'.'</a>';
                                     echo '</div>';
                                 }
                             }
