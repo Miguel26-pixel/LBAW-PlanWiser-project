@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class ProjectsController extends Controller
@@ -22,6 +26,7 @@ class ProjectsController extends Controller
 
     static function getMyProjects(){
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
+        //dd($project_users);
         $myprojects = Project::whereIn('id', $project_users)->paginate(10);
         return $myprojects;
     }

@@ -7,10 +7,10 @@
 @endif
 @if (Auth::check())
     <a id="profile-btn" class="btn btn-outline-success nav-item" href="{{ url('/profile/'.Auth::id()) }} "> {{ Auth::user()->username }} </a>
-    <a id="logout-btn" class="btn btn-outline-success nav-item" href="{{ url('/logout') }}"> Logout </a>
+    <a id="logout-btn" class="btn btn-outline-success nav-item" href="{{ url('/logout') }}"> Log Out </a>
 @else
-    <a id="signup-btn" class="btn btn-outline-success nav-item" href="{{ url('/register') }}"> Sign-up </a>
-    <a id="login-btn" class="btn btn-outline-success nav-item" href="{{ url('/login') }}"> Login </a>
+    <a id="signup-btn" class="btn btn-outline-success nav-item" href="{{ url('/register') }}"> Sign Up </a>
+    <a id="login-btn" class="btn btn-outline-success nav-item" href="{{ url('/login') }}"> Log In </a>
 @endif
 </div>
 <hr/>

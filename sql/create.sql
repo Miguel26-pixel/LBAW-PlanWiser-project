@@ -37,7 +37,6 @@ CREATE TYPE notificationType AS ENUM (
 
 CREATE TYPE reportState AS ENUM (
     'PENDING',
-    'IGNORED',
     'BANNED'
 );
 
