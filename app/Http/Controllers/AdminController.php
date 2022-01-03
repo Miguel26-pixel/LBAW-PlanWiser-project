@@ -75,7 +75,5 @@ class AdminController extends Controller
         Gate::authorize('admin',User::class);
         $user = UsersController::createUser($request);
         return redirect()->action([self::class,'showProfile'], ['id'=> $user->id]);
-
     }
-
 }
