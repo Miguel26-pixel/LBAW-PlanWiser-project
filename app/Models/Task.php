@@ -22,16 +22,16 @@ class Task extends Model
 
   public function project()
   {
-    return $this->belongsTo(Project::class, 'project');
+    return $this->belongsTo(Project::class);
   }
 
   public function comments()
   {
-    return $this->hasMany(TaskComment::class, 'task');
+    return $this->hasMany(TaskComment::class);
   }
 
   public function notifications()
   {
-    return $this->hasMany(Notification::class, 'task');
+    return $this->hasMany(Notification::class);
   }
 }
