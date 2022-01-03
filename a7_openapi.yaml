@@ -1342,7 +1342,7 @@ paths:
   /project/{id}/task{task_id}/taskComments:
     get:
       operationId: R234
-      summary: 'R234: Get task's comments'
+      summary: "R234: Get task's comments"
       description: "Get task's comments. Access: EDT"
       tags:
         - 'M02: Projects'
