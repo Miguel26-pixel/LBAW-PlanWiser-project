@@ -248,7 +248,7 @@ paths:
       responses:
         '200':
           description: 'Ok'
-  
+
   /api/projectsSearch:
     post:
       operationId: R201
@@ -256,7 +256,7 @@ paths:
       description: 'Search for projects. Access: AUR'
       tags:
         - 'M02: Projects'
-      
+
       parameters:
         - in: query
           name: search
@@ -264,7 +264,7 @@ paths:
           schema:
             type: string
           required: false
-      
+
       requestBody:
         required: true
         content:
@@ -301,7 +301,7 @@ paths:
           schema:
             type: string
           required: false
-      
+
       requestBody:
         required: true
         content:
@@ -325,7 +325,7 @@ paths:
         '400':
           description: Bad Request
 
-  
+
   /api/publicProjectsSearch:
     post:
       operationId: R203
@@ -340,7 +340,7 @@ paths:
           schema:
             type: string
           required: false
-      
+
       requestBody:
         required: true
         content:
@@ -375,7 +375,7 @@ paths:
       responses:
         '200':
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Project'
@@ -399,7 +399,7 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-    
+
     post:
       operationId: R206
       summary: 'R206: Create Project'
@@ -435,7 +435,7 @@ paths:
                 302Success:
                   description: 'Successful creation. Redirect to project overview.'
                   value: '/projects'
-          
+
 
   /project/{id}:
     get:
@@ -556,7 +556,7 @@ paths:
           description: Forbidden
         '404':
           description: 'Not Found'
-  
+
   /project/{id}/files/upload-files:
     post:
       operationId: R212
@@ -625,11 +625,11 @@ paths:
           schema:
             type: integer
             required: true
-      
+
       responses:
         "200":
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 type: array
@@ -639,7 +639,7 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-  
+
   /project/{id}/files/{file_id}/delete:
     get:
       operationId: R214
@@ -659,11 +659,11 @@ paths:
           schema:
             type: integer
             required: true
-        
+
       responses:
         "200":
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 type: array
@@ -742,11 +742,11 @@ paths:
           schema:
             type: integer
             required: true
-      
+
       responses:
         "200":
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 type: array
@@ -867,15 +867,15 @@ paths:
           description: Forbidden
         '404':
           description: 'Not Found'
-  
+
   /project/{id}/members/invitation:
     get:
       operationId: R221
-      summary: 'R221: Get Project's Invitation form'
+      summary: 'R221: Get Projects Invitation form'
       description: "Get Project's Invitation form. Access: MGR"
       tags:
         - 'M02: Projects'
-      
+
       parameters:
         - in: path
           name: id
@@ -901,7 +901,7 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-    
+
     post:
       operationId: R222
       summary: 'R222: Create a invitation'
@@ -966,7 +966,7 @@ paths:
       responses:
         '200':
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Invitation'
@@ -1019,7 +1019,7 @@ paths:
 
         "403":
           description: Forbidden
-  
+
   /project/{id}/tasksCreate:
     get:
       operationId: R225
@@ -1035,7 +1035,7 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-    
+
   /tasksCreate:
     post:
       operationId: R226
@@ -1174,7 +1174,7 @@ paths:
       description: 'Search for tasks. Access: RDR'
       tags:
         - 'M02: Projects'
-      
+
       parameters:
         - in: query
           name: search
@@ -1182,7 +1182,7 @@ paths:
           schema:
             type: string
           required: false
-      
+
       requestBody:
         required: true
         content:
@@ -1220,7 +1220,7 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-    
+
     post:
       operationId: R231
       summary: 'R231: Make a Report'
@@ -1308,7 +1308,7 @@ paths:
       description: 'Search for members. Access: RDR'
       tags:
         - 'M02: Projects'
-      
+
       parameters:
         - in: query
           name: search
@@ -1316,7 +1316,7 @@ paths:
           schema:
             type: string
           required: false
-      
+
       requestBody:
         required: true
         content:
@@ -1372,7 +1372,7 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-    
+
   /project/{id}/task{task_id}/taskComments/newComment:
     post:
       operationId: R235
@@ -1439,7 +1439,7 @@ paths:
       responses:
         "200":
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 type: array
@@ -1449,7 +1449,7 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
-        
+
 
   /chat/{id}:
     get:
@@ -1552,7 +1552,7 @@ paths:
         "403":
           description: This action is forbidden
 
-  
+
 
   /home:
     get:
@@ -1649,7 +1649,7 @@ paths:
         "403":
           description: "Forbidden access"
 
-  
+
   /admin/project/{id}:
     get:
       operationId: R507
@@ -1733,7 +1733,7 @@ paths:
       description: 'Search for users. Access: AUR'
       tags:
         - 'M05: User Administration'
-      
+
       parameters:
         - in: query
           name: search
@@ -1741,7 +1741,7 @@ paths:
           schema:
             type: string
           required: false
-      
+
       requestBody:
         required: true
         content:
@@ -1909,7 +1909,7 @@ paths:
         user_role:
           type: string
           enum: ['MANAGER', 'MEMBER', 'GUEST']
-      
+
 
 
 
