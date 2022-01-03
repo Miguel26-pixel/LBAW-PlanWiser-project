@@ -176,7 +176,7 @@ paths:
         '404':
           description: 'Not Found.'
 
-  /project/{id}/update:
+  /profile/{id}/update:
     post:
       operationId: R107
       summary: 'R107: Edit and delete Profile'
@@ -596,10 +596,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: 'Successful upload. Redirect to projectfiles' page.'
+                  description: 'Successful upload. Redirect to projectfiles page.'
                   value: '/project/{id}/files'
                 302Failure:
-                  description: 'Failed creation. Redirect to projectfiles' page.'
+                  description: 'Failed creation. Redirect to projectfiles page.'
                   value: '/project/{id}/files'
         '403':
           description: Forbidden
@@ -713,10 +713,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: 'Successful upload. Redirect to projectfiles' page.'
+                  description: 'Successful upload. Redirect to projectfiles page.'
                   value: '/project/{id}/files'
                 302Failure:
-                  description: 'Failed creation. Redirect to projectfiles' page.'
+                  description: 'Failed creation. Redirect to projectfiles page.'
                   value: '/project/{id}/files'
         '403':
           description: Forbidden
@@ -1361,7 +1361,6 @@ paths:
 
       responses:
         '200':
-          description: Success
           description: Success
           content:
             application/json:
