@@ -109,10 +109,9 @@
     const mysearch = document.getElementById("mySearch");
     mysearch.addEventListener("keyup", searchProject);
     function searchProject() {
-        sendAjaxRequest('post', '/myProjectsSearch', {search: mysearch.value}, mySearchHandler);
+        sendAjaxRequest('post', '/api/myProjectsSearch', {search: mysearch.value}, mySearchHandler);
     }
     function mySearchHandler() {
-        console.log(this.table);
         //if(this.status != 200) window.location = '/';
         let projects = JSON.parse(this.responseText);
         let body = document.getElementById("table-myprojects-body");
@@ -146,7 +145,7 @@
     const publicsearch = document.getElementById("publicSearch");
     publicsearch.addEventListener("keyup", searchPublicProject);
     function searchPublicProject() {
-        sendAjaxRequest('post', '/publicProjectsSearch', {search: publicsearch.value}, publicSearchHandler);
+        sendAjaxRequest('post', '/api/publicProjectsSearch', {search: publicsearch.value}, publicSearchHandler);
     }
     function publicSearchHandler() {
         //if(this.status != 200) window.location = '/';

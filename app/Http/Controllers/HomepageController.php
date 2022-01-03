@@ -22,6 +22,7 @@ class HomepageController extends Controller
 
     public function searchProjects(Request $request)
     {
+        //dd($request);
         return ProjectsController::searchPublicProjects($request);
     }
 }

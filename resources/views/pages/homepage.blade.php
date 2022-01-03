@@ -66,7 +66,7 @@
         const publicsearch = document.getElementById("publicSearch");
         publicsearch.addEventListener("keyup", searchPublicProject);
         function searchPublicProject() {
-            sendAjaxRequest('post', '/projectsSearch', {search: publicsearch.value}, publicSearchHandler);
+            sendAjaxRequest('post', '/api/projectsSearch', {search: publicsearch.value}, publicSearchHandler);
         }
         function publicSearchHandler() {
             //if(this.status != 200) window.location = '/';
