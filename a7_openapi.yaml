@@ -1860,7 +1860,7 @@ paths:
       properties:
         id:
           type: integer
-       name:
+        name:
           type: string
         description:
           type: string
