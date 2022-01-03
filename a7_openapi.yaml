@@ -507,7 +507,7 @@ paths:
       summary: 'R210: Edit Project'
       description: 'Edit project information. Access: MGR'
       tags:
-        - 'M01: Authentication and Individual Profile'
+        - 'M02: Projects'
       parameters:
         - in: path
           name: id
