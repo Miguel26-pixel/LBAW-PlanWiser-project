@@ -1080,7 +1080,7 @@ paths:
               examples:
                 302Success:
                   description: "Successful creation. Redirect to project's task page."
-                  value: '/project/{id}/tasks'
+                  value: "/project/{id}/tasks"
         "403":
           description: This action is forbidden
 
