@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class ProjectsController extends Controller
@@ -42,7 +46,7 @@ class ProjectsController extends Controller
     public static function searchPublicProjects(Request $request){
         return DB::table('projects')
                             ->where('public','=',true)
-                            ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ to_tsquery(\'english\', ?))',[$request->search])
+                            ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                             ->orderBy('created_at')
                             ->paginate(10);
     }
@@ -51,7 +55,7 @@ class ProjectsController extends Controller
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
         return  DB::table('projects')
                     ->whereIn('id', $project_users)
-                    ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ to_tsquery(\'english\', ?))',[$request->search])
+                    ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                     ->orderBy('created_at')
                     ->paginate(10);
     }

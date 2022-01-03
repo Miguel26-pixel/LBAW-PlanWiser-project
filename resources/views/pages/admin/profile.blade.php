@@ -3,11 +3,11 @@
 @section('title', 'Profile')
 
 @section('topnavbar')
-@include('partials.navbar', ['notifications' => $notifications])
+@include('partials.adminnavbar')
 @endsection
 
 @section('content')
-        <div class="row m-0">
+        <div class="row m-0 justify-content-center">
             <div class="col-md-7">
                 <div class="container">
                     <form action="/profile/{{$user->id}}/update" method="POST" enctype="multipart/form-data">
@@ -79,37 +79,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="container text-center my-3">
-                    <h2>My Favourite Projects</h2>
-                </div>
-                <div class="container">
-                    <table class="table table-bordered">
-                        <thead class="table-success" >
-                        <tr>
-                            <th scope="col" class="text-center" style="width: 5%"><i class="icon-arrow-right-circle"></i></th>
-                            <th scope="col">Project</th>
-                            <th scope="col" style="width: 55%">Description</th>
-                            <th scope="col" class="text-center" style="width: 10%">Unfav</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                            $count=0;
-                            foreach ($fav_projects as $fav_project) {
-                                echo '<tr>';
-                                    echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/'.$fav_project['id'].'"><i class="icon-rocket"></i></a></th>';
-                                    echo '<td>'.$fav_project['title'].'</td>';
-                                    echo '<td>'.$fav_project['description'].'</td>';
-                                    echo '<td class="text-center"><a class="btn btn-outline-danger" href="/project/'.$fav_project['id'].'/remove-fav"><i class="icon-dislike"></i></td>';
-                                echo '</tr>';
-                                $count++;
-                            }
-                        ?>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

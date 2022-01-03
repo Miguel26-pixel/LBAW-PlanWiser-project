@@ -6,6 +6,7 @@ use App\Models\Report;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ReportsController extends Controller
 {
@@ -51,8 +52,16 @@ class ReportsController extends Controller
         $report->user_id = Auth::id();
         $report->report_type = $request->report_type;
         $report->created_at = Carbon::now();
+        Gate::authorize('create',$report);
         $report->save();
 
         return redirect()->back();
+    }
+
+    static function getReports()
+    {
+        return Report::orderBy('created_at')
+                       ->paginate(10);
+
     }
 }

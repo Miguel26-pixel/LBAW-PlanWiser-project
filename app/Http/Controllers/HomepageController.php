@@ -12,7 +12,11 @@ class HomepageController extends Controller
     {
         $public_projects = ProjectsController::getPublicProjects(6);
         $notifications = NotificationsController::getNotifications(Auth::id());
-        $view = Auth::user()->is_admin ? view('pages.admin.user', ['public_projects' => $public_projects, 'notifications' => $notifications]) : view('pages.homepage', ['public_projects' => $public_projects, 'notifications' => $notifications]);
+        if(Auth::user()->is_admin){
+           $users = UsersController::getUsers();
+           return redirect()->action([AdminController::class,'show'], ['users'=> $users, 'public_projects' => $public_projects,'notifications' => $notifications]);
+        }
+        $view = view('pages.homepage', ['public_projects' => $public_projects, 'notifications' => $notifications]);
         return $view;
     }
 

@@ -4,7 +4,7 @@
 @include('partials.navbar', ['notifications' => $notifications])
 @endsection
 
-@section('title', 'Tasks')
+@section('title', 'Task')
 
 @section('content')
 
@@ -20,17 +20,16 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
 
-                        <form  method="POST" action="/project/{{$project->id}}/tasks-search" enctype="multipart/form-data" class="input-group rounded w-50">
-                        {{@csrf_field()}}
+                        <div class="input-group rounded w-50">
                             <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <button type="submit" class="input-group-text border-0" id="search-addon">
                                 <i class="icon-magnifier"></i>
                             </button>
-                        </form> 
+                        </div>
                         <a href="tasksCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Task</a>
                     </div>
-                    
-                    <div class="card-body">
+
+                    <div id="publicCardBody" class="card-body">
                         <table class="table table-bordered">
                             <thead class="table-success" >
                             <tr>
@@ -75,8 +74,20 @@
         function mySearchHandler() {
             //if(this.status != 200) window.location = '/';
             let tasks = JSON.parse(this.responseText);
-            console.log(tasks);
             let body = document.getElementById("table-tasks-body");
+
+            let paginations = document.getElementsByClassName('pagination');
+
+            for (let pag of paginations) {
+                if (document.getElementById('publicCardBody').contains(pag)) {
+                    if (search.value !== "") {
+                        pag.style.display = 'none';
+                    } else {
+                        if (tasks.length > 10)
+                        pag.style.display = 'flex';
+                    }
+                }
+            }
 
             body.innerHTML = "";
 

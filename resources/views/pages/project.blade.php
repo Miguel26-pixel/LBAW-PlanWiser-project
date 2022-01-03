@@ -84,7 +84,7 @@
                                 <h4 class="text-center">Managers ({{count($admins->toArray())}})</h4>
                                 <?php
                                 foreach ($admins as $admin) {
-                                    $path = '/images/users/no_img.png';
+                                    $path = '/images/no_img.png';
                                     if (!is_null($admin->img_url) && file_exists(public_path($admin->img_url))) {
                                         $path = $admin->img_url;
                                     }
@@ -104,7 +104,7 @@
                                 <h4 class="text-center">Members ({{count($members->toArray())}})</h4>
                                 <?php
                                 foreach ($members as $member) {
-                                    $path = '/images/users/no_img.png';
+                                    $path = '/images/no_img.png';
                                     if (!is_null($member->img_url) && file_exists(public_path($member->img_url))) {
                                         $path = $member->img_url;
                                     }
@@ -124,7 +124,7 @@
                                 <h4 class="text-center">Guests ({{count($guests->toArray())}})</h4>
                                 <?php
                                 foreach ($guests as $guest) {
-                                    $path = '/images/users/no_img.png';
+                                    $path = '/images/no_img.png';
                                     if (!is_null($guest->img_url) && file_exists(public_path($guest->img_url))) {
                                         $path = $guest->img_url;
                                     }

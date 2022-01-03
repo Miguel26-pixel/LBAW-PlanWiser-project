@@ -11,6 +11,7 @@ use App\Models\ProjectUser;
 use App\Models\Invitation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class InvitationsController extends Controller
 {
@@ -26,6 +27,7 @@ class InvitationsController extends Controller
 
     public function showInvitationForm($id)
     {
+        Gate::authorize('manager',Project::find($id));
         $notifications = NotificationsController::getNotifications(Auth::id());
         return view('pages.invitationsCreate', ['project' => Project::find($id), 'notifications' => $notifications]);
     }
@@ -40,7 +42,7 @@ class InvitationsController extends Controller
      */
     protected function create(int $project_id, Request $request)
     {
-
+        Gate::authorize('manager',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
         $project = Project::find($project_id);
         $user = Auth::user();
@@ -104,7 +106,7 @@ class InvitationsController extends Controller
         $projectU = ProjectUser::where('user_id', '=', $not->user_id)
                                     ->where('project_id', '=', $not->invitation_project_id)->get();
 
-        $projectU = json_decode($projectU, true);                            
+        $projectU = json_decode($projectU, true);
         if($projectU == []){
             if ($request->action == 'accept') {
                 $invitation[0]->accept = true;
