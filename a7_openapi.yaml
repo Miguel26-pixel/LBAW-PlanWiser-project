@@ -179,8 +179,8 @@ paths:
   /project/{id}/update:
     post:
       operationId: R107
-      summary: 'R107: Edit Profile'
-      description: 'Edit account information. Access: AOR'
+      summary: 'R107: Edit and delete Profile'
+      description: 'Edit account information and delete account. Access: AOR'
       tags:
         - 'M01: Authentication and Individual Profile'
       parameters:
@@ -237,6 +237,17 @@ paths:
           description: 'Ok'
         "401":
           description: 'Permission denied'
+
+  /recoveryPassword:
+    get:
+      operationId: R109
+      summary: 'R109: Recovery Password'
+      description: 'Recovery Password. Access: VTR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      responses:
+        '200':
+          description: 'Ok'
   
   /api/projectsSearch:
     post:
@@ -812,29 +823,98 @@ paths:
           description: Forbidden
         '404':
           description: 'Not Found'
+
+  /project/{id}/members/update:
+    post:
+      operationId: R220
+      summary: 'R220: Update Project members'
+      description: "Update Project members. Access: MGR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                user_role:
+                  type: string
+                  enum: ['GUEST', 'MEMBER', 'MANAGER']
+
+      responses:
+        '302':
+          description: 'Redirect after processing the new project user information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful update. Redirect to members page.'
+                  value: '/project/{id}/members'
+                302Failure:
+                  description: 'Failed update. Redirect to members page.'
+                  value: '/project/{id}/members'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Not Found'
   
   /project/{id}/members/invitation:
     get:
-      operationId: R220
-      summary: 'R220: Get Project's Invitation form'
+      operationId: R221
+      summary: 'R221: Get Project's Invitation form'
       description: "Get Project's Invitation form. Access: MGR"
       tags:
         - 'M02: Projects'
+      
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
 
       responses:
-        '200':
-          description: Success
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful update. Redirect to members page.'
+                  value: '/project/{id}/members'
+                302Failure:
+                  description: 'Failed update. Redirect to members page.'
+                  value: '/project/{id}/members'
         "403":
           description: Forbidden
         "404":
           description: Not Found
     
     post:
-      operationId: R221
-      summary: 'R221: Create a invitation'
+      operationId: R222
+      summary: 'R222: Create a invitation'
       description: "Create a invitation. Access: MGR"
       tags:
         - 'M02: Projects'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
 
       requestBody:
         required: true
@@ -847,6 +927,7 @@ paths:
                   type: string
                 user_role:
                   type: string
+                  enum: ['GUEST', 'MEMBER', 'MANAGER']
               required:
                 - username
                 - user_role
@@ -871,8 +952,8 @@ paths:
 
   /invitation/{id}:
     get:
-      operationId: R222
-      summary: 'R222: Get Invitation Information'
+      operationId: R223
+      summary: 'R223: Get Invitation Information'
       description: "Get Invitation information. Access: AOR"
       tags:
         - 'M02: Projects'
@@ -896,11 +977,18 @@ paths:
 
   /invitation/{id}/deal:
     post:
-      operationId: R223
-      summary: 'R223: Deal with a Invitation'
+      operationId: R224
+      summary: 'R224: Deal with a Invitation'
       description: "Deal with a Invitation. Access: AOR"
       tags:
         - 'M02: Projects'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
 
       requestBody:
         required: true
@@ -934,8 +1022,8 @@ paths:
   
   /project/{id}/tasksCreate:
     get:
-      operationId: R224
-      summary: 'R224: Get Tasks create form'
+      operationId: R225
+      summary: 'R225: Get Tasks create form'
       description: "Get projects create form. Access: MGR"
       tags:
         - 'M02: Projects'
@@ -950,8 +1038,8 @@ paths:
     
   /tasksCreate:
     post:
-      operationId: R225
-      summary: 'R225: Create Task'
+      operationId: R226
+      summary: 'R226: Create Task'
       description: 'Processes the task creation form submission. Access: MGR'
       tags:
         - 'M02: Projects'
@@ -998,8 +1086,8 @@ paths:
 
   /project/{id}/task/{task_id}:
     get:
-      operationId: R226
-      summary: 'R226: Get Task Information'
+      operationId: R227
+      summary: 'R227: Get Task Information'
       description: "Get task information as JSON. Access: RDR"
       tags:
         - 'M02: Projects'
@@ -1028,9 +1116,9 @@ paths:
 
   /project/{id}/task/{task_id}/update:
     post:
-      operationId: R227
-      summary: 'R227: Edit Task'
-      description: 'Edit task information. Access: EDT'
+      operationId: R228
+      summary: 'R228: Edit Task and delete task'
+      description: 'Edit and delete task information. Access: EDT'
       tags:
         - 'M02: Projects'
       parameters:
@@ -1081,8 +1169,8 @@ paths:
 
   /api/project/{id}/tasks-search:
     post:
-      operationId: R228
-      summary: 'R228: Search Task'
+      operationId: R229
+      summary: 'R229: Search Task'
       description: 'Search for tasks. Access: RDR'
       tags:
         - 'M02: Projects'
@@ -1113,14 +1201,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Project'
+                  $ref: '#/components/schemas/Task'
         '400':
           description: Bad Request
 
   /reportsCreate:
     get:
-      operationId: R229
-      summary: 'R205: Get Reports create form'
+      operationId: R230
+      summary: 'R230: Get Reports create form'
       description: "Get reports create form. Access: RDR"
       tags:
         - 'M02: Projects'
@@ -1134,8 +1222,8 @@ paths:
           description: Not Found
     
     post:
-      operationId: R230
-      summary: 'R230: Make a Report'
+      operationId: R231
+      summary: 'R231: Make a Report'
       description: 'Processes the report creation form submission. Access: USR'
       tags:
         - 'M02: Projects'
@@ -1147,12 +1235,11 @@ paths:
             schema:
               type: object
               properties:
-                title:
-                  type: string
                 description:
                   type: string
-                public:
-                  type: boolean
+                report_type:
+                  type: string
+                  enum: ['User', 'Bug']
               required:
                 - title
                 - description
@@ -1166,56 +1253,14 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: 'Successful creation. Redirect to project overview.'
-                  value: '/projects'
+                  description: 'Successful creation. Redirect to home page.'
+                  value: '/home'
 
-  /api/project/{id}/task:
-    get:
-      operationId: R216
-      summary: "R216: Search Tasks API"
-      description: "Searches for tasks and returns the results as JSON. Access: EDT"
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-        - in: query
-          name: query
-          description: String to use for full-text search
-          schema:
-            type: string
-          required: false
-        - in: query
-          name: tag
-          description: Stage of the tasks
-          schema:
-            type: string
-            enum: ['TODO', 'DOING', 'REVIEW', 'CLOSED']
-          required: false
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Task'
-        '400':
-          description: Bad Request
-        "403":
-          description: This action is forbidden
-        "404":
-          description: Not Found
-
+  /project/{id}/forum/newMessage:
     post:
-      operationId: R212
-      summary: 'R212: Create Task'
-      description: 'Processes the task creation form submission. Access: EDT'
+      operationId: R232
+      summary: 'R232: Send a message to project forum'
+      description: "Send a message to project forum. Access: EDT"
       tags:
         - 'M02: Projects'
 
@@ -1225,6 +1270,7 @@ paths:
           schema:
             type: integer
           required: true
+
       requestBody:
         required: true
         content:
@@ -1232,137 +1278,10 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                message:
                   type: string
-                description:
-                  type: string
-                due_date:
-                  type: integer
-                reminder_date:
-                  type: integer
-                tag:
-                  type: string
-                  enum: ['TODO', 'DOING', 'REVIEW', 'CLOSED']
               required:
-                - name
-                - description
-                - due_date
-                - reminder_date
-                - tag
-      responses:
-        '302':
-          description: 'Redirect after processing the new task information.'
-          headers:
-            Location:
-              schema:
-                type: string
-              examples:
-                302Success:
-                  description: 'Successful creation. Redirect to task card.'
-                  value: '/project/{id}/overview'
-                302Failure:
-                  description: 'Failed creation. Redirect to project page.'
-                  value: '/project/{id}/overview'
-        '400':
-          description: Bad Request
-        "403":
-          description: This action is forbidden
-        "404":
-          description: Not Found
-
-  /api/project/{id}/task/{task}:
-    get:
-      operationId: R213
-      summary: 'R213: Get Task'
-      description: 'Get the task information in JSON. Access: EDT'
-      tags:
-        - 'M02: Projects'
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: task
-          schema:
-            type: integer
-          required: true
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Task'
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
-
-    patch:
-      operationId: R214
-      summary: 'R214: Update Task'
-      description: 'Processes the task settings form submission. Access: EDT'
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: task
-          schema:
-            type: integer
-          required: true
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-                due_date:
-                  type: integer
-                reminder_date:
-                  type: integer
-                tag:
-                  type: string
-
-      responses:
-        "200":
-          description: Success
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
-
-    delete:
-      operationId: R215
-      summary: 'R215: Delete Task'
-      description: 'Removes task from project. Access: EDT'
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: task
-          schema:
-            type: integer
-          required: true
+                - message
 
       responses:
         '302':
@@ -1373,68 +1292,93 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: 'Successful delete. Redirect to project overview.'
-                  value: '/project/{id}/overview'
+                  description: 'Successful. Redirect to forum page.'
+                  value: '/project/{id}/forum'
                 302Failure:
-                  description: 'Failed delete. Redirect to project overview.'
-                  value: '/project/{id}/overview'
+                  description: 'Failed. Redirect to forum page.'
+                  value: '/project/{id}/forum'
+
+        "403":
+          description: This action is forbidden
+
+  /api/project/{id}/members-search:
+    post:
+      operationId: R233
+      summary: 'R233: Search Members'
+      description: 'Search for members. Access: RDR'
+      tags:
+        - 'M02: Projects'
+      
+      parameters:
+        - in: query
+          name: search
+          description: String to use for full-text search
+          schema:
+            type: string
+          required: false
+      
+      requestBody:
+        required: true
+        content:
+            schema:
+              type: string
+              properties:
+                search:
+                  type: string
+              required:
+              - search
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectUser'
+        '400':
+          description: Bad Request
+
+  /project/{id}/task{task_id}/taskComments:
+    get:
+      operationId: R234
+      summary: 'R234: Get task's comments'
+      description: "Get task's comments. Access: EDT"
+      tags:
+        - 'M02: Projects'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: task_id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: Success
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskComment'
         "403":
           description: Forbidden
         "404":
           description: Not Found
-
-  /api/project/{id}/invitation:
+    
+  /project/{id}/task{task_id}/taskComments/newComment:
     post:
-      operationId: R219
-      summary: 'R219: Invite member'
-      description: 'Invite a member to a project. Access: MGR'
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                user_id:
-                  type: integer
-                project_id:
-                  type: integer
-                accept:
-                  type: boolean
-                user_role:
-                  type: string
-                  enum: ['GUEST', 'MEMBER', 'MANAGER']
-
-              required:
-                - user_id
-                - project_id
-                - accept
-                - user_role
-
-      responses:
-        "200":
-          description: "OK"
-        "403":
-          description: "Forbidden access"
-        "404":
-          description: "Tag not found"
-
-  /api/project/{id}/invitation/{invitation}:
-    patch:
-      operationId: R220
-      summary: 'R220: Respond to project invite'
-      description: 'Accept or refuse an invite to a project. Access: USR'
+      operationId: R235
+      summary: 'R235: Make a comment on a task'
+      description: 'Make a comment on a task. Access: EDT'
       tags:
         - 'M02: Projects'
 
@@ -1445,207 +1389,7 @@ paths:
             type: integer
           required: true
         - in: path
-          name: invitation
-          schema:
-            type: integer
-          required: true
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                accept:
-                  type: boolean
-              required:
-                - accept
-
-      responses:
-        "200":
-          description: "OK"
-        "403":
-          description: "Forbidden access"
-        "404":
-          description: "Tag not found"
-
-  /api/project/{id}/task/{task}/assignment:
-    post:
-      operationId: R221
-      summary: 'R221: Add an assignment'
-      description: 'Add an user assign. Access: MGR'
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: task
-          schema:
-            type: integer
-          required: true
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                user_id:
-                  type: integer
-                task_id:
-                  type: integer
-              required:
-                - user_id
-                - task_id
-
-      responses:
-        "200":
-          description: "OK"
-        "403":
-          description: "Forbidden access"
-        "404":
-          description: "Tag not found"
-
-  /api/project/{id}/projectmessage:
-    post:
-      operationId: R222
-      summary: 'R222: Add a message to the project'
-      description: 'Add a message to the project. Access: EDT'
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                url:
-                  type: string
-                project_id:
-                  type: integer
-              required:
-                - url
-                - integer
-
-      responses:
-        "200":
-          description: "OK"
-        "403":
-          description: "Forbidden access"
-        "404":
-          description: "File not found"
-
-    /api/project/{id}/projectfile:
-    post:
-      operationId: R223
-      summary: 'R223: Add a file to the project'
-      description: 'Add a file to the project. Access: EDT'
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                url:
-                  type: string
-                project_id:
-                  type: integer
-              required:
-                - url
-                - integer
-
-      responses:
-        "200":
-          description: "OK"
-        "403":
-          description: "Forbidden access"
-        "404":
-          description: "File not found"
-
-  /api/project/{id}/projectuser:
-    post:
-      operationId: R224
-      summary: 'R224: Add project user'
-      description: 'Add project user to project. Access: EDT'
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                project_id:
-                  type: integer
-                user_id:
-                  type: integer
-                user_role:
-                  type: string
-                  enum: ['GUEST', 'MEMBER', 'MANAGER']
-              required:
-                - project_id
-                - user_id
-                - user_role
-
-      responses:
-        "200":
-          description: "OK"
-        "403":
-          description: "Forbidden access"
-        "404":
-          description: "Tag not found"
-
-  /api/project/{id}/task/{task}/taskcomment:
-    post:
-      operationId: R225
-      summary: 'R225: Add a comment'
-      description: 'Add a comment to a task. Access: EDT'
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: task
+          name: task_id
           schema:
             type: integer
           required: true
@@ -1659,71 +1403,122 @@ paths:
               properties:
                 comment:
                   type: string
-                task_id:
-                  type: integer
-                user_id:
-                  type: integer
               required:
                 - comment
 
       responses:
-        "200":
-          description: "OK"
+        '302':
+          description: 'Redirect after processing the new comment information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful creation. Redirect to tasks comments page.'
+                  value: '/project/{id}/task{task_id}/taskComments'
+                302Error:
+                  description: 'Failed creation. Redirect to tasks comments page.'
+                  value: '/project/{id}/task{task_id}/taskComments'
         "403":
-          description: "Forbidden access"
-        "404":
-          description: "Tag not found"
+          description: This action is forbidden
 
-  /api/report:
-    post:
-      operationId: R301
-      summary: 'R301: Make a report'
-      description: 'Make a report. Access: RDR'
+  /project/{id}/members/leaveProject:
+    get:
+      operationId: R220
+      summary: 'R220: Leave the project'
+      description: "Update Project members. Access: RDR"
       tags:
-        - 'M03: Notifications, Messages, Reports, Favorites'
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                text:
-                  type: string
-                user_id:
-                  type: integer
-                report_state:
-                  type: string
-                  enum: ['PENDING', 'IGNORED', 'BANNED']
-                report_type:
-                  type: string
-                  enum: ['User', 'Bug']
-
-              required:
-                - text
-                - report_state
-                - report_type
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
 
       responses:
         "200":
-          description: "OK"
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectUser'
         "403":
-          description: "Forbidden access"
+          description: Forbidden
         "404":
-          description: "Tag not found"
+          description: Not Found
+        
 
-    /api/user/{id}/privatemessage:
-    post:
-      operationId: R302
-      summary: 'R302: Send private message'
-      description: 'Send private message. Access: USR'
+  /chat/{id}:
+    get:
+      operationId: R301
+      summary: 'R301: Get user all chat'
+      description: "Get user all chat. Access: AUR"
       tags:
-        - 'M03: Notifications, Messages, Reports, Favorites'
+        - 'M03: Social Media'
 
       parameters:
         - in: path
           name: id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+
+  /chat/{emmiter_id}/{receiver_id}:
+    get:
+      operationId: R302
+      summary: 'R302: Get user private chat with other user'
+      description: "Get user private chat with other user. Access: AUR"
+      tags:
+        - 'M03: Social Media'
+
+      parameters:
+        - in: path
+          name: emmiter_id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: receiver_id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+
+  /chat/{emmiter_id}/{receiver_id}/newMessage:
+    post:
+      operationId: R303
+      summary: 'R303: Send a message to other user'
+      description: "Send a message to other user. Access: AUR"
+      tags:
+        - 'M03: Social Media'
+
+      parameters:
+        - in: path
+          name: emmiter_id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: receiver_id
           schema:
             type: integer
           required: true
@@ -1735,27 +1530,32 @@ paths:
             schema:
               type: object
               properties:
-                project_id:
-                  type: integer
-                user_id:
-                  type: integer
-                user_role:
+                message:
                   type: string
-                  enum: ['GUEST', 'MEMBER', 'MANAGER']
               required:
-                - project_id
-                - user_id
-                - user_role
+                - message
 
       responses:
-        "200":
-          description: "OK"
-        "403":
-          description: "Forbidden access"
-        "404":
-          description: "Tag not found"
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful. Redirect to forum page.'
+                  value: '/chat/{emmiter_id}/{receiver_id}'
+                302Failure:
+                  description: 'Failed. Redirect to forum page.'
+                  value: '/chat/{emmiter_id}/{receiver_id}'
 
-  /homepage:
+        "403":
+          description: This action is forbidden
+
+  
+
+  /home:
     get:
       operationId: R401
       summary: 'R401: View Landing Page'
@@ -1767,50 +1567,209 @@ paths:
         '200':
           description: 'OK'
 
-  /api/search:
+  /admin:
     get:
-      operationId: R402
-      summary: 'R402: Website Search'
-      description: "Search in the website. Access: USR"
+      operationId: R501
+      summary: 'R501: View Admin Page'
+      description: "View Admin page. Access: ADM"
       tags:
-        - 'M04: Static pages'
+        - 'M05: User Administration'
 
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  /admin/users:
+    get:
+      operationId: R502
+      summary: 'R502: View Users Information Page'
+      description: "View users information page. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  /admin/reportsInformations:
+    get:
+      operationId: R503
+      summary: 'R503: View Reports Page'
+      description: "View users and website reports from users. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+    post:
+      operationId: R504
+      summary: 'R504: Deal with Reports Page'
+      description: "Deal with reports from users. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  /admin/manageUsers:
+    get:
+      operationId: R505
+      summary: 'R505: View users management Page'
+      description: "View users management page. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  /admin/projects:
+    get:
+      operationId: R506
+      summary: 'R506: View Projects Information Page'
+      description: "View Projects Information page. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  
+  /admin/project/{id}:
+    get:
+      operationId: R507
+      summary: 'R507: View a Project Information Page'
+      description: "View a Project Information page. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  /admin/profile/{id}:
+    get:
+      operationId: R508
+      summary: 'R508: View a user profile'
+      description: "View a user profile. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  /admin/createUser:
+    get:
+      operationId: R509
+      summary: 'R509: Create user page'
+      description: "Create user page. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+    post:
+      operationId: R510
+      summary: 'R510: Create user'
+      description: "Create user. Access: ADM"
+      tags:
+        - 'M05: User Administration'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                fullname:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - fullname
+                - username
+                - email
+                - password
+
+      responses:
+        '200':
+          description: 'OK'
+        "403":
+          description: "Forbidden access"
+
+  /admin/searchUsers:
+    post:
+      operationId: R511
+      summary: 'R511: Search users'
+      description: 'Search for users. Access: AUR'
+      tags:
+        - 'M05: User Administration'
+      
       parameters:
         - in: query
-          name: query
+          name: search
           description: String to use for full-text search
           schema:
             type: string
-          required: true
-
+          required: false
+      
+      requestBody:
+        required: true
+        content:
+            schema:
+              type: string
+              properties:
+                search:
+                  type: string
+              required:
+              - search
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/User'
-                  projects:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Project'
-                  tasks:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Task'
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
         '400':
           description: Bad Request
 
-  /admin/users:
+  /admin/userSupport:
     get:
-      operationId: R501
-      summary: 'R501: View User Management Page'
-      description: "View user management page. Access: ADM"
+      operationId: R512
+      summary: 'R512: Create user page'
+      description: "Create user page. Access: ADM"
       tags:
         - 'M05: User Administration'
 
@@ -1820,27 +1779,31 @@ paths:
         "403":
           description: "Forbidden access"
 
-  /admin/statistics:
-    get:
-      operationId: R502
-      summary: 'R502: View Website Statistics Page'
-      description: "View website statistics page. Access: ADM"
+    post:
+      operationId: R513
+      summary: 'R513: Create user'
+      description: "Create user. Access: ADM"
       tags:
         - 'M05: User Administration'
 
-      responses:
-        '200':
-          description: 'OK'
-        "403":
-          description: "Forbidden access"
-
-  /admin/support:
-    get:
-      operationId: R503
-      summary: 'R503: View User Support Page'
-      description: "View user support page. Access: ADM"
-      tags:
-        - 'M05: User Administration'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                contact:
+                  type: string
+                message:
+                  type: string
+              required:
+                - email
+                - message
 
       responses:
         '200':
@@ -1856,12 +1819,18 @@ paths:
       properties:
         id:
           type: integer
+        fullname:
+          type: string
         username:
           type: string
         email:
           type: string
         password:
           type: string
+        img_url:
+          type: string
+        is_admin:
+          type: boolean
 
     Project:
       type: object
@@ -1903,6 +1872,48 @@ paths:
         tag:
           type: string
           enum: ['TODO', 'DOING', 'REVIEW', 'CLOSED']
+
+    ProjectFile:
+      type: object
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        project_id:
+          $ref: '#/components/schemas/Project'
+
+    ProjectUser:
+      type: object
+      properties:
+        user_id:
+          $ref: '#/components/schemas/User'
+        project_id:
+          $ref: '#/components/schemas/Project'
+        user_role:
+          type: string
+          enum: ['MANAGER', 'MEMBER', 'GUEST']
+
+    Invitation:
+      type: object
+      properties:
+        user_id:
+          $ref: '#/components/schemas/User'
+        project_id:
+          $ref: '#/components/schemas/Project'
+        accept:
+          type: boolean
+        user_role:
+          type: string
+          enum: ['MANAGER', 'MEMBER', 'GUEST']
+      
+
+
+
 
 
 
