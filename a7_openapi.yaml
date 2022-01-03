@@ -16,7 +16,7 @@ externalDocs:
 tags:
   - name: 'M01: Authentication and Individual Profile'
   - name: 'M02: Projects'
-  - name: 'M03: Notifications, Messages, Reports, Favorites'
+  - name: 'M03: Social Media'
   - name: 'M04: Static pages'
   - name: 'M05: User Administration'
 
@@ -176,6 +176,7 @@ paths:
         '404':
           description: 'Not Found.'
 
+  /project/{id}/update:
     post:
       operationId: R107
       summary: 'R107: Edit Profile'
@@ -199,11 +200,37 @@ paths:
                   type: string
                 username:
                   type: string
-                password:
-                  type: string
                 fullname:
                   type: string
                 img_url:
+                  type: string
+      responses:
+        '200':
+          description: 'Ok'
+        "401":
+          description: 'Permission denied'
+
+  /project/{id}/update-password:
+    post:
+      operationId: R108
+      summary: 'R108: Edit Profile password'
+      description: 'Edit account password. Access: AOR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                password:
                   type: string
       responses:
         '200':
@@ -214,7 +241,7 @@ paths:
   /api/projectsSearch:
     post:
       operationId: R201
-      summary: 'R202: Search Project'
+      summary: 'R201: Search Project'
       description: 'Search for projects. Access: AUR'
       tags:
         - 'M02: Projects'
@@ -424,6 +451,183 @@ paths:
         "404":
           description: Not Found
 
+  /project/{id}/add-fav:
+    get:
+      operationId: R208
+      summary: 'R208: Add project to favorites'
+      description: "Favorite a project. Access: AUR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Success
+        "403":
+          description: Forbidden
+
+  /project/{id}/remove-fav:
+    get:
+      operationId: R209
+      summary: 'R209: Remove project from favorites'
+      description: "Remove project from favorites. Access: AUR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Success
+        "403":
+          description: Forbidden
+
+
+  /project/{id}/update:
+    post:
+      operationId: R210
+      summary: 'R210: Edit Project'
+      description: 'Edit project information. Access: MGR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                public:
+                  type: boolean
+                active:
+                  type: boolean
+      responses:
+        '200':
+          description: 'Success'
+        "401":
+          description: 'Permission denied'
+
+  /project/{id}/files:
+    get:
+      operationId: R211
+      summary: 'R211: View Project files'
+      description: "Show the project's files page. Access: RDR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: 'Ok'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Not Found'
+  
+  /project/{id}/files/upload-files:
+    post:
+      operationId: R212
+      summary: 'R212: Upload Project file'
+      description: "Upload file to the project. Access: EDT"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+                project_id:
+                  type: integer
+              required:
+                - name
+                - url
+                - project_id
+      responses:
+        '302':
+          description: 'Redirect after processing the new folder.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful upload. Redirect to projectfiles' page.'
+                  value: '/project/{id}/files'
+                302Failure:
+                  description: 'Failed creation. Redirect to projectfiles' page.'
+                  value: '/project/{id}/files'
+        '403':
+          description: Forbidden
+        '404':
+          description: 'Not Found'
+
+  /project/{id}/files/{file_id}/download:
+    get:
+      operationId: R213
+      summary: 'R213: Download project file'
+      description: "Download project files. Access: EDT"
+      tags:
+        - 'M02: Projects'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            required: true
+        - in: path
+          name: file_id
+          schema:
+            type: integer
+            required: true
+      
+      responses:
+        "200":
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectFile'
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
   
   /project/{id}/files/{file_id}/delete:
     get:
@@ -727,6 +931,243 @@ paths:
 
         "403":
           description: Forbidden
+  
+  /project/{id}/tasksCreate:
+    get:
+      operationId: R224
+      summary: 'R224: Get Tasks create form'
+      description: "Get projects create form. Access: MGR"
+      tags:
+        - 'M02: Projects'
+
+      responses:
+        '200':
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+    
+  /tasksCreate:
+    post:
+      operationId: R225
+      summary: 'R225: Create Task'
+      description: 'Processes the task creation form submission. Access: MGR'
+      tags:
+        - 'M02: Projects'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                status:
+                  type: string
+                assignee:
+                  type: string
+                due_date:
+                  type: string
+                reminder_date:
+                  type: string
+              required:
+                - name
+                - description
+                - status
+                - due_date
+                - reminder_date
+
+      responses:
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful creation. Redirect to project's task page.'
+                  value: '/project/{id}/tasks'
+        "403":
+          description: This action is forbidden
+
+  /project/{id}/task/{task_id}:
+    get:
+      operationId: R226
+      summary: 'R226: Get Task Information'
+      description: "Get task information as JSON. Access: RDR"
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: task_id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        "403":
+          description: This action is forbidden
+        "404":
+          description: Not Found
+
+  /project/{id}/task/{task_id}/update:
+    post:
+      operationId: R227
+      summary: 'R227: Edit Task'
+      description: 'Edit task information. Access: EDT'
+      tags:
+        - 'M02: Projects'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: task_id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                status:
+                  type: string
+                assignee:
+                  type: string
+                due_date:
+                  type: string
+                reminder_date:
+                  type: string
+      responses:
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful creation. Redirect to project's task page.'
+                  value: '/project/{id}/tasks'
+        "403":
+          description: This action is forbidden
+        "500":
+          description: 'Internal Server Error'
+
+  /api/project/{id}/tasks-search:
+    post:
+      operationId: R228
+      summary: 'R228: Search Task'
+      description: 'Search for tasks. Access: RDR'
+      tags:
+        - 'M02: Projects'
+      
+      parameters:
+        - in: query
+          name: search
+          description: String to use for full-text search
+          schema:
+            type: string
+          required: false
+      
+      requestBody:
+        required: true
+        content:
+            schema:
+              type: string
+              properties:
+                search:
+                  type: string
+              required:
+              - search
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad Request
+
+  /reportsCreate:
+    get:
+      operationId: R229
+      summary: 'R205: Get Reports create form'
+      description: "Get reports create form. Access: RDR"
+      tags:
+        - 'M02: Projects'
+
+      responses:
+        '200':
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+    
+    post:
+      operationId: R230
+      summary: 'R230: Make a Report'
+      description: 'Processes the report creation form submission. Access: USR'
+      tags:
+        - 'M02: Projects'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                public:
+                  type: boolean
+              required:
+                - title
+                - description
+
+      responses:
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful creation. Redirect to project overview.'
+                  value: '/projects'
 
   /api/project/{id}/task:
     get:
@@ -767,7 +1208,7 @@ paths:
         '400':
           description: Bad Request
         "403":
-          description: Forbidden
+          description: This action is forbidden
         "404":
           description: Not Found
 
@@ -825,7 +1266,7 @@ paths:
         '400':
           description: Bad Request
         "403":
-          description: Forbidden
+          description: This action is forbidden
         "404":
           description: Not Found
 
