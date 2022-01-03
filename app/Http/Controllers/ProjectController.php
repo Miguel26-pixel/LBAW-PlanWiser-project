@@ -111,6 +111,21 @@ class ProjectController extends Controller
         return redirect("/projects");
     }
 
+    public function updateProject($id,Request $request) {
+        Gate::authorize('update',Project::find($id));
+        $project = Project::find($id);
+
+        $project->title = $request->title;
+        $project->description = $request->description;
+
+        $project->public = $request->public == "True";
+
+        $project->active = $request->active == "True";
+        $project->save();
+
+        return redirect()->back();
+    }
+
     public function uploadFiles($id, Request $request) {
         Gate::authorize('inProject',Project::find($id));
 

@@ -26,6 +26,10 @@ class ProjectPolicy
         return $user->is_admin || $this->checkUserInProject($user,$project);
     }
 
+    public function update(User $user, Project $project) {
+        return $user->is_admin || ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER');
+    }
+
     private function checkUserInProject(User $user, Project $project) {
         $users = $project->users;
         $check = false;
@@ -34,6 +38,6 @@ class ProjectPolicy
     }
 
     public function manager(User $user, Project $project) {
-        return $user->is_admin || ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER';
+        return $user->is_admin || ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER');
     }
 }

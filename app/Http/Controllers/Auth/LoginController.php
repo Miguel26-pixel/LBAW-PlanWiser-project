@@ -48,7 +48,7 @@ class LoginController extends Controller
     }
 
     public function home() {
-        $public_projects=ProjectsController::getPublicProjects(10);
+        $public_projects=ProjectsController::getPublicProjects(6);
         $notifications = NotificationsController::getNotifications(Auth::id());
         return view('pages.homepage', ['public_projects' => $public_projects, 'notifications' => $notifications]);
     }

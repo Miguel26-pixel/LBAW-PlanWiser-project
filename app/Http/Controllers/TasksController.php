@@ -65,13 +65,12 @@ class TasksController extends Controller
 
     public function updateTask(int $project_id, int $id, Request $request) {
 
-
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         switch ($request->input('action'))
         {
             case 'update':
-                Gate::authorize('inProject',Project::find($project_id));
+                Gate::authorize('update',Task::find($id));
                 $validator = $request->validate($this->validator());
 
                 $task = Task::find($id);
@@ -108,7 +107,7 @@ class TasksController extends Controller
                 break;
         }
 
-       return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id, 'notifications' => $notifications]);
+       return redirect()->back();
     }
 
     public function showTasks($project_id)

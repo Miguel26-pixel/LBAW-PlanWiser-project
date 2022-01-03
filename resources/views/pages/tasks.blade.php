@@ -69,7 +69,7 @@
         search.addEventListener("keyup", searchTask);
         function searchTask() {
             console.log('/project/{{$project->id}}/tasks-search');
-            sendAjaxRequest('post', '/project/{{$project->id}}/tasks-search', {search: search.value}, mySearchHandler);
+            sendAjaxRequest('post', '/api/project/{{$project->id}}/tasks-search', {search: search.value}, mySearchHandler);
         }
         function mySearchHandler() {
             //if(this.status != 200) window.location = '/';
