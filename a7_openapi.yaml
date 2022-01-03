@@ -871,7 +871,7 @@ paths:
   /project/{id}/members/invitation:
     get:
       operationId: R221
-      summary: 'R221: Get Projects Invitation form'
+      summary: "R221: Get Projects Invitation form"
       description: "Get Project's Invitation form. Access: MGR"
       tags:
         - 'M02: Projects'
