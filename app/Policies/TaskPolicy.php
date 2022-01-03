@@ -15,6 +15,6 @@ class TaskPolicy
     use HandlesAuthorization;
 
     public function show(User $user, Task $task) {
-        return UserAssign::find(['user_id' => $user->id, 'task_id' => $task->id])->exists();
+        return $user->is_admin || UserAssign::find(['user_id' => $user->id, 'task_id' => $task->id])->exists();
     }
 }

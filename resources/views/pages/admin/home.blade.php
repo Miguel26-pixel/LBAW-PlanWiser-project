@@ -103,7 +103,7 @@
                                     break;
                                 }
                                 echo '<tr>';
-                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/' . $project['id'] . '"><i class="icon-rocket"></i></a></th>';
+                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="admin/project/' . $project['id'] . '"><i class="icon-rocket"></i></a></th>';
                                 echo '<td>' . $project['title'] . '</td>';
                                 echo '<td>' . $project['description'] . '</td>';
                                 echo '</tr>';

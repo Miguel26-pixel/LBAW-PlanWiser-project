@@ -16,6 +16,7 @@ Route::get('admin', [AdminController::class,'show']);
 Route::get('admin/reportsInformations', [AdminController::class,'showReports']);
 Route::get('admin/manageUsers', [AdminController::class,'showUsersManagement']);
 Route::get('admin/projects', [AdminController::class,'showProjects']);
+Route::get('admin/project/{id}', [AdminController::class,'showProjects']);
 Route::get('admin/profile/{id}', [AdminController::class,'showProfile']);
 Route::get('admin/users', [AdminController::class,'showUsers']);
 Route::post('admin/searchUsers', [AdminController::class,'searchUsers']);

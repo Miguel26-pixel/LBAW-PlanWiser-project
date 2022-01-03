@@ -19,11 +19,11 @@ class ProjectPolicy
     }
 
     public function isPublic(User $user, Project $project) {
-        return $this->checkUserInProject($user,$project) || $project->public;
+        return $user->is_admin || $this->checkUserInProject($user,$project) || $project->public;
     }
 
     public function inProject(User $user, Project $project) {
-        return $this->checkUserInProject($user,$project);
+        return $user->is_admin || $this->checkUserInProject($user,$project);
     }
 
     private function checkUserInProject(User $user, Project $project) {
@@ -34,6 +34,6 @@ class ProjectPolicy
     }
 
     public function manager(User $user, Project $project) {
-        return ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER';
+        return $user->is_admin || ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER';
     }
 }
