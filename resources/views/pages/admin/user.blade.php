@@ -18,7 +18,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     Public Projects
-                    <form  method="POST" action="/projectsSearch" enctype="multipart/form-data" class="input-group rounded w-50">
+                    <form  method="POST" action="/api/projectsSearch" enctype="multipart/form-data" class="input-group rounded w-50">
                     {{@csrf_field()}}
                         <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                         <button type="submit" class="input-group-text border-0" id="search-addon">
