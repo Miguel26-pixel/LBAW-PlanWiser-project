@@ -146,7 +146,7 @@ class ProjectController extends Controller
                 return redirect("/projects");
         }
 
-        return redirect()->action([ProjectController::class,'showProject'], ['id'=> $id, 'notifications' => $notifications]);
+        return redirect()->back();
 
     }
 

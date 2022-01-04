@@ -52,11 +52,7 @@ class InvitationsController extends Controller
 
         $user_id = User::where('username', '=', $request->username)->get('id');
 
-        //dd($user_id);
-
         $user_id = json_decode($user_id, true);
-
-        //dd($user_id);
 
         $old_invite = Invitation::where('project_id', '=', $project_id)
                                     ->where('user_id', '=', $user_id[0]['id'])->get();

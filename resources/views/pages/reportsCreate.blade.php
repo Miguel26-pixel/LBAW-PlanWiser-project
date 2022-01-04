@@ -38,12 +38,12 @@
                         </div>
                     </div>
                 </div>
-
                 @if ($errors->has('report_type'))
                 <span class="error">
                     {{ $errors->first('report_type') }}
                 </span>
                 @endif
+                
                 <div class="field" style="padding-bottom: 24px">
                     <input type="submit" name="submit" value="Report">
                 </div>
