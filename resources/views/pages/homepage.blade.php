@@ -22,7 +22,7 @@
                         <input type="search" name="search" id="publicSearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     </div>
                 </div>
-                <div class="card-body">
+                <div id="publicCardBody" class="card-body">
                     <table class="table table-bordered">
                         <thead class="table-success">
                             <tr>
@@ -63,12 +63,24 @@
         const publicsearch = document.getElementById("publicSearch");
         publicsearch.addEventListener("keyup", searchPublicProject);
         function searchPublicProject() {
-            sendAjaxRequest('post', '/projectsSearch', {search: publicsearch.value}, publicSearchHandler);
+            sendAjaxRequest('post', '/api/projectsSearch', {search: publicsearch.value}, publicSearchHandler);
         }
         function publicSearchHandler() {
             //if(this.status != 200) window.location = '/';
             let projects = JSON.parse(this.responseText);
             let body = document.getElementById("table-projects-body");
+            let paginations = document.getElementsByClassName('pagination');
+
+            for (let pag of paginations) {
+                if (document.getElementById('publicCardBody').contains(pag)) {
+                    if (publicsearch.value !== "") {
+                        pag.style.display = 'none';
+                    } else {
+                        if (projects.length > 6)
+                            pag.style.display = 'flex';
+                    }
+                }
+            }
 
             body.innerHTML = "";
 

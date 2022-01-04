@@ -22,7 +22,7 @@
                     </div>
                     <a href="projectsCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Project</a>
                 </div>
-                <div class="card-body">
+                <div id="myCardBody" class="card-body">
                     <table class="table table-bordered">
                         <thead class="table-success">
                             <tr>
@@ -64,7 +64,7 @@
                         <input id="publicSearch" type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     </div>
                 </div>
-                <div class="card-body">
+                <div id="publicCardBody" class="card-body">
                     <table class="table table-bordered">
                         <thead class="table-success">
                             <tr>
@@ -103,13 +103,25 @@
     const mysearch = document.getElementById("mySearch");
     mysearch.addEventListener("keyup", searchProject);
     function searchProject() {
-        sendAjaxRequest('post', '/myProjectsSearch', {search: mysearch.value}, mySearchHandler);
+        sendAjaxRequest('post', '/api/myProjectsSearch', {search: mysearch.value}, mySearchHandler);
     }
     function mySearchHandler() {
-        console.log(this.table);
         //if(this.status != 200) window.location = '/';
         let projects = JSON.parse(this.responseText);
         let body = document.getElementById("table-myprojects-body");
+
+        let paginations = document.getElementsByClassName('pagination');
+
+        for (let pag of paginations) {
+            if (document.getElementById('myCardBody').contains(pag)) {
+                if (mysearch.value !== "") {
+                    pag.style.display = 'none';
+                } else {
+                    if (projects.length > 10)
+                        pag.style.display = 'flex';
+                }
+            }
+        }
 
         body.innerHTML = "";
 
@@ -127,12 +139,25 @@
     const publicsearch = document.getElementById("publicSearch");
     publicsearch.addEventListener("keyup", searchPublicProject);
     function searchPublicProject() {
-        sendAjaxRequest('post', '/publicProjectsSearch', {search: publicsearch.value}, publicSearchHandler);
+        sendAjaxRequest('post', '/api/publicProjectsSearch', {search: publicsearch.value}, publicSearchHandler);
     }
     function publicSearchHandler() {
         //if(this.status != 200) window.location = '/';
         let projects = JSON.parse(this.responseText);
         let body = document.getElementById("table-projects-body");
+
+        let paginations = document.getElementsByClassName('pagination');
+
+        for (let pag of paginations) {
+            if (document.getElementById('publicCardBody').contains(pag)) {
+                if (publicsearch.value !== "") {
+                    pag.style.display = 'none';
+                } else {
+                    if (projects.length > 10)
+                        pag.style.display = 'flex';
+                }
+            }
+        }
 
         body.innerHTML = "";
 

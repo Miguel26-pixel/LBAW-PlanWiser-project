@@ -24,7 +24,7 @@
                                 if($count >= 4){
                                     break;
                                 }
-                                $path = '/images/users/no_img.png';
+                                $path = '/images/no_img.png';
                                 if (!is_null($user->img_url) && file_exists(public_path($user->img_url))) {
                                     $path = $user->img_url;
                                 }
@@ -57,7 +57,7 @@
                         <?php
                         $count = 1;
                         foreach ($users as $user) {
-                            $path = '/images/users/no_img.png';
+                            $path = '/images/no_img.png';
                             if (!is_null($user->img_url) && file_exists(public_path($user->img_url))) {
                                 $path = $user->img_url;
                             }
@@ -103,7 +103,7 @@
                                     break;
                                 }
                                 echo '<tr>';
-                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/' . $project['id'] . '"><i class="icon-rocket"></i></a></th>';
+                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="admin/project/' . $project['id'] . '"><i class="icon-rocket"></i></a></th>';
                                 echo '<td>' . $project['title'] . '</td>';
                                 echo '<td>' . $project['description'] . '</td>';
                                 echo '</tr>';

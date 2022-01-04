@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tasks;
+use App\Models\Task;
 use App\Models\Project;
-use App\Models\UserAssigns;
+use App\Models\UserAssign;
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class TasksController extends Controller
 {
@@ -26,6 +27,7 @@ class TasksController extends Controller
 
     public function showTaskForm(int $id)
     {
+        Gate::authorize('manager',Project::find($id));
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $users = ProjectUsersController::getProjectUsers($id);
@@ -43,6 +45,7 @@ class TasksController extends Controller
 
     public function showTask(int $project_id, int $id)
     {
+        Gate::authorize('show',Task::find($id));
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $users = ProjectUsersController::getProjectUsers($project_id);
@@ -51,26 +54,28 @@ class TasksController extends Controller
                             ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
                             ->where('task_id', '=', $id)
                             ->get(['userassigns.user_id','users.username']);
-        
+
         $user_assigned = json_decode($user_assigned, true);
 
         return view('pages.task',['project' => Project::find($project_id),
-                                    'task' => Tasks::find($id), 
-                                    'notifications' => $notifications, 
-                                    'users' => $users, 
+                                    'task' => Task::find($id),
+                                    'notifications' => $notifications,
+                                    'users' => $users,
                                     'user_assigned' => $user_assigned]);
     }
 
 
     public function updateTask(int $project_id, int $id, Request $request) {
+
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         switch ($request->input('action'))
         {
             case 'update':
+                Gate::authorize('update',Task::find($id));
                 $validator = $request->validate($this->validator());
                 try{
-                    $task = Tasks::find($id);
+                    $task = Task::find($id);
                     $task->name = $request->name;
                     $task->description = $request->description;
                     $task->due_date = $request->due_date;
@@ -82,33 +87,34 @@ class TasksController extends Controller
                 }
                 
                 if ($request->user_id == -1){
-                    $user_assigned = UserAssigns::where('task_id', '=', $id)
+                    $user_assigned = UserAssign::where('task_id', '=', $id)
                                             ->delete(['user_id'=>$request->user_id]);
                     break;
                 }
 
-                $user_assigned = UserAssigns::where('task_id', '=', $id)
+                $user_assigned = UserAssign::where('task_id', '=', $id)
                                             ->update(['user_id'=>$request->user_id]);
 
                 $user_assigned = json_decode($user_assigned, true);
-                
+
                 if (!$user_assigned){
-                    $user_assign = new UserAssigns;
+                    $user_assign = new UserAssign;
                     $user_assign->task_id = $task->id;
                     $user_assign->user_id = $request->user_id;
                     $user_assign->save();
                 }
-                
+
                 break;
 
             case 'delete':
-                $task=Tasks::find($id);
+                Gate::authorize('manager',Project::find($project_id));
 
-                $user_assigned = UserAssigns::where('task_id', '=', $id)
+                $task=Task::find($id);
+
+                $user_assigned = UserAssign::where('task_id', '=', $id)
                                             ->delete(['user_id'=>$request->user_id]);
 
                 $task->delete();
-
                 
                 break;
         }
@@ -118,6 +124,7 @@ class TasksController extends Controller
 
     public function showTasks($project_id)
     {
+        Gate::authorize('inProject',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $my_TASKS = DB::table('tasks')
@@ -140,11 +147,12 @@ class TasksController extends Controller
      */
     protected function createTask(Request $request)
     {
+        Gate::authorize('manager',Project::find($request->project_id));
         try {
             $notifications = NotificationsController::getNotifications(Auth::id());
             $validator = $request->validate($this->validator());
 
-            $task = new Tasks;
+            $task = new Task();
             $task->name = $request->name;
             $task->description = $request->description;
             $task->due_date = $request->due_date;
@@ -158,7 +166,7 @@ class TasksController extends Controller
             return redirect()->back()->withErrors('Due and reminder dates are both required. You should also verify that selected reminder date is before due date and that both after today.');
         }
 
-        return redirect('project/'.$project_id.'/tasks');
+        return redirect('project/'.$request->project_id.'/tasks');
     }
 
     public function searchProjectTasks(int $project_id, Request $request)

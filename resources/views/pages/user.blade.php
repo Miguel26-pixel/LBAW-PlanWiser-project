@@ -7,25 +7,24 @@
 @endsection
 
 @section('content')
-    <div class="row m-0">
-        <div class="col-md-7">
-            <div class="container">
-                <form action="/profile/{{$user->id}}/update" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <?php
-                    $path = '/images/users/no_img.png';
-                    if (!is_null($user->img_url) && file_exists(public_path($user->img_url))) {
-                        $path = $user->img_url;
-                    }
-                    ?>
-                    <div class="mt-3 container text-center align-items-center">
-                        <img src="{{ asset($path) }}" style="max-width: 200px">
-                        <p><?php echo $user->username; ?></p>
-                    </div>
-                    <div class="card my-3">
-                        <div class="card-header">
-                            Edit Profile
+        <div class="row m-0">
+            <div class="col-md-7">
+                <div class="container">
+                    <form action="/profile/{{$user->id}}/update" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <?php
+                        $path = '/images/no_img.png';
+                        if (!is_null($user->img_url) && file_exists(public_path($user->img_url))) {
+                            $path = $user->img_url;
+                        }
+                        ?>
+                        <div class="mt-3 container text-center align-items-center">
+                            <img src="{{ asset($path) }}" style="max-width: 200px">
+                            <p><?php echo $user->username; ?></p>
                         </div>
+                        <div class="card my-3">
+                            <div class="card-header">
+                                Edit Profile
                         <div class="card-body">
                             <div class="input-group mb-3">
                                 <input name="img_url" class="form-control" type="file" id="formFile" multiple>

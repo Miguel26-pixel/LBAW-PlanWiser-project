@@ -21,6 +21,6 @@ class PrivateMessage extends Model
 
   public function notifications()
   {
-    return $this->hasMany(Notification::class, 'private_message');
+    return $this->hasMany(Notification::class, 'private_message_id');
   }
 }
