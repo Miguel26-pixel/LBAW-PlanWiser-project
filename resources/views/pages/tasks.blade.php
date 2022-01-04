@@ -83,15 +83,17 @@
                     if (search.value !== "") {
                         pag.style.display = 'none';
                     } else {
-                        if (tasks.length > 10)
+                        if (tasks.data.length > 10)
                         pag.style.display = 'flex';
                     }
                 }
             }
 
             body.innerHTML = "";
-
+            let count = 0;
             for(let task of tasks.data) {
+                if (count === 10) break;
+                count++;
                 let tr = body.insertRow();
                 let link = tr.insertCell();
                 link.classList.add('text-center');

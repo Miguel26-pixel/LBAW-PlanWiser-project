@@ -123,15 +123,17 @@
                 if (mysearch.value !== "") {
                     pag.style.display = 'none';
                 } else {
-                    if (projects.length > 10)
+                    if (projects.data.length > 10)
                         pag.style.display = 'flex';
                 }
             }
         }
 
         body.innerHTML = "";
-
-        for(project of projects.data) {
+        let count = 0;
+        for(let project of projects.data) {
+            if (count === 10) break;
+            count++;
             let tr = body.insertRow();
             let link = tr.insertCell();
             link.classList.add('text-center');
@@ -159,15 +161,17 @@
                 if (publicsearch.value !== "") {
                     pag.style.display = 'none';
                 } else {
-                    if (projects.length > 10)
+                    if (projects.data.length > 10)
                         pag.style.display = 'flex';
                 }
             }
         }
 
         body.innerHTML = "";
-
-        for(project of projects.data) {
+        let count = 0;
+        for(let project of projects.data) {
+            if (count === 10) break;
+            count++;
             let tr = body.insertRow();
             let link = tr.insertCell();
             link.classList.add('text-center');

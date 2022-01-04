@@ -196,6 +196,7 @@
         function publicSearchHandler() {
             //if(this.status != 200) window.location = '/';
             let projects = JSON.parse(this.responseText);
+            console.log(projects);
             let body = document.getElementById("table-projects-body");
             let paginations = document.getElementsByClassName('pagination');
 
@@ -204,15 +205,17 @@
                     if (publicsearch.value !== "") {
                         pag.style.display = 'none';
                     } else {
-                        if (projects.length > 6)
+                        if (projects.data.length > 6)
                             pag.style.display = 'flex';
                     }
                 }
             }
 
             body.innerHTML = "";
-
-            for(project of projects.data) {
+            let count = 0;
+            for(let project of projects.data) {
+                if (count === 6) break;
+                count++;
                 let tr = body.insertRow();
                 let link = tr.insertCell();
                 link.classList.add('text-center');
