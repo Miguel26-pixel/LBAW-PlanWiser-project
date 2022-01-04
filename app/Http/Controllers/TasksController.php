@@ -104,7 +104,7 @@ class TasksController extends Controller
                 Gate::authorize('manager',Project::find($project_id));
                 $task=Task::find($id);
                 $task->delete(); //returns true/false
-                break;
+                return redirect('project/'.$project_id.'/tasks');
         }
 
        return redirect()->back();
