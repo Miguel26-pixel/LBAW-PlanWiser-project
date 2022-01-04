@@ -12,17 +12,17 @@
         <div class="col-2">
     @include('partials.project_nav', ['project' => $project])
         </div>
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="container text-center my-3">
                 <h2>All Tasks</h2>
             </div>
-            <div class="container-fluid">
+            <div class="container">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
 
                         <div class="input-group rounded w-50">
                             <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <button type="submit" class="input-group-text border-0" id="search-addon">
+                            <button type="submit" class="input-group-text border-0" id="search-addon" disabled>
                                 <i class="icon-magnifier"></i>
                             </button>
                         </div>

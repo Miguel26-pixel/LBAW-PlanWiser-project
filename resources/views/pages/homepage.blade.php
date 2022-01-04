@@ -20,7 +20,7 @@
                     Public Projects
                     <div class="input-group rounded w-50">
                         <input type="search" name="search" id="publicSearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                        <button type="submit" class="input-group-text border-0" id="search-addon">
+                        <button type="submit" class="input-group-text border-0" id="search-addon" disabled>
                             <i class="icon-magnifier"></i>
                         </button>
                     </div>

@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\Project;
 use App\Models\UserAssign;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -72,13 +73,17 @@ class TasksController extends Controller
             case 'update':
                 Gate::authorize('update',Task::find($id));
                 $validator = $request->validate($this->validator());
+                try {
+                    $task = Task::find($id);
+                    $task->name = $request->name;
+                    $task->description = $request->description;
+                    $task->due_date = $request->due_date;
+                    $task->tag = $request->tag;
+                    $task->save();
+                } catch (QueryException $e){
+                    return redirect()->back()->withErrors('Due and reminder dates are both required. You should also verify that selected reminder date is before due date and that both after today.');
+                }
 
-                $task = Task::find($id);
-                $task->name = $request->name;
-                $task->description = $request->description;
-                $task->due_date = $request->due_date;
-                $task->tag = $request->tag;
-                $task->save();
 
                 if ($request->user_id == -1){
                     $user_assigned = UserAssign::where('task_id', '=', $id)
@@ -172,28 +177,32 @@ class TasksController extends Controller
     protected function create(Request $request)
     {
         Gate::authorize('manager',Project::find($request->project_id));
-        if ($request->user_id == -1) {
-            return redirect()->back()->withErrors('Necessary to input an assignee.');
+        try {
+            $notifications = NotificationsController::getNotifications(Auth::id());
+            $validator = $request->validate($this->validator());
+            $task = new Task;
+            $task->name = $request->name;
+            $task->description = $request->description;
+            $task->due_date = $request->due_date;
+            $task->reminder_date = $request->reminder_date;
+            $task->tag = $request->tag;
+            $task->project_id = $request->project_id;
+            $task->creator_id = Auth::id();
+            $task->created_at = Carbon::now();
+            $task->save();
+
+            if ($request->user_id != -1) {
+                $user_assign = new UserAssign;
+                $user_assign->task_id = $task->id;
+                $user_assign->user_id = $request->user_id;
+                $user_assign->save();
+            }
+        } catch (QueryException $e){
+            return redirect()->back()->withErrors('Due and reminder dates are both required. You should also verify that selected reminder date is before due date and that both after today.');
         }
-        $notifications = NotificationsController::getNotifications(Auth::id());
-        $validator = $request->validate($this->validator());
-        $task = new Task;
-        $task->name = $request->name;
-        $task->description = $request->description;
-        $task->due_date = $request->due_date;
-        $task->reminder_date = $request->reminder_date;
-        $task->tag = $request->tag;
-        $task->project_id = $request->project_id;
-        $task->creator_id = Auth::id();
-        $task->created_at = Carbon::now();
-        $task->save();
 
-        $user_assign = new UserAssign;
-        $user_assign->task_id = $task->id;
-        $user_assign->user_id = $request->user_id;
-        $user_assign->save();
 
-        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
+return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
     }
 /*
     static function getProjectTasks($project_id) {
