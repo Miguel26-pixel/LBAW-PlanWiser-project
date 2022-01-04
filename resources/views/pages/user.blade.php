@@ -13,7 +13,7 @@
                     <form action="/profile/{{$user->id}}/update" method="POST" enctype="multipart/form-data">
                         @csrf
                         <?php
-                        $path = '/images/users/no_img.png';
+                        $path = '/images/no_img.png';
                         if (!is_null($user->img_url) && file_exists(public_path($user->img_url))) {
                             $path = $user->img_url;
                         }

@@ -2,10 +2,10 @@ SET search_path TO lbaw2181;
 
 --users (50)
 
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (1, 'ggalbraith0', 'Giffer Galbraith', 'ggalbraith0@twitter.com', 'FwJ2i3', '/turpis/sed/ante.png', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (1, 'ggalbraith0', 'Giffer Galbraith', 'ggalbraith0@twitter.com', 'FwJ2i3', '/turpis/sed/ante.png', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (2, 'rschrader1', null, 'dantoniottii1@fc2.com', 'aB32Xn', '/sociis/natoque.js', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (3, 'lborth2', null, 'bmillea2@nyu.edu', 'Ex4fmYltJftf', '/vel/accumsan/tellus/nisi/eu.html', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (4, 'dbaffin3', 'Dorian Baffin', 'dbaffin3@skyrock.com', 'UthkL3pn2f', '/ut/erat/id/mauris.html', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (4, 'dbaffin3', 'Dorian Baffin', 'dbaffin3@skyrock.com', 'UthkL3pn2f', '/ut/erat/id/mauris.html', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (5, 'ddeval4', 'Dinny Deval', 'ddeval4@pcworld.com', 'uBEGOX3TL', '/felis/sed/lacus.jpg', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (6, 'afilipponi5', 'Ardelia Filipponi', 'afilipponi5@histats.com', 'Xx6ACMa5', '/neque/libero/convallis/eget/eleifend/luctus.jpg', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (7, 'asokale6', 'Averil Sokale', 'asokale6@simplemachines.org', 'TXRpr8jFF', '/dui/luctus/rutrum/nulla/tellus/in.js', false);
@@ -13,46 +13,47 @@ insert into users (id, username, fullname, email, password, img_url, is_admin) v
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (9, 'eklyner8', null, 'dwinear8@fotki.com', 'BO2ed9Srkaj', '/faucibus.jsp', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (10, 'dsurgenor9', null, 'cstores9@ifeng.com', '895H3CS80w', '/vulputate/justo/in.jsp', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (11, 'mulyatta', 'Maddie Ulyatt', 'mulyatta@friendfeed.com', 'VbdPLh', '/arcu/adipiscing/molestie/hendrerit/at/vulputate.jsp', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (12, 'sdawberyb', null, 'fnipperb@nydailynews.com', '6sMN4CfUA', '/libero/ut/massa.json', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (12, 'sdawberyb', null, 'fnipperb@nydailynews.com', '6sMN4CfUA', '/libero/ut/massa.json', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (13, 'sparnabyc', null, 'epiercec@jalbum.net', 'VbfTclOm7EV', '/cursus.jsp', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (14, 'blillimand', 'Barbara-anne Lilliman', 'blillimand@sbwire.com', 'nPud8lt', '/est/congue/elementum/in/hac/habitasse/platea.jsp', true);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (15, 'ldeignane', 'Luca Deignan', 'ldeignane@surveymonkey.com', 'qp38KHV5za', '/suscipit/ligula/in/lacus/curabitur/at.json', true);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (16, 'jfrendf', 'Jinny Frend', 'jfrendf@creativecommons.org', 'Pn3NlXsMo6Lw', '/suscipit/a/feugiat/et/eros/vestibulum.xml', true);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (17, 'dhuckerbyg', null, 'lculshawg@ucla.edu', 'Wo2ZVw', '/massa/id/lobortis/convallis/tortor.xml', true);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (18, 'mshurrocksh', 'Marlee Shurrocks', 'mshurrocksh@guardian.co.uk', 'geEGkOV', '/pellentesque/volutpat/dui/maecenas.png', true);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (19, 'dgosnelli', null, 'hknottei@t.co', '42JiT8yT', '/proin/leo/odio/porttitor.json', true);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (20, 'aowthwaitej', null, 'amacwilliamj@bluehost.com', 'zlNvE1Cf', '/suspendisse/accumsan/tortor.html', true);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (21, 'csouthamk', 'Cyb Southam', 'csouthamk@census.gov', 'rpwjOxEm', '/in/tempus/sit/amet.jsp', true);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (22, 'morbonl', 'Myrta Orbon', 'morbonl@nbcnews.com', 'nPwUfWiydkI6', '/lectus/in/quam.jpg', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (14, 'blillimand', 'Barbara-anne Lilliman', 'blillimand@sbwire.com', 'nPud8lt', '/est/congue/elementum/in/hac/habitasse/platea.jsp', false);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (15, 'ldeignane', 'Luca Deignan', 'ldeignane@surveymonkey.com', 'qp38KHV5za', '/suscipit/ligula/in/lacus/curabitur/at.json', false);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (16, 'jfrendf', 'Jinny Frend', 'jfrendf@creativecommons.org', 'Pn3NlXsMo6Lw', '/suscipit/a/feugiat/et/eros/vestibulum.xml', false);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (17, 'dhuckerbyg', null, 'lculshawg@ucla.edu', 'Wo2ZVw', '/massa/id/lobortis/convallis/tortor.xml', false);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (18, 'mshurrocksh', 'Marlee Shurrocks', 'mshurrocksh@guardian.co.uk', 'geEGkOV', '/pellentesque/volutpat/dui/maecenas.png', false);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (19, 'dgosnelli', null, 'hknottei@t.co', '42JiT8yT', '/proin/leo/odio/porttitor.json', false);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (20, 'aowthwaitej', null, 'amacwilliamj@bluehost.com', 'zlNvE1Cf', '/suspendisse/accumsan/tortor.html', false);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (21, 'csouthamk', 'Cyb Southam', 'csouthamk@census.gov', 'rpwjOxEm', '/in/tempus/sit/amet.jsp', false);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (22, 'morbonl', 'Myrta Orbon', 'morbonl@nbcnews.com', 'nPwUfWiydkI6', '/lectus/in/quam.jpg', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (23, 'jaudissm', 'Johnnie Audiss', 'jaudissm@accuweather.com', 'h1uDWTTGdRH', '/vehicula/condimentum/curabitur/in/libero.aspx', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (24, 'esaffen', null, 'slovedayn@ebay.com', 'et03i77exc', '/dolor/sit.png', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (25, 'sharesnapeo', 'Stavros Haresnape', 'sharesnapeo@cbslocal.com', 'Z4ygQTVMZ5xB', '/sed/ante/vivamus/tortor.xml', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (25, 'sharesnapeo', 'Stavros Haresnape', 'sharesnapeo@cbslocal.com', 'Z4ygQTVMZ5xB', '/sed/ante/vivamus/tortor.xml', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (26, 'fratleep', 'Fiann Ratlee', 'fratleep@youtu.be', '4U1GOA', '/odio/in/hac/habitasse/platea/dictumst.jsp', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (27, 'gmurcuttq', 'Gypsy Murcutt', 'gmurcuttq@japanpost.jp', '1qRdVg5h', '/curae/nulla/dapibus/dolor/vel/est/donec.jsp', true);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (28, 'kpenniallr', 'Kayla Penniall', 'kpenniallr@mysql.com', 'c32i0GVs8', '/habitasse/platea/dictumst.json', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (27, 'gmurcuttq', 'Gypsy Murcutt', 'gmurcuttq@japanpost.jp', '1qRdVg5h', '/curae/nulla/dapibus/dolor/vel/est/donec.jsp', false);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (28, 'kpenniallr', 'Kayla Penniall', 'kpenniallr@mysql.com', 'c32i0GVs8', '/habitasse/platea/dictumst.json', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (29, 'hbrackens', null, 'flipsetts@purevolume.com', 'jk8Hxqkzkk', '/lorem/ipsum.aspx', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (30, 'bpeplayt', 'Brandie Peplay', 'bpeplayt@usatoday.com', 'eD4pkm', '/vel/lectus/in/quam/fringilla.js', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (30, 'bpeplayt', 'Brandie Peplay', 'bpeplayt@usatoday.com', 'eD4pkm', '/vel/lectus/in/quam/fringilla.js', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (31, 'tshearu', 'Thia Shear', 'tshearu@istockphoto.com', 'plMDnAQn', '/orci/luctus/et/ultrices.html', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (32, 'hyerringtonv', 'Halley Yerrington', 'hyerringtonv@unicef.org', 'a2ixned', '/dictumst.jsp', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (33, 'alarriew', 'Ali Larrie', 'alarriew@163.com', 'qb5lwThH', '/justo/eu.html', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (33, 'alarriew', 'Ali Larrie', 'alarriew@163.com', 'qb5lwThH', '/justo/eu.html', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (34, 'jmcgeeverx', 'Joachim McGeever', 'jmcgeeverx@jiathis.com', 'RNSe8wtSK8Ki', '/in.jsp', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (35, 'mgittisy', null, 'omciany@dropbox.com', '4V43Tromn', '/primis/in/faucibus/orci/luctus/et/ultrices.png', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (35, 'mgittisy', null, 'omciany@dropbox.com', '4V43Tromn', '/primis/in/faucibus/orci/luctus/et/ultrices.png', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (36, 'jsteggalsz', 'Jory Steggals', 'jsteggalsz@lulu.com', 'QcAPWKG', '/vel/augue/vestibulum/ante/ipsum/primis.aspx', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (37, 'apantry10', null, 'rfolbigg10@java.com', 'dcwFf3', '/vestibulum/proin/eu.js', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (38, 'ngrocock11', 'Nev Grocock', 'ngrocock11@miibeian.gov.cn', 'eTyROOZ3F', '/aenean/sit/amet.jsp', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (39, 'rcrilly12', 'Rafaellle Crilly', 'rcrilly12@smugmug.com', 'JcHxdKJixGNt', '/arcu/adipiscing/molestie/hendrerit/at/vulputate.json', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (39, 'rcrilly12', 'Rafaellle Crilly', 'rcrilly12@smugmug.com', 'JcHxdKJixGNt', '/arcu/adipiscing/molestie/hendrerit/at/vulputate.json', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (40, 'rmackriell13', 'Rosamond Mackriell', 'rmackriell13@ucoz.com', 'o1TjyGDGUFAw', '/arcu/sed/augue/aliquam/erat/volutpat.json', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (41, 'ofanning14', 'Olive Fanning', 'ofanning14@discuz.net', 'cTEIt7UvQnH', '/vel/sem/sed/sagittis/nam/congue.json', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (42, 'tfollett15', 'Theresa Follett', 'tfollett15@bravesites.com', '9D4oJVm', '/mauris/laoreet/ut/rhoncus/aliquet/pulvinar/sed.js', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (42, 'tfollett15', 'Theresa Follett', 'tfollett15@bravesites.com', '9D4oJVm', '/mauris/laoreet/ut/rhoncus/aliquet/pulvinar/sed.js', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (43, 'jruse16', null, 'hbetser16@cornell.edu', '0A0ZJSBbB', '/ridiculus/mus/vivamus.jsp', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (44, 'fcayle17', 'Florencia Cayle', 'fcayle17@over-blog.com', 'Tw4X0tN', '/eget/congue/eget/semper/rutrum/nulla/nunc.aspx', false);
-insert into users (id, username, fullname, email, password, img_url, is_admin) values (45, 'mseczyk18', null, 'jescofier18@facebook.com', 'ruaDVGeutw', '/tristique.jsp', true);
+insert into users (id, username, fullname, email, password, img_url, is_admin) values (45, 'mseczyk18', null, 'jescofier18@facebook.com', 'ruaDVGeutw', '/tristique.jsp', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (46, 'ncrosgrove19', null, 'gknappett19@ca.gov', 'T2vRo2ud', '/diam/erat/fermentum.jpg', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (47, 'bburds1a', null, 'emcevay1a@ucoz.ru', 'qeDhQPQyw67z', '/leo/pellentesque/ultrices.xml', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (48, 'kupson1b', 'Kerstin Upson', 'kupson1b@usatoday.com', 'OfKVu6vpq5J', '/sit.jsp', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (49, 'hchisholme1c', null, 'foloshin1c@about.me', 'PpLMGAX4hRz', '/lobortis/convallis/tortor/risus.aspx', false);
 insert into users (id, username, fullname, email, password, img_url, is_admin) values (50, 'nfrede1d', null, 'etebboth1d@wix.com', 'aZ545r', '/in.html', false);
 
+SELECT setval('users_id_seq', max(id)) FROM users;
 
 -- projects (20)
 
@@ -78,6 +79,7 @@ insert into projects (id, title, description, public, active, created_at) values
 insert into projects (id, title, description, public, active, created_at) values (19, 'Computer Systems Analyst III', 'volutpat dui maecenas tristique est et tempus semper est quam pharetra magna ac consequat metus', true, true, '2021-09-20');
 insert into projects (id, title, description, public, active, created_at) values (20, 'Electrical Engineer', 'massa quis augue luctus tincidunt nulla mollis molestie lorem quisque ut erat curabitur gravida nisi at nibh in hac habitasse platea dictumst aliquam augue quam sollicitudin vitae consectetuer eget rutrum at lorem integer tincidunt', false, false, '2021-03-26');
 
+SELECT setval('projects_id_seq', max(id)) FROM projects;
 
 -- projectUsers (59)
 
@@ -157,6 +159,7 @@ insert into privateMessages (id, emitter_id, receiver_id, read, message, created
 insert into privateMessages (id, emitter_id, receiver_id, read, message, created_at) values (9, 18, 41, true, 'venenatis lacinia aenean sit amet justo morbi ut odio cras', '2021-06-29');
 insert into privateMessages (id, emitter_id, receiver_id, read, message, created_at) values (10, 22, 25, false, 'id ornare imperdiet sapien urna pretium nisl ut volutpat sapien arcu sed augue', '2021-11-25');
 
+SELECT setval('privateMessages_id_seq', max(id)) FROM privateMessages;
 
 
 -- favoriteProjects (20)
@@ -288,31 +291,7 @@ insert into projectMessages (id, project_id, user_id, message, created_at) value
 insert into projectMessages (id, project_id, user_id, message, created_at) values (9, 7, 46, 'in tempor turpis nec euismod scelerisque quam turpis adipiscing lorem vitae mattis nibh ligula nec sem duis aliquam convallis nunc proin', '2021-05-29');
 insert into projectMessages (id, project_id, user_id, message, created_at) values (10, 8, 18, 'erat eros viverra eget congue eget semper rutrum nulla nunc purus phasellus', '2021-08-09');
 
-
--- projectFiles (20)
-
-
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (1, 7, '2020-10-01', '2020-11-15', '/odio.jpg');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (2, 2, '2021-10-10', '2021-05-01', '/dui/proin/leo/odio/porttitor.json');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (3, 3, '2021-06-03', '2021-05-12', '/id/pretium/iaculis/diam.html');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (4, 15, '2021-10-24', '2021-08-22', '/congue.jpg');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (5, 17, '2021-06-02', '2021-06-04', '/vestibulum/ante/ipsum/primis/in.jpg');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (6, 4, '2021-01-23', '2021-06-11', '/dapibus/duis/at/velit/eu/est/congue.jpg');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (7, 6, '2021-03-11', '2021-01-20', '/nullam/porttitor/lacus.jpg');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (8, 15, '2021-07-06', '2020-10-31', '/cubilia.png');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (9, 13, '2021-05-07', '2021-07-31', '/elit/ac/nulla/sed/vel/enim.xml');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (10, 4, '2020-10-17', '2020-11-05', '/est/phasellus/sit/amet.js');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (11, 4, '2021-03-06', '2020-11-09', '/eget/elit/sodales/scelerisque.json');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (12, 18, '2021-11-15', '2021-03-05', '/lacinia/eget/tincidunt.html');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (13, 10, '2020-11-30', '2020-12-29', '/proin/interdum/mauris/non/ligula/pellentesque.aspx');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (14, 11, '2021-05-24', '2021-07-05', '/varius/integer/ac/leo/pellentesque/ultrices.jpg');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (15, 13, '2021-02-12', '2021-10-18', '/convallis/morbi/odio/odio.js');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (16, 1, '2021-06-24', '2021-06-25', '/sagittis/sapien/cum/sociis.jpg');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (17, 13, '2021-05-04', '2021-11-19', '/dictumst/maecenas/ut.json');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (18, 2, '2020-10-16', '2021-01-31', '/vitae/consectetuer/eget/rutrum/at/lorem.html');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (19, 2, '2021-06-25', '2021-09-12', '/pulvinar/lobortis/est/phasellus/sit.js');
-insert into projectFiles (id, project_id, updated_at, created_at, url) values (20, 2, '2021-06-04', '2020-12-04', '/mauris.js');
-
+SELECT setval('projectMessages_id_seq', max(id)) FROM projectMessages;
 
 --reports (20)
 
@@ -338,6 +317,7 @@ insert into reports (id, user_id, text, report_type, report_state, reported_user
 insert into reports (id, user_id, text, report_type, report_state, reported_user_id, created_at) values (19, 3, 'elementum ligula vehicula consequat morbi a ipsum integer a nibh in quis justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla ultrices aliquet maecenas leo odio condimentum id luctus', 'BUG', 'PENDING', null, '2021-06-04');
 insert into reports (id, user_id, text, report_type, report_state, reported_user_id, created_at) values (20, 44, 'dolor vel est donec odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia nisi venenatis tristique fusce congue diam id ornare imperdiet sapien urna pretium', 'USER', 'PENDING', 2, '2021-06-04');
 
+SELECT setval('reports_id_seq', max(id)) FROM reports;
 
 -- tasks (50)
 
@@ -353,6 +333,7 @@ insert into tasks (id, creator_id, name, description, reminder_date, due_date, t
 insert into tasks (id, creator_id, name, description, reminder_date, due_date, tag, project_id, created_at) values (9, 41, 'lectus in est risus auctor sed tristique in tempus sit', 'praesent lectus vestibulum quam sapien varius ut blandit non interdum in ante vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae duis faucibus accumsan', '2021-10-23', '2021-11-24', 'REVIEW', 20, '2021-10-13');
 insert into tasks (id, creator_id, name, description, reminder_date, due_date, tag, project_id, created_at) values (10, 22, 'vivamus metus arcu adipiscing molestie hendrerit at vulputate vitae nisl aenean lectus pellentesque eget nunc donec quis orci eget orci vehicula condimentum curabitur in', 'in faucibus orci luctus et ultrices posuere cubilia curae mauris viverra diam vitae quam suspendisse potenti nullam porttitor lacus at turpis', '2021-10-24', '2021-11-08', 'DOING', 1, '2021-10-01');
 
+SELECT setval('tasks_id_seq', max(id)) FROM tasks;
 
 -- userAssigns (99)
 
@@ -387,3 +368,5 @@ insert into taskComments (id, user_id, task_id, comment, created_at) values (7, 
 insert into taskComments (id, user_id, task_id, comment, created_at) values (8, 18, 8, 'in lectus pellentesque at nulla suspendisse potenti cras in purus', '2021-10-05');
 insert into taskComments (id, user_id, task_id, comment, created_at) values (9, 23, 9, 'nulla suspendisse potenti cras in purus eu magna vulputate luctus cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus vivamus vestibulum sagittis sapien cum sociis natoque penatibus', '2021-10-16');
 insert into taskComments (id, user_id, task_id, comment, created_at) values (10, 22, 10, 'nulla sed accumsan felis ut at dolor quis odio consequat varius integer ac leo', '2021-10-02');
+
+SELECT setval('taskComments_id_seq', max(id)) FROM taskComments;

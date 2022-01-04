@@ -22,6 +22,6 @@ class TaskComment extends Model
 
     public function notifications()
   {
-    return $this->hasMany(Notification::class, 'taskcomment');
+    return $this->hasMany(Notification::class, 'taskcomment_id');
   }
 }

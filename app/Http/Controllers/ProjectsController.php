@@ -26,6 +26,7 @@ class ProjectsController extends Controller
 
     static function getMyProjects(){
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
+        //dd($project_users);
         $myprojects = Project::whereIn('id', $project_users)->paginate(10);
         return $myprojects;
     }
@@ -45,7 +46,7 @@ class ProjectsController extends Controller
     public static function searchPublicProjects(Request $request){
         return DB::table('projects')
                             ->where('public','=',true)
-                            ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ to_tsquery(\'english\', ?))',[$request->search])
+                            ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                             ->orderBy('created_at')
                             ->paginate(10);
     }
@@ -54,7 +55,7 @@ class ProjectsController extends Controller
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
         return  DB::table('projects')
                     ->whereIn('id', $project_users)
-                    ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ to_tsquery(\'english\', ?))',[$request->search])
+                    ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                     ->orderBy('created_at')
                     ->paginate(10);
     }

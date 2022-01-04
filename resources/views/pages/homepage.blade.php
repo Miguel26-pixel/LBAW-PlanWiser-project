@@ -38,7 +38,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div id="publicCardBody" class="card-body">
                         <table class="table table-bordered">
                             <thead class="table-success">
                                 <tr>
@@ -258,45 +258,74 @@
 @endsection
 
 @section('scripts')
-<script>
+<<<<<<< HEAD <script>
     const publicsearch = document.getElementById("publicSearch");
     publicsearch.addEventListener("keyup", searchPublicProject);
 
     function searchPublicProject() {
-        sendAjaxRequest('post', '/projectsSearch', {
-            search: publicsearch.value
-        }, publicSearchHandler);
+    sendAjaxRequest('post', '/projectsSearch', {
+    search: publicsearch.value
+    }, publicSearchHandler);
     }
 
     function publicSearchHandler() {
-        //if(this.status != 200) window.location = '/';
-        let projects = JSON.parse(this.responseText);
-        let body = document.getElementById("table-projects-body");
+    //if(this.status != 200) window.location = '/';
+    let projects = JSON.parse(this.responseText);
+    let body = document.getElementById("table-projects-body");
 
-        body.innerHTML = "";
+    body.innerHTML = "";
 
-        for (project of projects.data) {
-            let tr = body.insertRow();
-            let link = tr.insertCell();
-            link.classList.add('text-center');
-            link.innerHTML = '<a class="text-info my-rocket" href="/project/' + project['id'] + '"><i class="icon-rocket"></i></a>';
-            let title = tr.insertCell();
-            title.innerHTML = project['title'];
-            let description = tr.insertCell();
-            description.innerHTML = project['description'];
-        }
+    for (project of projects.data) {
+    let tr = body.insertRow();
+    let link = tr.insertCell();
+    link.classList.add('text-center');
+    link.innerHTML = '<a class="text-info my-rocket" href="/project/' + project['id'] + '"><i class="icon-rocket"></i></a>';
+    let title = tr.insertCell();
+    title.innerHTML = project['title'];
+    let description = tr.insertCell();
+    description.innerHTML = project['description'];
     }
+    }
+    =======
+    <script>
+        const publicsearch = document.getElementById("publicSearch");
+        publicsearch.addEventListener("keyup", searchPublicProject);
 
-    function toggleDiv(classname) {
-        var div = document.getElementsByClassName(classname);
-        for (i = 0; i < div.length; i++) {
-            if (div[i].style.display === "none") {
-                div[i].style.display = "block";
-            } else {
-                div[i].style.display = "none";
+        function searchPublicProject() {
+            sendAjaxRequest('post', '/api/projectsSearch', {
+                search: publicsearch.value
+            }, publicSearchHandler);
+        }
+
+        function publicSearchHandler() {
+            //if(this.status != 200) window.location = '/';
+            let projects = JSON.parse(this.responseText);
+            let body = document.getElementById("table-projects-body");
+            let paginations = document.getElementsByClassName('pagination');
+
+            for (let pag of paginations) {
+                if (document.getElementById('publicCardBody').contains(pag)) {
+                    if (publicsearch.value !== "") {
+                        pag.style.display = 'none';
+                    } else {
+                        if (projects.length > 6)
+                            pag.style.display = 'flex';
+                    }
+                }
+            } >>>
+            >>>
+            > origin
+
+            function toggleDiv(classname) {
+                var div = document.getElementsByClassName(classname);
+                for (i = 0; i < div.length; i++) {
+                    if (div[i].style.display === "none") {
+                        div[i].style.display = "block";
+                    } else {
+                        div[i].style.display = "none";
+                    }
+                }
+
             }
-        }
-
-    }
-</script>
-@endsection
+    </script>
+    @endsection
