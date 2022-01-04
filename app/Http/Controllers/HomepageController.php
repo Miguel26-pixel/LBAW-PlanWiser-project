@@ -10,8 +10,6 @@ class HomepageController extends Controller
 
     public function show()
     {
-        if(Auth::user()==null)
-            return redirect('/');
         $public_projects = ProjectsController::getPublicProjects(6);
         $notifications = NotificationsController::getNotifications(Auth::id());
         if(Auth::user()->is_admin){

@@ -31,17 +31,15 @@ Route::post('/profile/{id}/update-password', [UsersController::class,'updatePass
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('register/{email}', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register/', 'Auth\RegisterController@register');
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
 
 //Projects
 Route::get('projects', [ProjectsController::class,'showProjects']);
 Route::get('projectsCreate', [ProjectController::class,'showProjectForm']);
-
-Route::post('projectsCreate', [ProjectController::class,'createProject']);
+Route::post('projectsCreate', [ProjectController::class,'create']);
 Route::post('api/publicProjectsSearch', [ProjectsController::class,'searchPublicProjects']);
 Route::post('api/myProjectsSearch', [ProjectsController::class,'searchMyProjects']);
-
 
 Route::get('/project/{id}', [ProjectController::class,'showProject']);
 Route::get('/project/{id}/add-fav', [ProjectController::class,'addFavorite']);
@@ -68,7 +66,7 @@ Route::post('/invitation/{id}/deal', [InvitationsController::class,'dealWithInvi
 
 //Task
 Route::get('project/{id}/tasksCreate', [TasksController::class,'showTaskForm']);
-Route::post('tasksCreate', [TasksController::class,'createTask']);
+Route::post('tasksCreate', [TasksController::class,'create']);
 Route::get('/project/{id}/task/{task_id}', [TasksController::class,'showTask']);
 Route::post('/project/{id}/task/{task_id}/update', [TasksController::class,'updateTask']);
 Route::post('api/project/{id}/tasks-search', [TasksController::class,'searchProjectTasks']);

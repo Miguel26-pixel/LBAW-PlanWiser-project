@@ -19,6 +19,9 @@
                     My Projects
                     <div class="input-group rounded w-50">
                         <input id="mySearch" type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="button" class="input-group-text border-0" id="search-addon">
+                            <i class="icon-magnifier"></i>
+                        </button>
                     </div>
                     <a href="projectsCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Project</a>
                 </div>
@@ -62,6 +65,9 @@
                     Public Projects
                     <div class="input-group rounded w-50">
                         <input id="publicSearch" type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" class="input-group-text border-0" id="search-addon">
+                            <i class="icon-magnifier"></i>
+                        </button>
                     </div>
                 </div>
                 <div id="publicCardBody" class="card-body">

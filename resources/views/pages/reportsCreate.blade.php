@@ -38,12 +38,23 @@
                         </div>
                     </div>
                 </div>
+                <!-- {{ csrf_field() }}
+                <label for="text">User name</label>
+
+                <div class="field" style="padding-bottom: 24px" autofocus>
+                    <form method="POST" action="/projectsSearch" enctype="multipart/form-data" class="input-group rounded">
+                        {{@csrf_field()}}
+                        <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" class="input-group-text border-0" id="search-addon">
+                            <i class="icon-magnifier"></i>
+                        </button>
+                    </form>
+                </div> -->
                 @if ($errors->has('report_type'))
                 <span class="error">
                     {{ $errors->first('report_type') }}
                 </span>
                 @endif
-                
                 <div class="field" style="padding-bottom: 24px">
                     <input type="submit" name="submit" value="Report">
                 </div>

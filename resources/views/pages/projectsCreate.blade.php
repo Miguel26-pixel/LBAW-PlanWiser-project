@@ -18,32 +18,31 @@
           <input id="title" type="text" name="title" value="{{ old('title') }}" required autofocus>
         </div>
         @if ($errors->has('title'))
-          <span class="error">
-            {{ $errors->first('title') }}
-          </span>
+        <span class="error">
+          {{ $errors->first('title') }}
+        </span>
         @endif
-
         <div class="field" style="padding-bottom: 24px">
           <label for="description">Description</label>
           <input id="description" type="text" name="description" value="{{ old('description') }}" required autofocus>
         </div>
         @if ($errors->has('description'))
-          <span class="error">
-            {{ $errors->first('description') }}
-          </span>
+        <span class="error">
+          {{ $errors->first('description') }}
+        </span>
         @endif
 
         <div class="field" style="padding-bottom: 24px">
           <label for="public">Public</label>
           <select name="public" class="form-select" required>
-              <option value="True">True</option>
-              <option value="False">False</option>
+              <option value="1">True</option>
+              <option value="0">False</option>
           </select>
         </div>
         @if ($errors->has('public'))
-          <span class="error">
-            {{ $errors->first('public') }}
-          </span>
+        <span class="error">
+          {{ $errors->first('public') }}
+        </span>
         @endif
 
         <div class="field" style="padding-bottom: 24px">
