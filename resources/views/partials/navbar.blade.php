@@ -1,8 +1,8 @@
 <div class="my-container" style="height: 107px">
     <div class="navbar-align">
         <a href="{{ url('/') }}"><img src="{{ asset('/images/planwiserlogo.png') }}" style="width: 200px;"/></a>
-        <a class="btn btn-outline-success nav-item" href="#"> About us </a>
-        <a class="btn btn-outline-success nav-item" href="#"> Support </a>
+        <a class="btn btn-outline-success nav-item" href="/home#aboutUs"> About us </a>
+        <a class="btn btn-outline-success nav-item" href="/home#support"> Support </a>
     @if (Auth::check())
             <a class="btn btn-outline-success nav-item" href="{{ url('/projects') }}"> Projects <a>
             <div id="notifications-btn" class="btn btn-outline-success nav-item my-dropdown">

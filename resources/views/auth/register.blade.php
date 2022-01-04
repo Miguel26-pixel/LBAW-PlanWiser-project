@@ -61,7 +61,7 @@
         </div>
 
         <div class="field" style="padding-bottom: 24px">
-          <input type="submit" name="submit" value="Regist">
+          <input type="submit" name="submit" value="Register">
         </div>
       </form>
     </div>

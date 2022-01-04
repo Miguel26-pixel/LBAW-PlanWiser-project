@@ -173,7 +173,7 @@ class TasksController extends Controller
     {
         Gate::authorize('manager',Project::find($request->project_id));
         if ($request->user_id == -1) {
-            return redirect()->back();
+            return redirect()->back()->withErrors('Necessary to input an assignee.');
         }
         $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
