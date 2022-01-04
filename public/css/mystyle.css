@@ -233,20 +233,13 @@ border-color: white;
 
 
 /*----- Homepage Style-----*/
-
-.homepage {
-    background-color: white;
-    color: black;
-    display: flex;
-}
+        
 
 .homepage-title {
     color: black;
     font-weight: bold;
     line-height: normal;
-    font-size: 30px;
-    margin-left: 13%;
-    margin-top: 10%;
+    font-size: 35px;
     white-space: nowrap;
 }
 

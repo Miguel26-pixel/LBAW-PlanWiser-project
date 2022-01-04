@@ -37,7 +37,7 @@
         @endif
         <div class="field" style="padding-bottom: 24px">
           <label for="email">E-Mail Address</label>
-          <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+          <input id="email" type="email" name="email" {{$email}} ? value={$email} : value="{{ old('email') }}" required>
         </div>
         @if ($errors->has('email'))
         <span class="error">
