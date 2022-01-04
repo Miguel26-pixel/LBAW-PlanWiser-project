@@ -162,7 +162,6 @@ class TasksController extends Controller
         */
 
         return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'project' => Project::find($project_id), 'notifications' => $notifications]);
-
     }
 
     /**
@@ -174,6 +173,9 @@ class TasksController extends Controller
     protected function create(Request $request)
     {
         Gate::authorize('manager',Project::find($request->project_id));
+        if ($request->user_id == -1) {
+            return redirect()->back();
+        }
         $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
         $task = new Task;

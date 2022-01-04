@@ -111,20 +111,44 @@ class ProjectController extends Controller
         return redirect("/projects");
     }
 
-    public function updateProject($id,Request $request) {
+    public function updateProject(int $id, Request $request)
+    {
         Gate::authorize('update',Project::find($id));
-        $project = Project::find($id);
 
-        $project->title = $request->title;
-        $project->description = $request->description;
+        $notifications = NotificationsController::getNotifications(Auth::id());
 
-        $project->public = $request->public == "True";
+        switch ($request->input('action'))
+        {
+            case 'update':
+                Gate::authorize('update',Project::find($id));
 
-        $project->active = $request->active == "True";
-        $project->save();
+                $project = Project::find($id);
+
+                $project->title = $request->title;
+                $project->description = $request->description;
+
+                $project->public = $request->public == "True";
+                $project->active = $request->active == "True";
+
+                $project->save();
+
+                break;
+
+            case 'delete':
+                $project=Project::find($id);
+
+                $project_user = ProjectUser::where('project_id', '=', $id)
+                    ->delete(['user_id'=>$request->user_id]);
+
+                $project->delete();
+
+                return redirect("/projects");
+        }
 
         return redirect()->back();
+
     }
+
 
     public function uploadFiles($id, Request $request) {
         Gate::authorize('inProject',Project::find($id));
