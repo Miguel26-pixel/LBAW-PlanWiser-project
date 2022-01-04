@@ -68,50 +68,39 @@
                 </div>
             </div>
         </div>
-    </div>
-    <hr />
-    <div id="aboutUs" class='d-flex pt-5' style='height: 100vh'>
-        <div class='col-md-5' style="margin-left: 15%; margin-top: 6%">
-            <div class="homepage-title">
-                ABOUT
-            </div>
-            <h3 class="mt-3" style="color: grey">About plan wiser</h3>
-            <div style="font-size:large; padding-top: 10px; padding-right: 15px">
-                LOREM IMPSUM LOREM IMPSUM LOREM
-                IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUM
-            </div>
-        </div>
-        <div class="col-md-5 m-0 d-flex flex-column justify-content-center align-items-center">
-            <h3 class="mt-3 text-center" style="color: grey">Team</h3>
-            <div class="d-flex gap-5 pb-5">
-                <div>
-                    <img src="{{ asset('/images/team/team-1.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
-                    <div class='text-center' style='font-size:large'>
-                        Miguel Amorim
-                        <p>up201907565</p>
+        <div class="container">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    Public Projects
+                    <div class="input-group rounded w-50">
+                        <input type="search" name="search" id="publicSearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     </div>
                 </div>
-                <div>
-                    <img src="{{ asset('/images/team/team-2.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
-                    <div class='text-center' style='font-size:large'>
-                        Fernando Rego
-                        <p>up201907565</p>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex gap-5">
-                <div>
-                    <img src="{{ asset('/images/team/team-3.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
-                    <div class='text-center' style='font-size:large'>
-                        Margarida Raposo
-                        <p>up201907565</p>
-                    </div>
-                </div>
-                <div>
-                    <img src="{{ asset('/images/team/team-4.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
-                    <div class='text-center' style='font-size:large'>
-                        Luísa Marques
-                        <p>up201907565</p>
+                <div id="publicCardBody" class="card-body">
+                    <table class="table table-bordered">
+                        <thead class="table-success">
+                            <tr>
+                                <th scope="col" class="text-center" style="width: 5%"><i class="icon-arrow-right-circle"></i></th>
+                                <th scope="col">Project</th>
+                                <th scope="col" style="width: 55%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-projects-body">
+                            <?php
+                                $count = 1;
+                                foreach ($public_projects as $project) {
+                                    echo '<tr>';
+                                    echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/' . $project['id'] . '"><i class="icon-rocket"></i></a></th>';
+                                    echo '<td>' . $project['title'] . '</td>';
+                                    echo '<td>' . $project['description'] . '</td>';
+                                    echo '</tr>';
+                                    $count++;
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-center">
+                        {{ $public_projects->links() }}
                     </div>
                 </div>
             </div>

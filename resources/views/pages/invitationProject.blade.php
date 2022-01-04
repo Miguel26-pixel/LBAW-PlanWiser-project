@@ -28,7 +28,6 @@
                                 <div class="input-group mb-3">
                                     <h5 class="text-center col-md-12">Description</h5>
                                     <div class="input-group">
-                                        <!--span class="input-group-text">Description:</span-->
                                         <textarea name="description" class="form-control" aria-label="With textarea" rows="10" placeholder="Description" disabled>{{$project->description}}</textarea>
                                     </div>
                                 </div>

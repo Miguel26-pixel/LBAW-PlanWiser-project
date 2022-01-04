@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\UnauthorizedException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +38,19 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof UnauthorizedException) {
+            if ($request->wantsJson())
+                return response()->json(["error" => "The user does not have access to this resource"], 403);
+            else {
+                session()->push("notifications", "You don't have access to this resource.");
+                return redirect("/dashboard");
+            }
+        }
+
+        return parent::render($request, $e);
     }
 }

@@ -70,18 +70,15 @@ class ProjectController extends Controller
         return redirect()->back();
     }
 
-    protected function validator()
-    {
+    protected function validator(){
         return  [
             'title' => ['required','string'],
             'description' => ['required','string'],
-            'public' => 'boolean',
         ];
     }
 
-    protected function create(Request $request)
+    protected function createProject(Request $request)
     {
-
         $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
 
@@ -90,7 +87,7 @@ class ProjectController extends Controller
         $project->title = $request->title;
         $project->description = $request->description;
 
-        if($request->public == "1")
+        if($request->public == "True")
             $project->public = true;
         else
             $project->public = false;
@@ -111,19 +108,42 @@ class ProjectController extends Controller
         return redirect("/projects");
     }
 
-    public function updateProject($id,Request $request) {
+    public function updateProject(int $id, Request $request)
+    {
         Gate::authorize('update',Project::find($id));
-        $project = Project::find($id);
+        
+        $notifications = NotificationsController::getNotifications(Auth::id());
 
-        $project->title = $request->title;
-        $project->description = $request->description;
+        switch ($request->input('action'))
+        {
+            case 'update':
+                $validator = $request->validate($this->validator());
+                
+                $project = Project::find($id);
+                
+                $project->title = $request->title;
+                $project->description = $request->description;
 
-        $project->public = $request->public == "True";
+                $project->public = $request->public == "True";
+                $project->active = $request->active == "True";
 
-        $project->active = $request->active == "True";
-        $project->save();
+                $project->save();
+
+                break;
+
+            case 'delete':
+                $project=Project::find($id);
+
+                $project_user = ProjectUser::where('project_id', '=', $id)
+                                            ->delete(['user_id'=>$request->user_id]);
+
+                $project->delete();
+
+                return redirect("/projects");
+        }
 
         return redirect()->back();
+
     }
 
     public function uploadFiles($id, Request $request) {
