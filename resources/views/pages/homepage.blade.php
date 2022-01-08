@@ -205,7 +205,7 @@
                     if (publicsearch.value !== "") {
                         pag.style.display = 'none';
                     } else {
-                        if (projects.data.length > 6)
+                        if (projects.length > 6)
                             pag.style.display = 'flex';
                     }
                 }
@@ -213,7 +213,7 @@
 
             body.innerHTML = "";
             let count = 0;
-            for(let project of projects.data) {
+            for(let project of projects) {
                 if (count === 6) break;
                 count++;
                 let tr = body.insertRow();

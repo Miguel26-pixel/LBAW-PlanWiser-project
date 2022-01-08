@@ -70,7 +70,6 @@
     mycheckbox.addEventListener("change", searchProject);
     function searchProject() {
         let myfilter = document.getElementById("projects");
-        console.log(myfilter.checked === true);
         sendAjaxRequest('post', '/api/myProjectsSearch', {search: mysearch.value, myprojects: myfilter.checked}, mySearchHandler);
     }
     function mySearchHandler() {
@@ -78,16 +77,13 @@
         let projects = JSON.parse(this.responseText);
         let body = document.getElementById("table-projects-body");
 
-        console.log(projects);
-
         let paginations = document.getElementsByClassName('pagination');
-
         for (let pag of paginations) {
             if (document.getElementById('myCardBody').contains(pag)) {
                 if (mysearch.value !== "") {
                     pag.style.display = 'none';
                 } else {
-                    if (projects.data.length > 10)
+                    if (projects.length > 10)
                         pag.style.display = 'flex';
                 }
             }
@@ -95,7 +91,7 @@
 
         body.innerHTML = "";
         let count = 0;
-        for(let project of projects.data) {
+        for(let project of projects) {
             if (count === 10) break;
             count++;
             let tr = body.insertRow();

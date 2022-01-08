@@ -38,7 +38,6 @@ Route::post('register', 'Auth\RegisterController@register');
 Route::get('projects', [ProjectsController::class,'showProjects']);
 Route::get('projectsCreate', [ProjectController::class,'showProjectForm']);
 Route::post('projectsCreate', [ProjectController::class,'create']);
-Route::post('api/publicProjectsSearch', [ProjectsController::class,'searchPublicProjects']);
 Route::post('api/myProjectsSearch', [ProjectsController::class,'searchMyProjects']);
 
 Route::get('/project/{id}', [ProjectController::class,'showProject']);

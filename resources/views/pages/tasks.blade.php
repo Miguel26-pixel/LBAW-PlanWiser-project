@@ -69,7 +69,6 @@
         const search = document.getElementById("mySearch");
         search.addEventListener("keyup", searchTask);
         function searchTask() {
-            console.log('entrei');
             sendAjaxRequest('post', '/api/project/{{$project->id}}/tasks-search', {search: search.value}, mySearchHandler);
         }
         function mySearchHandler() {
@@ -84,7 +83,7 @@
                     if (search.value !== "") {
                         pag.style.display = 'none';
                     } else {
-                        if (tasks.data.length > 10)
+                        if (tasks.length > 10)
                         pag.style.display = 'flex';
                     }
                 }
@@ -92,7 +91,7 @@
 
             body.innerHTML = "";
             let count = 0;
-            for(let task of tasks.data) {
+            for(let task of tasks) {
                 if (count === 10) break;
                 count++;
                 let tr = body.insertRow();

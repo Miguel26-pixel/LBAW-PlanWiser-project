@@ -224,6 +224,6 @@ return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->p
                                                 or CAST(due_date AS VARCHAR) like '%".$request->search."%'
                                                 or CAST(tag AS VARCHAR) like '".$request->search."%')")
                             ->orderBy('due_date')
-                            ->paginate(10);
+                            ->get();
     }
 }

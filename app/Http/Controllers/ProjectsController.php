@@ -51,7 +51,7 @@ class ProjectsController extends Controller
                             ->where('public','=',true)
                             ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                             ->orderBy('created_at')
-                            ->paginate(10);
+                            ->get();
     }
 
     public function searchMyProjects(Request $request){
@@ -61,7 +61,7 @@ class ProjectsController extends Controller
                 ->whereIn('id', $project_users)
                 ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                 ->orderBy('created_at')
-                ->paginate(10);
+                ->get();
         } else {
             $s = "(";
             foreach ($project_users as $project_user) { $s .= $project_user.','; }
@@ -70,7 +70,7 @@ class ProjectsController extends Controller
                             ->whereRaw('(public is true or id in '.$s.')')
                             ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                             ->orderBy('created_at')
-                            ->paginate(10);
+                            ->get();
         }
 
     }
