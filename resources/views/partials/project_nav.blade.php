@@ -15,7 +15,7 @@
 
 var open = true;
 function changeNav() {
-    if(open == true) {
+    if(open === true) {
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("arrow").style.marginTop = "50%";
         document.getElementById("arrow").classList.remove("icon-arrow-left");
@@ -29,8 +29,6 @@ function changeNav() {
         document.getElementById("arrow").classList.add("icon-arrow-left");
         open = true;
     }
-    console.log(open);
-
 }
 
 
