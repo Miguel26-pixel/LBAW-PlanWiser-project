@@ -26,7 +26,7 @@
                     <a href="projectsCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Project</a>
                 </div>
                 <div class="card-header d-flex align-items-center">
-                        <input type="checkbox" id="myprojects" name="myprojects" style="margin-right:10px">My Projects</input>
+                        <input type="checkbox" id="projects" name="projects" style="margin-right:10px">My Projects</input>
                 </div>
                 <div id="myCardBody" class="card-body">
                     <table class="table table-bordered">
@@ -37,7 +37,7 @@
                                 <th scope="col" style="width: 55%">Description</th>
                             </tr>
                         </thead>
-                        <tbody id="table-myprojects-body">
+                        <tbody id="table-projects-body">
                             <?php
                             $count = 1;
                             foreach ($my_projects as $project) {
@@ -66,58 +66,25 @@
 <script>
     const mysearch = document.getElementById("mySearch");
     mysearch.addEventListener("keyup", searchProject);
+    const mycheckbox = document.getElementById("projects");
+    mycheckbox.addEventListener("change", searchProject);
     function searchProject() {
-        let myfilter = document.getElementById("myprojects");
+        let myfilter = document.getElementById("projects");
+        console.log(myfilter.checked === true);
         sendAjaxRequest('post', '/api/myProjectsSearch', {search: mysearch.value, myprojects: myfilter.checked}, mySearchHandler);
     }
     function mySearchHandler() {
         //if(this.status != 200) window.location = '/';
         let projects = JSON.parse(this.responseText);
-        let body = document.getElementById("table-myprojects-body");
+        let body = document.getElementById("table-projects-body");
+
+        console.log(projects);
 
         let paginations = document.getElementsByClassName('pagination');
 
         for (let pag of paginations) {
             if (document.getElementById('myCardBody').contains(pag)) {
                 if (mysearch.value !== "") {
-                    pag.style.display = 'none';
-                } else {
-                    if (projects.data.length > 10)
-                        pag.style.display = 'flex';
-                }
-            }
-        }
-
-        body.innerHTML = "";
-        let count = 0;
-        for(let project of projects.data) {
-            if (count === 10) break;
-            count++;
-            let tr = body.insertRow();
-            let link = tr.insertCell();
-            link.classList.add('text-center');
-            link.innerHTML = '<a class="text-info my-rocket" href="/project/' + project['id'] + '"><i class="icon-rocket"></i></a>';
-            let title = tr.insertCell();
-            title.innerHTML = project['title'];
-            let description = tr.insertCell();
-            description.innerHTML = project['description'];
-        }
-    }
-    const publicsearch = document.getElementById("publicSearch");
-    publicsearch.addEventListener("keyup", searchPublicProject);
-    function searchPublicProject() {
-        sendAjaxRequest('post', '/api/publicProjectsSearch', {search: publicsearch.value}, publicSearchHandler);
-    }
-    function publicSearchHandler() {
-        //if(this.status != 200) window.location = '/';
-        let projects = JSON.parse(this.responseText);
-        let body = document.getElementById("table-projects-body");
-
-        let paginations = document.getElementsByClassName('pagination');
-
-        for (let pag of paginations) {
-            if (document.getElementById('publicCardBody').contains(pag)) {
-                if (publicsearch.value !== "") {
                     pag.style.display = 'none';
                 } else {
                     if (projects.data.length > 10)

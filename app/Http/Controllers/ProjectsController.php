@@ -39,9 +39,9 @@ class ProjectsController extends Controller
     {
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
         $projects = Project::where('public','=',true)
-                        ->orWhereIn('id', $project_users)
-                        ->orderBy('created_at')
-                        ->paginate(10);
+                            ->orWhereIn('id', $project_users)
+                            ->orderBy('created_at')
+                            ->paginate(10);
         $notifications = NotificationsController::getNotifications(Auth::id());
         return view('pages.projects',['my_projects' => $projects, 'notifications' => $notifications]);
     }
@@ -54,40 +54,20 @@ class ProjectsController extends Controller
                             ->paginate(10);
     }
 
-    public function filterMyProjects(Request $request){
-        $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
-        dd($request);
-        if($request->has('myprojects')){
-            return  DB::table('projects')
-                    ->whereIn('id', $project_users)
-                    ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
-                    ->orderBy('created_at')
-                    ->paginate(10);
-        }
-        else {
-            return DB::table('projects')
-                    ->where('public','=',true)
-                    ->orWhere('id', $project_users)
-                    ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
-                    ->orderBy('created_at')
-                    ->paginate(10);
-        }
-    }
-
     public function searchMyProjects(Request $request){
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
-        
-        if($request->myprojects){
+        if($request->myprojects === "true"){
             return  DB::table('projects')
                 ->whereIn('id', $project_users)
                 ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                 ->orderBy('created_at')
                 ->paginate(10);
-        }
-        else {
+        } else {
+            $s = "(";
+            foreach ($project_users as $project_user) { $s .= $project_user.','; }
+            $s = substr_replace($s ,")",-1);
             return DB::table('projects')
-                            ->where('public','=',true)
-                            ->orWhereIn('id', $project_users)
+                            ->whereRaw('(public is true or id in '.$s.')')
                             ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                             ->orderBy('created_at')
                             ->paginate(10);
