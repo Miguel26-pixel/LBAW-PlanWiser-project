@@ -20,7 +20,9 @@
                 <div class="card my-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         Project Members
+                        <?php if ($user_role === 'MANAGER') { ?>
                         <a href="/project/{{$project->id}}/members/invitation" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> Add Member</a>
+                        <?php } ?>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">

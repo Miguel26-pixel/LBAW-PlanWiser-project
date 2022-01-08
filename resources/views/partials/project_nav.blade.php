@@ -10,7 +10,7 @@
 
 
 
-@section('scripts')
+@section('scripts_nav')
 <script>
 
 var open = true;

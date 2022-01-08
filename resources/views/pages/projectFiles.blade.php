@@ -24,7 +24,9 @@
                                 <th scope="col" style="width: 5%">Type</th>
                                 <th scope="col">File Name</th>
                                 <th scope="col" class="text-center" style="width: 15%">Upload Date</th>
+                                <?php if ($user_role != 'GUEST') {?>
                                 <th scope="col" class="text-center" style="width: 10%">Delete</th>
+                                <?php } ?>
                             </tr>
                             </thead>
                             <tbody>
@@ -35,7 +37,9 @@
                                 echo '<td class="text-center text-primary"><i class="icon-doc"></i></td>';
                                 echo '<td><a href="/project/'.$project['id'].'/files/'.$file->id.'/download" class="text-primary" style="text-decoration: none;">'.$file['name'].'</a></td>';
                                 echo '<td class="text-center">'.$file['updated_at'].'</td>';
+                                if ($user_role != 'GUEST') {
                                 echo '<td class="text-center"><a class="btn btn-outline-danger" href="/project/'.$project['id'].'/files/'.$file->id.'/delete"><i class="icon-trash"></i></td>';
+                                }
                                 echo '</tr>';
                                 $count++;
                             }
@@ -49,6 +53,7 @@
                         <h3 class="text-center">Options</h3>
                         <div class="card">
                             <div class="card-body">
+                                <?php if ($user_role != 'GUEST') {?>
                                 <h4 class="text-center">Upload File(s)</h4>
                                 <form action="/project/{{$project->id}}/files/upload-files" method="POST" enctype="multipart/form-data">
                                     @csrf
@@ -58,6 +63,7 @@
                                     </div>
                                 </form>
                                 <br>
+                                <?php } ?>
                                 <!--h4 class="text-center">Upload Folder</h4>
                                 <form action="/project/{{$project->id}}/files/upload-folder" method="POST" enctype="multipart/form-data">
                                     @csrf

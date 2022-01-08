@@ -30,20 +30,23 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $user = Auth::user();
         Gate::authorize('show',$project);
+        $user_role = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
         $admins = $project->managers;
         $members = $project->members;
         $guests = $project->guests;
         $num_favs = $project->getNumFavs();
         $is_fav = FavoriteProject::where('user_id' ,'=', $user->id)->where('project_id','=',$id)->exists();
-        return view('pages.project',['project' => $project,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs, 'notifications' => $notifications]);
+        return view('pages.project',['user_role' => $user_role,'project' => $project,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs, 'notifications' => $notifications]);
     }
 
     public function showProjectFiles($id) {
         $notifications = NotificationsController::getNotifications(Auth::id());
         $project = Project::find($id);
+        $user = Auth::user();
         Gate::authorize('show',$project);
         $files = $project->files;
-        return view('pages.projectFiles',['project' => $project,'files' => $files, 'notifications' => $notifications]);
+        $user_role = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
+        return view('pages.projectFiles',['user_role' => $user_role,'project' => $project,'files' => $files, 'notifications' => $notifications]);
     }
 
     public function showProjectForm()
@@ -140,15 +143,12 @@ class ProjectController extends Controller
 
                 return redirect("/projects");
         }
-
-
         return redirect()->back();
-
     }
 
 
     public function uploadFiles($id, Request $request) {
-        Gate::authorize('inProject',Project::find($id));
+        Gate::authorize('notGuest',Project::find($id));
 
         foreach ($request->input_files as $file) {
             $pfile = new ProjectFile();
@@ -179,7 +179,7 @@ class ProjectController extends Controller
     }
 
     public function deleteFile($id,$file_id) {
-        Gate::authorize('inProject',Project::find($id));
+        Gate::authorize('notGuest',Project::find($id));
         $file = ProjectFile::find($file_id);
         Storage::disk('public')->delete($file->url);
         $file->delete();

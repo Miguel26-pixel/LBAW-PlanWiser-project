@@ -83,7 +83,9 @@
 
                                 <div class="col-md-12 text-center">
                                     <button type="submit" name="action" value="update" class="btn btn-success">Update Task</button>
+                                    <?php if ($user_role === 'MANAGER') { ?>
                                     <button type="submit" name="action" value="delete" class="btn btn-outline-danger">Delete Task</button>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

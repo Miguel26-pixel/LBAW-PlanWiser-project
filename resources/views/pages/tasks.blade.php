@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Task')
+
 @section('topnavbar')
 @include('partials.navbar', ['notifications' => $notifications])
 @endsection
-
-@section('title', 'Task')
 
 @section('content')
 
@@ -25,7 +25,9 @@
                                 <i class="icon-magnifier"></i>
                             </button>
                         </div>
+                        <?php if ($user_role === 'MANAGER') { ?>
                         <a href="tasksCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Task</a>
+                        <?php } ?>
                     </div>
 
                     <div id="publicCardBody" class="card-body">
@@ -67,7 +69,7 @@
         const search = document.getElementById("mySearch");
         search.addEventListener("keyup", searchTask);
         function searchTask() {
-            console.log('/project/{{$project->id}}/tasks-search');
+            console.log('entrei');
             sendAjaxRequest('post', '/api/project/{{$project->id}}/tasks-search', {search: search.value}, mySearchHandler);
         }
         function mySearchHandler() {
