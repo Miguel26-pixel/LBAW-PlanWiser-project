@@ -81,8 +81,6 @@ class ProjectController extends Controller
 
     protected function create(Request $request)
     {
-
-        $notifications = NotificationsController::getNotifications(Auth::id());
         $validator = $request->validate($this->validator());
 
         $project = new Project;
@@ -98,7 +96,6 @@ class ProjectController extends Controller
         $project->active = true;
         $project->created_at = Carbon::now();
         $project->save();
-        $project = Project::where('title','=',$request->title)->first();
 
         $project_user = new ProjectUser();
 
