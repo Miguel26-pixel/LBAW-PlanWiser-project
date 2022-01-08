@@ -110,6 +110,9 @@
                         ?>
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {{ $my_projects->links() }}
+                    </div>
                 </div>
             </div>
         </div>
