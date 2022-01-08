@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -35,7 +36,8 @@ class ProjectUsersController extends Controller
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $myusers = $this->getProjectUsers($project_id);
+        $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
 
-        return view('pages.projectUsers',['project_users' => $myusers,'project' => Project::find($project_id), 'notifications' => $notifications]);
+        return view('pages.projectUsers',['user_role' => $user_role, 'project_users' => $myusers,'project' => Project::find($project_id), 'notifications' => $notifications]);
     }
 }

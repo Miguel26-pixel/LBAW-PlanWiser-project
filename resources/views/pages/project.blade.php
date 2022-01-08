@@ -12,13 +12,13 @@
     <div class="row m-0">
         <div class="col-md-2"> @include('partials.project_nav', ['project' => $project])</div>
         <div class="col-md-10">
+            <div class="mt-4 container align-items-center">
+                <h3><?php echo $project->title; ?></h3>
+            </div>
             <div class="row m-0">
                 <div class="col-md-9">
                     <form action="/project/{{$project->id}}/update" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="mt-3 container text-center align-items-center">
-                            <h3><?php echo $project->title; ?></h3>
-                        </div>
                         <div class="card my-3">
 
                             <div class="card-body">
@@ -56,10 +56,12 @@
                                         </select>
                                     </div>
                                 </div>
+                                <?php if ($user_role === 'MANAGER') { ?>
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-success">Update Project</button>
+                                    <button type="submit" name="action" value="update" class="btn btn-success">Update Project</button>
                                     <button type="submit" name="action" value="delete" class="btn btn-outline-danger">Delete Project</button>
                                 </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </form>
@@ -111,13 +113,15 @@
                                         $path = $member->img_url;
                                     }
                                     echo '<div class="row m-0 my-4" style="display: flex;align-items: center;justify-content: center;">';
-                                    echo '<img class="col-md-3" style="object-fit: contain; max-height: 60px" src="'. asset($path) .'">';
-                                    echo '<div class="col-md-6">';
-                                    echo $member->username;
-                                    echo '</div>';
-                                    echo '<a href="#" class="col-md-3 btn btn-outline-success">';
-                                    echo '<i class="icon-envelope"></i>';
-                                    echo'</a>';
+                                        echo '<img class="col-md-3" style="object-fit: contain; max-height: 60px" src="'. asset($path) .'">';
+                                        echo '<div class="col-md-6">';
+                                            echo $member->username;
+                                        echo '</div>';
+                                    if ($user_role !== 'GUEST') {
+                                        echo '<a href="#" class="col-md-3 btn btn-outline-success">';
+                                            echo '<i class="icon-envelope"></i>';
+                                        echo'</a>';
+                                    }
                                     echo '</div>';
                                 }
                                 ?>
@@ -135,9 +139,11 @@
                                     echo '<div class="col-md-6">';
                                     echo $guest->username;
                                     echo '</div>';
-                                    echo '<a href="#" class="col-md-3 btn btn-outline-success">';
-                                    echo '<i class="icon-envelope"></i>';
-                                    echo'</a>';
+                                    if ($user_role !== 'GUEST') {
+                                        echo '<a href="#" class="col-md-3 btn btn-outline-success">';
+                                        echo '<i class="icon-envelope"></i>';
+                                        echo'</a>';
+                                    }
                                     echo '</div>';
                                 }
                                 ?>

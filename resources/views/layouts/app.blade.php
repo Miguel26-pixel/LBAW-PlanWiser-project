@@ -22,5 +22,6 @@
     </main>
 </body>
 @yield('scripts')
+@yield('scripts_nav')
 
 </html>

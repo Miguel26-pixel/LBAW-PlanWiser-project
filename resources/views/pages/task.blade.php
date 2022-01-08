@@ -8,14 +8,15 @@
 
 @section('content')
         <div class="row m-0">
-            <div class="col">
-                <div class="container">
+            <div class="col-md-2"> @include('partials.project_nav', ['project' => $project])</div>
+            <div class="col-md-10">
+                <div class="mt-4 container align-items-center">
+                    <h3><?php echo $task->name; ?></h3>
+                </div>
+                <div class="col-md-12 px-4 my-4">
                     <form action="/project/{{$project->id}}/task/{{$task->id}}/update" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="mt-3 container text-center align-items-center">
-                            <p><?php echo $task->name; ?></p>
-                        </div>
-                        <div class="card my-3">
+                        <div class="card ">
                             <div class="card-header">
                                 Edit Task
                             </div>
@@ -82,7 +83,9 @@
 
                                 <div class="col-md-12 text-center">
                                     <button type="submit" name="action" value="update" class="btn btn-success">Update Task</button>
+                                    <?php if ($user_role === 'MANAGER') { ?>
                                     <button type="submit" name="action" value="delete" class="btn btn-outline-danger">Delete Task</button>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

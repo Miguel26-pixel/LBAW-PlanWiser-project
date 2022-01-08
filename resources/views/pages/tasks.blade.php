@@ -1,32 +1,33 @@
 @extends('layouts.app')
 
+@section('title', 'Task')
+
 @section('topnavbar')
 @include('partials.navbar', ['notifications' => $notifications])
 @endsection
 
-@section('title', 'Task')
-
 @section('content')
 
     <div class="row m-0">
-        <div class="col-2">
-    @include('partials.project_nav', ['project' => $project])
+        <div class="col-md-2">
+            @include('partials.project_nav', ['project' => $project])
         </div>
         <div class="col-md-10">
-            <div class="container text-center my-3">
-                <h2>All Tasks</h2>
+            <div class="mt-4 container align-items-center">
+                <h3>All Tasks</h3>
             </div>
-            <div class="container">
+            <div class="col-md-12 px-4 my-4">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-
                         <div class="input-group rounded w-50">
                             <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <button type="submit" class="input-group-text border-0" id="search-addon" disabled>
                                 <i class="icon-magnifier"></i>
                             </button>
                         </div>
+                        <?php if ($user_role === 'MANAGER') { ?>
                         <a href="tasksCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Task</a>
+                        <?php } ?>
                     </div>
 
                     <div id="publicCardBody" class="card-body">
@@ -68,7 +69,7 @@
         const search = document.getElementById("mySearch");
         search.addEventListener("keyup", searchTask);
         function searchTask() {
-            console.log('/project/{{$project->id}}/tasks-search');
+            console.log('entrei');
             sendAjaxRequest('post', '/api/project/{{$project->id}}/tasks-search', {search: search.value}, mySearchHandler);
         }
         function mySearchHandler() {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProjectUser;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\UserAssign;
@@ -56,7 +57,10 @@ class TasksController extends Controller
 
         $user_assigned = json_decode($user_assigned, true);
 
-        return view('pages.task',['project' => Project::find($project_id),
+        $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
+
+        return view('pages.task',['user_role' => $user_role,
+                                    'project' => Project::find($project_id),
                                     'task' => Task::find($id),
                                     'notifications' => $notifications,
                                     'users' => $users,
@@ -118,6 +122,8 @@ class TasksController extends Controller
     {
         Gate::authorize('inProject',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
+        $users = ProjectUsersController::getProjectUsers($project_id);
+        $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
 
         $my_TASKS = DB::table('tasks')
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
@@ -165,7 +171,7 @@ class TasksController extends Controller
         return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
         */
 
-        return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'project' => Project::find($project_id), 'notifications' => $notifications]);
+        return view('pages.tasks',['user_role' => $user_role,'tasks' => $my_TASKS, 'tasks', 'project' => Project::find($project_id), 'notifications' => $notifications, 'users' => $users]);
     }
 
     /**
