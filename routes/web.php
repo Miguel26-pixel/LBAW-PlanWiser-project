@@ -40,6 +40,7 @@ Route::get('projectsCreate', [ProjectController::class,'showProjectForm']);
 Route::post('projectsCreate', [ProjectController::class,'create']);
 Route::post('api/publicProjectsSearch', [ProjectsController::class,'searchPublicProjects']);
 Route::post('api/myProjectsSearch', [ProjectsController::class,'searchMyProjects']);
+Route::post('api/myProjectsFilter', [ProjectsController::class,'filterMyProjects']);
 
 Route::get('/project/{id}', [ProjectController::class,'showProject']);
 Route::get('/project/{id}/add-fav', [ProjectController::class,'addFavorite']);

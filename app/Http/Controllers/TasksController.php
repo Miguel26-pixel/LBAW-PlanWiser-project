@@ -118,6 +118,7 @@ class TasksController extends Controller
     {
         Gate::authorize('inProject',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
+        $users = ProjectUsersController::getProjectUsers($project_id);
 
         $my_TASKS = DB::table('tasks')
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
@@ -165,7 +166,7 @@ class TasksController extends Controller
         return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
         */
 
-        return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'project' => Project::find($project_id), 'notifications' => $notifications]);
+        return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'project' => Project::find($project_id), 'notifications' => $notifications, 'users' => $users]);
     }
 
     /**

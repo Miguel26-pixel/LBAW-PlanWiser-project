@@ -117,12 +117,12 @@ class ProjectController extends Controller
 
         $notifications = NotificationsController::getNotifications(Auth::id());
 
+        $project = Project::find($id);
+
         switch ($request->input('action'))
         {
             case 'update':
                 Gate::authorize('update',Project::find($id));
-
-                $project = Project::find($id);
 
                 $project->title = $request->title;
                 $project->description = $request->description;
@@ -135,7 +135,6 @@ class ProjectController extends Controller
                 break;
 
             case 'delete':
-                $project=Project::find($id);
 
                 $project_user = ProjectUser::where('project_id', '=', $id)
                     ->delete(['user_id'=>$request->user_id]);
@@ -144,6 +143,7 @@ class ProjectController extends Controller
 
                 return redirect("/projects");
         }
+
 
         return redirect()->back();
 

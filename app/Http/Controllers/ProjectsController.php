@@ -37,10 +37,13 @@ class ProjectsController extends Controller
 
     public function showProjects()
     {
-        $projects = self::getPublicProjects(10);
-        $myprojects = self::getMyProjects();
+        $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
+        $projects = Project::where('public','=',true)
+                        ->orWhereIn('id', $project_users)
+                        ->orderBy('created_at')
+                        ->paginate(10);
         $notifications = NotificationsController::getNotifications(Auth::id());
-        return view('pages.projects',['public_projects' => $projects, 'my_projects' => $myprojects, 'notifications' => $notifications]);
+        return view('pages.projects',['my_projects' => $projects, 'notifications' => $notifications]);
     }
 
     public static function searchPublicProjects(Request $request){
@@ -51,12 +54,44 @@ class ProjectsController extends Controller
                             ->paginate(10);
     }
 
-    public function searchMyProjects(Request $request){
+    public function filterMyProjects(Request $request){
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
-        return  DB::table('projects')
+        dd($request);
+        if($request->has('myprojects')){
+            return  DB::table('projects')
                     ->whereIn('id', $project_users)
                     ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
                     ->orderBy('created_at')
                     ->paginate(10);
+        }
+        else {
+            return DB::table('projects')
+                    ->where('public','=',true)
+                    ->orWhere('id', $project_users)
+                    ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
+                    ->orderBy('created_at')
+                    ->paginate(10);
+        }
+    }
+
+    public function searchMyProjects(Request $request){
+        $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
+        
+        if($request->myprojects){
+            return  DB::table('projects')
+                ->whereIn('id', $project_users)
+                ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
+                ->orderBy('created_at')
+                ->paginate(10);
+        }
+        else {
+            return DB::table('projects')
+                            ->where('public','=',true)
+                            ->orWhereIn('id', $project_users)
+                            ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
+                            ->orderBy('created_at')
+                            ->paginate(10);
+        }
+
     }
 }
