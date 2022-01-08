@@ -10,14 +10,14 @@
 
     <div class="row m-0">
         <div class="col-2">
-    @include('partials.project_nav', ['project' => $project])
+            @include('partials.project_nav', ['project' => $project])
         </div>
         <div class="col-10">
-            <div class="container text-center my-3">
-                <h2>Project Members</h2>
+            <div class="mt-4 container align-items-center">
+                <h3>Project Members</h3>
             </div>
-            <div class="container">
-                <div class="card">
+            <div class="col-md-12 px-4">
+                <div class="card my-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         Project Members
                         <a href="/project/{{$project->id}}/members/invitation" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> Add Member</a>

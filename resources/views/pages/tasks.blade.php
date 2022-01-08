@@ -9,17 +9,16 @@
 @section('content')
 
     <div class="row m-0">
-        <div class="col-2">
-    @include('partials.project_nav', ['project' => $project])
+        <div class="col-md-2">
+            @include('partials.project_nav', ['project' => $project])
         </div>
         <div class="col-md-10">
-            <div class="container text-center my-3">
-                <h2>All Tasks</h2>
+            <div class="mt-4 container align-items-center">
+                <h3>All Tasks</h3>
             </div>
-            <div class="container">
+            <div class="col-md-12 px-4 my-4">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-
                         <div class="input-group rounded w-50">
                             <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <button type="submit" class="input-group-text border-0" id="search-addon" disabled>

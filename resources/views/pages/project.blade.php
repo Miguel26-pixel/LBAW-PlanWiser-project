@@ -12,13 +12,13 @@
     <div class="row m-0">
         <div class="col-md-2"> @include('partials.project_nav', ['project' => $project])</div>
         <div class="col-md-10">
+            <div class="mt-4 container align-items-center">
+                <h3><?php echo $project->title; ?></h3>
+            </div>
             <div class="row m-0">
                 <div class="col-md-9">
                     <form action="/project/{{$project->id}}/update" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="mt-3 container text-center align-items-center">
-                            <h3><?php echo $project->title; ?></h3>
-                        </div>
                         <div class="card my-3">
 
                             <div class="card-body">
