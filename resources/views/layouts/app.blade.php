@@ -9,13 +9,17 @@
         </header>
         <div style="margin-top: 107px">
             @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="row m-0">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
+
             @endif
             @yield('content')
         </div>
