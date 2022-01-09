@@ -98,4 +98,19 @@ class UsersController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        $count = User::where('email','like','%@deleted_user.com')->count();
+        $user->fullname = "Deleted User";
+        $user->username = "deleted_user_".$count;
+        $user->email = "deleted_user_".$count."@deleted_user.com";
+        $user->password = Hash::make('139cd5119d398d06f6535f42d775986a683a90e16ce129a5fb7f48870613a1a5');
+        $user->img_url = null;
+        $user->is_admin = false;
+        $user->search = null;
+        $user->save();
+        return redirect('/logout');
+    }
 }

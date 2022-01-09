@@ -30,7 +30,12 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $user = Auth::user();
         Gate::authorize('show',$project);
-        $user_role = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
+        $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
+        if (!$project_user) {
+            $user_role = 'GUEST';
+        } else {
+            $user_role = $project_user->user_role;
+        }
         $admins = $project->managers;
         $members = $project->members;
         $guests = $project->guests;
@@ -45,7 +50,12 @@ class ProjectController extends Controller
         $user = Auth::user();
         Gate::authorize('show',$project);
         $files = $project->files;
-        $user_role = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
+        $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
+        if (!$project_user) {
+            $user_role = 'GUEST';
+        } else {
+            $user_role = $project_user->user_role;
+        }
         return view('pages.projectFiles',['user_role' => $user_role,'project' => $project,'files' => $files, 'notifications' => $notifications]);
     }
 

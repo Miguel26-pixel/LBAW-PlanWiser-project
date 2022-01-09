@@ -114,6 +114,21 @@
                         {{ $fav_projects->links() }}
                     </div>
                 </div>
+                <div class="container text-center my-3">
+                    <h2>Options</h2>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/profile/{{$user->id}}/delete" method="POST">
+                            @csrf
+                            <h4 class="text-center">Delete Account</h4>
+                            <p><span class="text-danger"><i class="icon-shield"></i> Warning: </span>To delete your account click on button below.<br>Be careful because there is no way back after delete the account!</p>
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-danger">Delete my Account</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 @endsection

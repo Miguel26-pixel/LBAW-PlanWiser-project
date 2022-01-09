@@ -26,6 +26,8 @@ Route::post('admin/createUser', [AdminController::class,'createUser']);
 // API
 Route::post('/profile/{id}/update', [UsersController::class,'update']);
 Route::post('/profile/{id}/update-password', [UsersController::class,'updatePassword']);
+Route::post('/profile/{id}/delete', [UsersController::class,'deleteUser']);
+
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
