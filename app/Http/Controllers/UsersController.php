@@ -44,9 +44,8 @@ class UsersController extends Controller
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $user = self::getUser($id);
-        $projects = $user->projects->sortByDesc('created_at');
-        $fav_projects = $user->favorites->sortByDesc('created_at');
-        return view('pages.user', ['user' => $user, 'projects' => $projects, 'fav_projects' => $fav_projects, 'notifications' => $notifications]);
+        $fav_projects = $user->favorites()->orderByDesc('created_at')->paginate(10);
+        return view('pages.user', ['user' => $user, 'fav_projects' => $fav_projects, 'notifications' => $notifications]);
     }
 
     public function update(int $id, Request $request)

@@ -2,7 +2,7 @@
   <a href="/project/{{$project->id}}" class="sidebar-btn" aria-current="page"><i class="icon-home" style="margin-right:20px"></i>About</a>
   <a href="/project/{{$project->id}}/files" class="sidebar-btn" ><i class="icon-docs" style="margin-right:20px"></i>Files</a>
   <a href="/project/{{$project->id}}/tasks" class="sidebar-btn" ><i class="icon-list" style="margin-right:20px"></i>Tasks</a>
-  <a href="#" class="sidebar-btn" ><i class="icon-bubble" style="margin-right:20px"></i>Forum</a>
+  <a href="/project/{{$project->id}}/forum" class="sidebar-btn" ><i class="icon-bubble" style="margin-right:20px"></i>Forum</a>
   <a href="/project/{{$project->id}}/members" class="sidebar-btn" ><i class="icon-user" style="margin-right:20px"></i>Members</a>
 
   <a href="javascript:void(0)" style="margin-top:50%;"><i id="arrow" class="icon-arrow-left" onclick="changeNav();"></i></a>

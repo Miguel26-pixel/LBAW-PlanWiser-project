@@ -53,7 +53,8 @@ Route::post('project/{id}/files/upload-folder', [ProjectController::class,'uploa
 Route::get('project/{id}/files/downloadZIP', [ProjectController::class,'downloadZIP']);
 
 Route::get('project/{id}/tasks', [TasksController::class,'showTasks']);
-Route::get('project/{id}/forum', [ProjectController::class,'showProject']);
+Route::get('project/{id}/forum', [ProjectForumController::class,'show']);
+Route::post('project/{id}/forum/send', [ProjectForumController::class,'sendMessage']);
 
 Route::get('project/{id}/members', [ProjectUsersController::class,'showProjectUsers']);
 Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);

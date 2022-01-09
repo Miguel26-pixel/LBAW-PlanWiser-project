@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectMessage extends Model
 {
-  public $timestamps  = true;
+  public $timestamps  = false;
 
-  protected $table = 'project_message';
+  protected $table = 'projectmessages';
 
   /**
    * The attributes that are mass assignable.
@@ -16,6 +16,14 @@ class ProjectMessage extends Model
    * @var array
    */
   protected $fillable = [
-      'text', 'user_id', 'project_id'
+      'text', 'user_id', 'project_id', 'created_at'
   ];
+
+  public function user() {
+      return $this->belongsTo(User::class);
+  }
+
+    public function project() {
+        return $this->belongsTo(Project::class);
+    }
 }
