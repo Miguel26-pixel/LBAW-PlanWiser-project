@@ -44,6 +44,7 @@ class ProjectUsersController extends Controller
     }
 
     public function updateUserRole($id,$user_id, Request $request) {
+        Gate::authorize('isActive',Project::find($id));
         Gate::authorize('manager',Project::find($id));
         $project_user = ProjectUser::find(['user_id' => $user_id, 'project_id' => $id]);
         $project_user->user_role = $request->role;
@@ -52,6 +53,7 @@ class ProjectUsersController extends Controller
     }
 
     public function removeUserRole($id,$user_id) {
+        Gate::authorize('isActive',Project::find($id));
         Gate::authorize('manager',Project::find($id));
         $project_user = ProjectUser::find(['user_id' => $user_id, 'project_id' => $id]);
         if ($project_user->user_role == "MANAGER") {

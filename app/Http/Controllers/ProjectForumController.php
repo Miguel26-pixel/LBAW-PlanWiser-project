@@ -19,6 +19,7 @@ class ProjectForumController extends Controller
     }
 
     function sendMessage($id, Request $request) {
+        Gate::authorize('isActive',Project::find($id));
         Gate::authorize('notGuest',Project::find($id));
         $message = new ProjectMessage();
 

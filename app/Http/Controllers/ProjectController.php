@@ -132,7 +132,6 @@ class ProjectController extends Controller
         switch ($request->input('action'))
         {
             case 'update':
-                Gate::authorize('update',Project::find($id));
 
                 $project->title = $request->title;
                 $project->description = $request->description;
@@ -166,7 +165,9 @@ class ProjectController extends Controller
     }
 
     public function uploadFiles($id, Request $request) {
+        Gate::authorize('isActive',Project::find($id));
         Gate::authorize('notGuest',Project::find($id));
+
 
         foreach ($request->input_files as $file) {
             $pfile = new ProjectFile();
@@ -197,6 +198,7 @@ class ProjectController extends Controller
     }
 
     public function deleteFile($id,$file_id) {
+        Gate::authorize('isActive',Project::find($id));
         Gate::authorize('notGuest',Project::find($id));
         $file = ProjectFile::find($file_id);
         Storage::disk('public')->delete($file->url);
