@@ -146,6 +146,11 @@ class ProjectController extends Controller
         return redirect()->back();
     }
 
+    public function leaveProject($id) {
+        $project_user = ProjectUser::find(['user_id' => Auth::id(), 'project_id' => $id]);
+        $project_user->delete();
+        return redirect('/projects');
+    }
 
     public function uploadFiles($id, Request $request) {
         Gate::authorize('notGuest',Project::find($id));
