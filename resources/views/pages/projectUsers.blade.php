@@ -32,6 +32,9 @@
                                 <th scope="col">Username</th>
                                 <th scope="col" style="width: 45%">Email</th>
                                 <th scope="col" style="width: 20%">Role</th>
+                                <?php if ($user_role === 'MANAGER') {?>
+                                    <th scope="col" style="width: 5%">Remove</th>
+                                <?php } ?>
                             </tr>
                             </thead>
                             <tbody>
@@ -57,6 +60,12 @@
                                                     echo '<button type="submit" class="btn btn-success"><i class="icon-arrow-right-circle"></i></button>';
                                                 echo '</div>';
                                             echo '</div>';
+                                        echo '</form>';
+                                    echo '</td>';
+                                    echo '<td class="text-center">';
+                                        echo '<form action="/project/'.$project->id.'/members/'.$user['user_id'].'/remove" method="POST">';
+                                            echo csrf_field();
+                                            echo '<button type="submit" class="btn btn-danger"><i class="icon-close"></i></button>';
                                         echo '</form>';
                                     echo '</td>';
                                 } else {
