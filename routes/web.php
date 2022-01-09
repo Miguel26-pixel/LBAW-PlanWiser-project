@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,7 @@ Route::get('/home', [HomepageController::class,'show']);
 Route::get('/dashboard', [DashboardController::class,'show']);
 Route::get('/profile/{id}', [UsersController::class,'showProfile']);
 Route::post('api/projectsSearch', [HomepageController::class,'searchProjects']);
+Route::post('api/sendEmail', [HomepageController::class,'sendEmail']);
 
 //Admin
 Route::get('admin', [AdminController::class,'show']);
@@ -36,6 +38,8 @@ Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');
+Route::get('/recover-password', [LoginController::class,'showRecoverForm']);
+Route::post('api/recover', [LoginController::class,'recoverPassword']);
 
 //Projects
 Route::get('projects', [ProjectsController::class,'showProjects']);

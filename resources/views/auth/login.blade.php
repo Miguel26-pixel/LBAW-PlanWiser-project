@@ -26,7 +26,7 @@
                     <div class="grid--50-50">
                         <label for="password">Password</label>
                         <div class="reset-pass">
-                            <a href="#">Forgot your password?</a>
+                            <a href="/recover-password">Forgot your password?</a>
                         </div>
                     </div>
                     <input type="password" name="password">

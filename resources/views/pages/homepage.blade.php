@@ -119,11 +119,11 @@
             <h3 class="mt-3 text-center" style="color: grey">Get in touch</h3>
             <div class="formbg">
                 <div class="formbg-inner" style="padding: 48px">
-                    <form id="stripe-login" method="POST" action="{{ route('login') }}">
+                    <form id="stripe-login" method="POST" action="api/sendEmail">
                         {{ csrf_field() }}
-                        <div class="field" style="padding-bottom: 24px" value="{{ old('name') }}" required autofocus>
+                        <div class="field" style="padding-bottom: 24px" value="{{ old('name') }}"  autofocus>
                             <label for="name">Name</label>
-                            <input type="name" name="name">
+                            <input type="name" name="name" required>
                         </div>
                         @if ($errors->has('name'))
                             <div class="field">
@@ -132,9 +132,9 @@
                                 </span>
                             </div>
                         @endif
-                        <div class="field" style="padding-bottom: 24px" value="{{ old('email') }}" required autofocus>
+                        <div class="field" style="padding-bottom: 24px" value="{{ old('email') }}"  autofocus>
                             <label for="email">Email</label>
-                            <input type="email" name="email">
+                            <input type="email" name="email" required>
                         </div>
                         @if ($errors->has('email'))
                             <div class="field">
@@ -143,20 +143,21 @@
                                 </span>
                             </div>
                         @endif
-                        <div class="field" style="padding-bottom: 24px" value="{{ old('contact') }}" required autofocus>
+                        <!--div class="field" style="padding-bottom: 24px" value="{{ old('contact') }}" required autofocus>
                             <label for="contact">Contact</label>
-                            <input type="contact" name="contact">
-                        </div>
+                            <input type="text" name="contact">
+                        </div-->
+                        <?php /*
                         @if ($errors->has('contact'))
                             <div class="field">
                                 <span class="error">
                                     {{ $errors->first('contact') }}
                                 </span>
                             </div>
-                        @endif
-                        <div class="field" style="padding-bottom: 24px" value="{{ old('message') }}" required autofocus>
+                        @endif */?>
+                        <div class="field" style="padding-bottom: 24px" value="{{ old('message') }}"  autofocus>
                             <label for="message">Message</label>
-                            <textarea class="form-control" rows="3" class="input" type="message" name="message"> </textarea>
+                            <textarea class="form-control" rows="3" class="input" type="message" name="message" required> </textarea>
                         </div>
                         @if ($errors->has('message'))
                             <div class="field">
