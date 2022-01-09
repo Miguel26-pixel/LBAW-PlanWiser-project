@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('report')
+@section('title', 'Reports')
 
 @section('topnavbar')
 @include('partials.navbar', ['notifications' => $notifications])

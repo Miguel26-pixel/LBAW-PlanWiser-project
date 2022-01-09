@@ -4,7 +4,7 @@
 @include('partials.navbar', ['notifications' => $notifications])
 @endsection
 
-@section('tasks')
+@section('title', 'Tasks')
 
 @section('content')
 
@@ -57,7 +57,7 @@
                                 <option selected value="-1"> </option>
                                 @foreach ($users as $user)
                                         <option value="{{ $user['user_id'] }}">{{$user['username']}} </option>
-                                @endforeach 
+                                @endforeach
                             </select>
                         </div>
                         @if ($errors->has('tag'))

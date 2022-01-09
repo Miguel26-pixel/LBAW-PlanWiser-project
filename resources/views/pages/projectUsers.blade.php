@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('topnavbar')
-@include('partials.navbar')
+@include('partials.navbar', ['notifications' => $notifications])
 @endsection
 
-@section('title', 'ProjectUsers', ['notifications' => $notifications])
+@section('title', 'ProjectUsers')
 
 @section('content')
 
