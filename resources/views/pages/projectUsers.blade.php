@@ -41,7 +41,27 @@
                                 echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href=""><i class="icon-rocket"></i></a></th>'; //TODO href
                                 echo '<td>'.$user["username"].'</td>';
                                 echo '<td>'.$user['email'].'</td>';
-                                echo '<td>'.$user['user_role'].'</td>';
+                                if ($user_role === 'MANAGER' && $user['user_role'] != 'MANAGER') {
+                                    echo '<td>';
+                                        echo '<form action="/project/'.$project->id.'/members/'.$user['user_id'].'/update" method="POST">';
+                                            echo csrf_field();
+                                            echo '<div class="row m-0">';
+                                                echo '<div class="col-md-9">';
+                                                    echo '<select name="role" class="form-select" aria-label="Disabled select example" required>';
+                                                        echo '<option value="GUEST" '.(($user["user_role"] == 'GUEST') ? 'selected' : '').'>GUEST</option>';
+                                                        echo '<option value="MEMBER" '.(($user["user_role"] == 'MEMBER') ? 'selected' : '').'>MEMBER</option>';
+                                                        echo '<option value="MANAGER" '.(($user["user_role"] == 'MANAGER') ? 'selected' : '').'>MANAGER</option>';
+                                                    echo '</select>';
+                                                echo '</div>';
+                                                echo '<div class="col-md-3">';
+                                                    echo '<button type="submit" class="btn btn-success"><i class="icon-arrow-right-circle"></i></button>';
+                                                echo '</div>';
+                                            echo '</div>';
+                                        echo '</form>';
+                                    echo '</td>';
+                                } else {
+                                    echo '<td>'.$user['user_role'].'</td>';
+                                }
                                 echo '</tr>';
                             }
                             ?>

@@ -58,6 +58,7 @@ Route::get('project/{id}/forum', [ProjectForumController::class,'show']);
 Route::post('project/{id}/forum/send', [ProjectForumController::class,'sendMessage']);
 
 Route::get('project/{id}/members', [ProjectUsersController::class,'showProjectUsers']);
+Route::post('project/{id}/members/{user_id}/update', [ProjectUsersController::class,'updateUserRole']);
 Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);
 Route::post('/project/{id}/members/invitation', [InvitationsController::class,'create']);
 

@@ -44,7 +44,7 @@ body {
 .navbar-align {
     display: grid;
     grid-template-columns: auto repeat(6,1fr);
-    grid-template-areas: " . . . . . . . . . . . username sign-up login";
+    grid-template-areas: " . . . . notifications . . . . . . username sign-up login";
     align-items: center;
     margin: 2em 5em 1em 5em;
 }
@@ -79,8 +79,9 @@ body {
     grid-area: sign-up;
 }
 #notifications-btn {
-    grid-area: username;
+    grid-area: notifications;
 }
+
 main > header h1 {
 margin: 0;
 }

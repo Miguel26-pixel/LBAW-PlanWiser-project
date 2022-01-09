@@ -66,7 +66,7 @@ class InvitationsController extends Controller
         $old_invite = json_decode($old_invite, true);
 
         if($old_invite !== [])
-            return view('pages.project',['project' => Project::find($project_id), 'notifications' => $notifications,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs]);
+            return redirect('/project/'.$project_id);
 
         if($user_id !== null) {
 
@@ -79,7 +79,7 @@ class InvitationsController extends Controller
 
         }
 
-        return view('pages.project',['project' => Project::find($project_id), 'notifications' => $notifications,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs]);
+        return redirect('/project/'.$project_id);
     }
 
 
