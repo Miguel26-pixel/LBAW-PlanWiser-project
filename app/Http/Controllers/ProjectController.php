@@ -30,7 +30,12 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $user = Auth::user();
         Gate::authorize('show',$project);
-        $user_role = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
+        $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
+        if (!$project_user) {
+            $user_role = 'GUEST';
+        } else {
+            $user_role = $project_user->user_role;
+        }
         $admins = $project->managers;
         $members = $project->members;
         $guests = $project->guests;
@@ -45,7 +50,12 @@ class ProjectController extends Controller
         $user = Auth::user();
         Gate::authorize('show',$project);
         $files = $project->files;
-        $user_role = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
+        $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
+        if (!$project_user) {
+            $user_role = 'GUEST';
+        } else {
+            $user_role = $project_user->user_role;
+        }
         return view('pages.projectFiles',['user_role' => $user_role,'project' => $project,'files' => $files, 'notifications' => $notifications]);
     }
 
@@ -122,7 +132,6 @@ class ProjectController extends Controller
         switch ($request->input('action'))
         {
             case 'update':
-                Gate::authorize('update',Project::find($id));
 
                 $project->title = $request->title;
                 $project->description = $request->description;
@@ -146,9 +155,19 @@ class ProjectController extends Controller
         return redirect()->back();
     }
 
+    public function leaveProject($id) {
+        $project_user = ProjectUser::find(['user_id' => Auth::id(), 'project_id' => $id]);
+        if ($project_user->user_role == "MANAGER" && Project::find($id)->managers()->count() < 2) {
+            return redirect()->back()->withErrors("You can't leave the project because you are the only manager of the project");
+        }
+        $project_user->delete();
+        return redirect('/projects');
+    }
 
     public function uploadFiles($id, Request $request) {
+        Gate::authorize('isActive',Project::find($id));
         Gate::authorize('notGuest',Project::find($id));
+
 
         foreach ($request->input_files as $file) {
             $pfile = new ProjectFile();
@@ -179,6 +198,7 @@ class ProjectController extends Controller
     }
 
     public function deleteFile($id,$file_id) {
+        Gate::authorize('isActive',Project::find($id));
         Gate::authorize('notGuest',Project::find($id));
         $file = ProjectFile::find($file_id);
         Storage::disk('public')->delete($file->url);

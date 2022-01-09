@@ -20,6 +20,11 @@ class UserPolicy
         return $user->id == $auth->id || $auth->is_admin;
     }
 
+    public function delete(User $auth, User $user)
+    {
+        return $user->id == $auth->id || $auth->is_admin;
+    }
+
     public function admin(User $user) {
         return $user->is_admin;
     }

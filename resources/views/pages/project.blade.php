@@ -74,7 +74,7 @@
                     <div class="card my-3">
                         <div class="card-body">
                             <div class="col-md-12 text-center">
-                                <a class="btn btn-outline-danger col-md-10" href="/project/{{$project->id}}/{{($is_fav) ? 'remove-fav' : 'add-fav'}}">
+                                <a class="btn btn-outline-danger col-md-10 mb-2" href="/project/{{$project->id}}/{{($is_fav) ? 'remove-fav' : 'add-fav'}}">
                                     {{($is_fav) ? 'Remove from Favorites ' : 'Add to Favorites '}}
                                     <?php
                                         if ($is_fav) {
@@ -151,6 +151,9 @@
                             <br>
                             <div class="col-md-12 text-center">
                                 <h3 class="text-danger"><i class="icon-heart"></i> : {{$num_favs}} </h3>
+                            </div>
+                            <div class="col-md-12 text-center">
+                                <a class="btn btn-outline-danger col-md-10" href="/project/{{$project->id}}/leave">Leave Project <i class="icon-logout"></i></a>
                             </div>
                         </div>
                     </div>

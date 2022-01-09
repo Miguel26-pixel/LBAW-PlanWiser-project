@@ -61,12 +61,14 @@ class InvitationsController extends Controller
         //dd($user_id);
 
         $old_invite = Invitation::where('project_id', '=', $project_id)
-                                    ->where('user_id', '=', $user_id[0]['id'])->get();
-
+                                    ->where('user_id', '=', $user_id[0]['id'])->where('accept','=',true)->get();
+        //dd($old_invite);
         $old_invite = json_decode($old_invite, true);
 
-        if($old_invite !== [])
-            return view('pages.project',['project' => Project::find($project_id), 'notifications' => $notifications,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs]);
+        if($old_invite !== []) {
+            dd($old_invite);
+            return redirect('/project/' . $project_id.'/members');
+        }
 
         if($user_id !== null) {
 
@@ -79,7 +81,7 @@ class InvitationsController extends Controller
 
         }
 
-        return view('pages.project',['project' => Project::find($project_id), 'notifications' => $notifications,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs]);
+        return redirect('/project/' . $project_id.'/members');
     }
 
 
@@ -119,7 +121,7 @@ class InvitationsController extends Controller
         $notifications = NotificationsController::getNotifications(Auth::id());
 
 
-        return view('pages.homepage', ['notifications' => $notifications, 'public_projects' => $public_projects]);
+        return redirect('/project/'.$not->invitation_project_id);
     }
 }
 

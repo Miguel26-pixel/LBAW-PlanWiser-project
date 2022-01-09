@@ -22,10 +22,13 @@ Route::get('admin/users', [AdminController::class,'showUsers']);
 Route::post('admin/searchUsers', [AdminController::class,'searchUsers']);
 Route::get('admin/createUser', [AdminController::class,'showUsersForm']);
 Route::post('admin/createUser', [AdminController::class,'createUser']);
+Route::post('admin/profile/{id}/delete', [AdminController::class,'deleteUser']);
 
 // API
 Route::post('/profile/{id}/update', [UsersController::class,'update']);
 Route::post('/profile/{id}/update-password', [UsersController::class,'updatePassword']);
+Route::post('/profile/{id}/delete', [UsersController::class,'deleteUser']);
+
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -44,6 +47,7 @@ Route::get('/project/{id}', [ProjectController::class,'showProject']);
 Route::get('/project/{id}/add-fav', [ProjectController::class,'addFavorite']);
 Route::get('/project/{id}/remove-fav', [ProjectController::class,'removeFavorite']);
 Route::post('/project/{id}/update', [ProjectController::class,'updateProject']);
+Route::get('/project/{id}/leave', [ProjectController::class,'leaveProject']);
 
 Route::get('project/{id}/files', [ProjectController::class,'showProjectFiles']);
 Route::post('project/{id}/files/upload-files', [ProjectController::class,'uploadFiles']);
@@ -57,6 +61,8 @@ Route::get('project/{id}/forum', [ProjectForumController::class,'show']);
 Route::post('project/{id}/forum/send', [ProjectForumController::class,'sendMessage']);
 
 Route::get('project/{id}/members', [ProjectUsersController::class,'showProjectUsers']);
+Route::post('project/{id}/members/{user_id}/update', [ProjectUsersController::class,'updateUserRole']);
+Route::post('project/{id}/members/{user_id}/remove', [ProjectUsersController::class,'removeUserRole']);
 Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);
 Route::post('/project/{id}/members/invitation', [InvitationsController::class,'create']);
 

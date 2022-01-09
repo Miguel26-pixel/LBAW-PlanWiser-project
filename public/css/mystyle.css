@@ -44,7 +44,7 @@ body {
 .navbar-align {
     display: grid;
     grid-template-columns: auto repeat(6,1fr);
-    grid-template-areas: " . . . . . . . . . . . username sign-up login";
+    grid-template-areas: " . . . . notifications . . . . . . username sign-up login";
     align-items: center;
     margin: 2em 5em 1em 5em;
 }
@@ -79,8 +79,9 @@ body {
     grid-area: sign-up;
 }
 #notifications-btn {
-    grid-area: username;
+    grid-area: notifications;
 }
+
 main > header h1 {
 margin: 0;
 }
@@ -338,21 +339,21 @@ border-color: white;
 /*-----Project SideBar-----*/
 
 .sidebar {
-    color: black; 
-    position: fixed; 
-    z-index: 1; 
+    color: black;
+    position: fixed;
+    z-index: 1;
     top: 0;
     left: 0;
     height: 400px;
     background-color: #dbdbdb;
-    overflow-x: hidden; 
-    padding-top: 60px; 
+    overflow-x: hidden;
+    padding-top: 60px;
     padding-left: 20px;
     padding-right: 40px;
-    transition: 2s; 
+    transition: 2s;
     width: fit-content;
   }
-  
+
   /* The sidebar links */
   .sidebar a {
     font-size: 25px;
@@ -364,7 +365,7 @@ border-color: white;
   .sidebar a:hover {
     color: #198754;
   }
-  
+
 
   .sidebar:hover {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -384,8 +385,8 @@ border-color: white;
 
 .sidebar-btn:focus {
     color: #198754;
-} 
-  
+}
+
   /* The button used to open the sidebar */
   .openbtn {
     cursor: pointer;
@@ -393,8 +394,8 @@ border-color: white;
     color: white;
     border: solid;
   }
-  
-  
+
+
   /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
   @media screen and (max-height: 450px) {
     .sidebar {padding-top: 15px;}
