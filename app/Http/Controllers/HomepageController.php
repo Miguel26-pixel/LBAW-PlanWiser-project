@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactUs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class HomepageController extends Controller
 {
@@ -25,5 +27,13 @@ class HomepageController extends Controller
     {
         //dd($request);
         return ProjectsController::searchPublicProjects($request);
+    }
+
+    public function sendEmail(Request $request) {
+        request()->validate(['email' => 'required|email']);
+
+        Mail::to(env('MAIL_FROM_ADDRESS'))->send(new ContactUs($request));
+
+        return redirect()->back();
     }
 }
