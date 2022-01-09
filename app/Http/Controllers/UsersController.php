@@ -101,6 +101,7 @@ class UsersController extends Controller
 
     public function deleteUser($id)
     {
+        Gate::authorize('delete',User::find($id));
         $user = User::find($id);
         $count = User::where('email','like','%@deleted_user.com')->count();
         $user->fullname = "Deleted User";

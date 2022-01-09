@@ -22,6 +22,7 @@ Route::get('admin/users', [AdminController::class,'showUsers']);
 Route::post('admin/searchUsers', [AdminController::class,'searchUsers']);
 Route::get('admin/createUser', [AdminController::class,'showUsersForm']);
 Route::post('admin/createUser', [AdminController::class,'createUser']);
+Route::post('admin/profile/{id}/delete', [AdminController::class,'deleteUser']);
 
 // API
 Route::post('/profile/{id}/update', [UsersController::class,'update']);

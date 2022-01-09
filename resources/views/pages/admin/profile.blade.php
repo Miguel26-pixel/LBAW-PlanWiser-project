@@ -56,7 +56,7 @@
                     </form>
                     <form action="/profile/{{$user->id}}/update-password" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="card">
+                        <div class="card mb-3">
                             <div class="card-header">
                                 Change Password
                             </div>
@@ -79,6 +79,18 @@
                             </div>
                         </div>
                     </form>
+                    <div class="card">
+                        <div class="card-header">
+                            Delete Account
+                        </div>
+                        <div class="card-body text-center">
+                            <form action="/admin/profile/{{$user->id}}/delete" method="POST">
+                                @csrf
+                                <p><span class="text-danger"><i class="icon-shield"></i> Warning: </span>To delete this account click on button below.<br>Be careful because there is no way back after delete the account!</p>
+                                <button type="submit" class="btn btn-danger">Delete my Account</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
