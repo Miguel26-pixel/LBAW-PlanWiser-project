@@ -111,7 +111,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-center">
-                        {{ $my_projects->links() }}
+                        {{ $fav_projects->links() }}
                     </div>
                 </div>
             </div>
