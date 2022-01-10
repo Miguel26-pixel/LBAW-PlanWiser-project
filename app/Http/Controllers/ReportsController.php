@@ -69,7 +69,7 @@ class ReportsController extends Controller
 
         Mail::to(env('MAIL_FROM_ADDRESS'))->send(new \App\Mail\Report($report,User::find(Auth::id()),$reported));
 
-        return redirect()->back();
+        return redirect('/profile/'.Auth::id());
     }
 
     static function getReports()

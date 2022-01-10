@@ -47,7 +47,7 @@ class AdminController extends Controller
                 }
                 $report = Report::find($id);
                 Mail::to($report->user->email)->send(new ReportAnswer($request->message,$report,$report->user));
-                $report->report_state = 'BANNED';
+                $report->report_state = 'DONE';
                 $report->save();
                 break;
             case 'ignore':

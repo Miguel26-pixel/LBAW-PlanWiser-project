@@ -186,7 +186,7 @@ CREATE TABLE projectFiles
 CREATE TABLE reports
 (
     id serial,
-    user_id integer,
+    user_id integer NOT NULL,
     text varchar NOT NULL,
     report_type reportType NOT NULL,
     created_at timestamp NOT NULL,
@@ -200,7 +200,7 @@ CREATE TABLE reports
         REFERENCES users (id)
         ON DELETE CASCADE,
     CONSTRAINT report_type_ck CHECK (report_type = ANY (ARRAY['USER'::reportType, 'BUG'::reportType])),
-    CONSTRAINT report_state_ck CHECK (report_state = ANY (ARRAY['PENDING'::reportState, 'IGNORED'::reportState, 'BANNED'::reportState]))
+    CONSTRAINT report_state_ck CHECK (report_state = ANY (ARRAY['PENDING'::reportState, 'IGNORED'::reportState, 'DONE'::reportState]))
 );
 
 CREATE TABLE tasks
