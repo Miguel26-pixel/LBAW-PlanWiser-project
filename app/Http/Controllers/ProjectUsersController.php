@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invitation;
+use App\Models\Notification;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use Illuminate\Http\Request;
@@ -53,11 +54,22 @@ class ProjectUsersController extends Controller
         Gate::authorize('manager',Project::find($id));
         $project_user = ProjectUser::find(['user_id' => $user_id, 'project_id' => $id]);
         $project_user->user_role = $request->role;
+        if ($request->role == 'MANAGER') {
+            $user_ids = ProjectUser::where('project_id', '=', $id)->pluck('user_id');
+            foreach ($user_ids as $user_id) {
+                $notification = new Notification();
+                $notification->notification_type = 'CHANGE_MANAGER';
+                $notification->invitation_project_id = $id;
+                $notification->user_id = $user_id;
+                $notification->created_at = now();
+                $notification->save();
+            }
+        }
         $project_user->save();
         return redirect()->back();
     }
 
-    public function removeUserRole($id,$user_id) {
+    public function removeUser($id,$user_id) {
         Gate::authorize('isActive',Project::find($id));
         Gate::authorize('manager',Project::find($id));
         $project_user = ProjectUser::find(['user_id' => $user_id, 'project_id' => $id]);
@@ -69,6 +81,7 @@ class ProjectUsersController extends Controller
             $invite->delete();
         }
         $project_user->delete();
+
         return redirect()->back();
     }
 

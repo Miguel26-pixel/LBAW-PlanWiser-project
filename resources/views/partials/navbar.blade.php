@@ -12,9 +12,15 @@
                         foreach ($notifications as $notification) {
                             if($notification['notification_type'] == 'INVITE') {
                                 echo '<div  class="notification-pop">';
-                                echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
-                                echo '<a href="/invitation/'.$notification['id'].'" class=" btn-outline-success">'.$notification['notification_type'].'  '.'Notification'.'</a>';
+                                    echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
+                                    echo '<a href="/invitation/'.$notification['id'].'" class=" btn-outline-success">Invite Notification'.'</a>';
                                 echo '</div>';
+                            } else if ($notification['notification_type'] == 'CHANGE_MANAGER') {
+                                echo '<form action="/notification/'.$notification['id'].'/manager" method="POST" class="notification-pop">';
+                                    echo csrf_field();
+                                    echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
+                                    echo '<button type="submit" class="btn-outline-success">Manager as Changed'.'</button>';
+                                echo '</form>';
                             }
                         }
                     ?>
