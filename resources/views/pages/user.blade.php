@@ -3,7 +3,11 @@
 @section('title', 'Profile')
 
 @section('topnavbar')
-@include('partials.navbar', ['notifications' => $notifications])
+    <?php if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->is_admin) {?>
+    @include('partials.adminnavbar')
+    <?php } else { ?>
+    @include('partials.navbar', ['notifications' => $notifications])
+    <?php } ?>
 @endsection
 
 @section('content')
@@ -127,6 +131,15 @@
                                 <button type="submit" class="btn btn-danger">Delete my Account</button>
                             </div>
                         </form>
+                        <br>
+                        <h4 class="text-center">Make a report</h4>
+                        <p><span class="text-danger"><i class="icon-shield"></i> Warning: </span>   To make a report click on button below.
+                                                                                                    <br>The creation of a report will send an email to the support.
+                                                                                                    It is possible to report a user or a bug in the program.
+                                                                                                    <br> The answer will be send to your email of this account</p>
+                        <div class="col-md-12 text-center">
+                            <a href="/reportsCreate" class="btn btn-danger">Make a Report</a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -15,7 +15,10 @@ Route::post('api/sendEmail', [HomepageController::class,'sendEmail']);
 
 //Admin
 Route::get('admin', [AdminController::class,'show']);
-Route::get('admin/reportsInformations', [AdminController::class,'showReports']);
+Route::get('admin/reports', [AdminController::class,'showReports']);
+Route::post('/admin/reports/search', [AdminController::class,'searchReports']);
+Route::get('admin/reports/{id}/answer', [AdminController::class,'showReportForm']);
+Route::post('admin/reports/{id}/answer', [AdminController::class,'answerReport']);
 Route::get('admin/manageUsers', [AdminController::class,'showUsersManagement']);
 Route::get('admin/projects', [AdminController::class,'showProjects']);
 Route::get('admin/project/{id}', [AdminController::class,'showProjects']);
@@ -69,6 +72,7 @@ Route::post('project/{id}/members/{user_id}/update', [ProjectUsersController::cl
 Route::post('project/{id}/members/{user_id}/remove', [ProjectUsersController::class,'removeUserRole']);
 Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);
 Route::post('/project/{id}/members/invitation', [InvitationsController::class,'create']);
+Route::post('api/project/{id}/members-search', [ProjectUsersController::class,'searchProjectMembers']);
 
 //Invitations
 Route::get('/invitation/{id}', [InvitationsController::class,'showInvite']);

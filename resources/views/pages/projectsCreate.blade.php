@@ -3,7 +3,11 @@
 @section('title', 'Create')
 
 @section('topnavbar')
-@include('partials.navbar', ['notifications' => $notifications])
+    <?php if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->is_admin) {?>
+    @include('partials.adminnavbar')
+    <?php } else { ?>
+    @include('partials.navbar', ['notifications' => $notifications])
+    <?php } ?>
 @endsection
 
 @section('content')

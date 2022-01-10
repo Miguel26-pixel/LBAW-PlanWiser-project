@@ -34,11 +34,16 @@ class ProjectUsersController extends Controller
 
     public function showProjectUsers($project_id)
     {
-        Gate::authorize('inProject',Project::find($project_id));
+        Gate::authorize('showUsers',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $myusers = $this->getProjectUsers($project_id);
-        $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
+        $project_user = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id]);
+        if (!$project_user) {
+            $user_role = 'GUEST';
+        } else {
+            $user_role = $project_user->user_role;
+        }
 
         return view('pages.projectUsers',['user_role' => $user_role, 'project_users' => $myusers,'project' => Project::find($project_id), 'notifications' => $notifications]);
     }
@@ -65,5 +70,21 @@ class ProjectUsersController extends Controller
         }
         $project_user->delete();
         return redirect()->back();
+    }
+
+    public function searchProjectMembers($project_id, Request $request) {
+        $users = DB::table('users')
+            ->join('projectusers', 'users.id', '=','projectusers.user_id')
+            ->join('projects', 'projectusers.project_id', '=','projects.id')
+            ->where('projects.id','=',$project_id)
+            ->whereRaw("(users.username like '%".$request->search."%'
+                                                or users.email like '%".$request->search."%'
+                                                or CAST(user_role AS VARCHAR) like '".$request->search."%')")
+            ->get(['user_id', 'username','email','user_role']);
+
+        $users = json_decode($users,true);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
+        return view('pages.projectUsers',['user_role' => $user_role, 'project_users' => $users,'project' => Project::find($project_id), 'notifications' => $notifications]);
     }
 }

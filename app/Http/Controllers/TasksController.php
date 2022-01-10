@@ -57,7 +57,12 @@ class TasksController extends Controller
 
         $user_assigned = json_decode($user_assigned, true);
 
-        $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
+        $project_user = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id]);
+        if (!$project_user) {
+            $user_role = 'GUEST';
+        } else {
+            $user_role = $project_user->user_role;
+        }
 
         return view('pages.task',['user_role' => $user_role,
                                     'project' => Project::find($project_id),
@@ -120,10 +125,15 @@ class TasksController extends Controller
 
     public function showTasks($project_id)
     {
-        Gate::authorize('notGuest',Project::find($project_id));
+        Gate::authorize('show',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
         $users = ProjectUsersController::getProjectUsers($project_id);
-        $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
+        $project_user = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id]);
+        if (!$project_user) {
+            $user_role = 'GUEST';
+        } else {
+            $user_role = $project_user->user_role;
+        }
 
         $my_TASKS = DB::table('tasks')
                         ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
