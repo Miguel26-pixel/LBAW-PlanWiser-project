@@ -34,11 +34,16 @@ class ProjectUsersController extends Controller
 
     public function showProjectUsers($project_id)
     {
-        Gate::authorize('inProject',Project::find($project_id));
+        Gate::authorize('showUsers',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $myusers = $this->getProjectUsers($project_id);
-        $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
+        $project_user = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id]);
+        if (!$project_user) {
+            $user_role = 'GUEST';
+        } else {
+            $user_role = $project_user->user_role;
+        }
 
         return view('pages.projectUsers',['user_role' => $user_role, 'project_users' => $myusers,'project' => Project::find($project_id), 'notifications' => $notifications]);
     }

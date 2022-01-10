@@ -41,6 +41,9 @@ class UsersController extends Controller
     public function showProfile(int $id)
     {
         Gate::authorize('show' ,User::find($id));
+        if (Auth::user()->is_admin) {
+            return redirect('/admin/profile/'.$id);
+        }
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $user = self::getUser($id);

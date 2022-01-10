@@ -156,6 +156,7 @@ class ProjectController extends Controller
     }
 
     public function leaveProject($id) {
+        Gate::authorize('inProject',Project::find($id));
         $project_user = ProjectUser::find(['user_id' => Auth::id(), 'project_id' => $id]);
         if ($project_user->user_role == "MANAGER" && Project::find($id)->managers()->count() < 2) {
             return redirect()->back()->withErrors("You can't leave the project because you are the only manager of the project");

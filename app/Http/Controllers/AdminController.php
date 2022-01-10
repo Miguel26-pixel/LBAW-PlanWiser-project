@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ReportAnswer;
+use App\Models\Project;
 use App\Models\Report;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -85,8 +86,8 @@ class AdminController extends Controller
     public function showProjects()
     {
         Gate::authorize('admin',User::class);
-        $public_projects = ProjectsController::getPublicProjects(6);
-        return view('pages.admin.projects', ['public_projects'=>$public_projects]);
+        $projects = Project::paginate(10);
+        return view('pages.admin.projects', ['public_projects'=>$projects]);
     }
 
     public function showProfile(int $id)
