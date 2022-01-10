@@ -19,12 +19,18 @@
             <div class="col-md-12 px-4">
                 <div class="card my-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        Project Members
+                        <form action="/api/project/{{$project->id}}/members-search" method="POST" class="input-group rounded w-50">
+                            @csrf
+                            <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <button type="submit" class="input-group-text border-0" id="search-addon">
+                                <i class="icon-magnifier"></i>
+                            </button>
+                        </form>
                         <?php if ($user_role === 'MANAGER') { ?>
                         <a href="/project/{{$project->id}}/members/invitation" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> Add Member</a>
                         <?php } ?>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" >
                         <table class="table table-bordered">
                             <thead class="table-success" >
                             <tr>
@@ -37,11 +43,11 @@
                                 <?php } ?>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="table-members-body">
                             <?php
                             foreach ($project_users as $user) {
                                 echo '<tr>';
-                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href=""><i class="icon-rocket"></i></a></th>'; //TODO href
+                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/profile/'.$user['user_id'].'"><i class="icon-rocket"></i></a></th>'; //TODO href
                                 echo '<td>'.$user["username"].'</td>';
                                 echo '<td>'.$user['email'].'</td>';
                                 if ($user_role === 'MANAGER' && $user['user_role'] != 'MANAGER') {

@@ -72,6 +72,7 @@ Route::post('project/{id}/members/{user_id}/update', [ProjectUsersController::cl
 Route::post('project/{id}/members/{user_id}/remove', [ProjectUsersController::class,'removeUserRole']);
 Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);
 Route::post('/project/{id}/members/invitation', [InvitationsController::class,'create']);
+Route::post('api/project/{id}/members-search', [ProjectUsersController::class,'searchProjectMembers']);
 
 //Invitations
 Route::get('/invitation/{id}', [InvitationsController::class,'showInvite']);

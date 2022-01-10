@@ -66,4 +66,20 @@ class ProjectUsersController extends Controller
         $project_user->delete();
         return redirect()->back();
     }
+
+    public function searchProjectMembers($project_id, Request $request) {
+        $users = DB::table('users')
+            ->join('projectusers', 'users.id', '=','projectusers.user_id')
+            ->join('projects', 'projectusers.project_id', '=','projects.id')
+            ->where('projects.id','=',$project_id)
+            ->whereRaw("(users.username like '%".$request->search."%'
+                                                or users.email like '%".$request->search."%'
+                                                or CAST(user_role AS VARCHAR) like '".$request->search."%')")
+            ->get(['user_id', 'username','email','user_role']);
+
+        $users = json_decode($users,true);
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
+        return view('pages.projectUsers',['user_role' => $user_role, 'project_users' => $users,'project' => Project::find($project_id), 'notifications' => $notifications]);
+    }
 }
