@@ -69,7 +69,7 @@ Route::post('project/{id}/forum/send', [ProjectForumController::class,'sendMessa
 
 Route::get('project/{id}/members', [ProjectUsersController::class,'showProjectUsers']);
 Route::post('project/{id}/members/{user_id}/update', [ProjectUsersController::class,'updateUserRole']);
-Route::post('project/{id}/members/{user_id}/remove', [ProjectUsersController::class,'removeUserRole']);
+Route::post('project/{id}/members/{user_id}/remove', [ProjectUsersController::class,'removeUser']);
 Route::get('/project/{id}/members/invitation', [InvitationsController::class,'showInvitationForm']);
 Route::post('/project/{id}/members/invitation', [InvitationsController::class,'create']);
 Route::post('api/project/{id}/members-search', [ProjectUsersController::class,'searchProjectMembers']);
@@ -88,3 +88,6 @@ Route::post('api/project/{id}/tasks-search', [TasksController::class,'searchProj
 //Reports
 Route::get('reportsCreate', [ReportsController::class,'showReportForm']);
 Route::post('reportsCreate', [ReportsController::class,'create']);
+
+//Notifications
+Route::post('notification/{id}/manager', [NotificationsController::class,'managerNotification']);
