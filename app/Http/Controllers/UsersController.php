@@ -43,12 +43,27 @@ class UsersController extends Controller
         Gate::authorize('show' ,User::find($id));
         if (Auth::user()->is_admin) {
             return redirect('/admin/profile/'.$id);
+        } else if (Auth::id() !== $id) {
+            return redirect('/profile/'.$id.'/view');
         }
         $notifications = NotificationsController::getNotifications(Auth::id());
 
         $user = self::getUser($id);
         $fav_projects = $user->favorites()->orderByDesc('created_at')->paginate(10);
         return view('pages.user', ['user' => $user, 'fav_projects' => $fav_projects, 'notifications' => $notifications]);
+    }
+
+    public function showProfileView(int $id)
+    {
+        Gate::authorize('show' ,User::find($id));
+        if (Auth::user()->is_admin) {
+            return redirect('/admin/profile/'.$id);
+        }
+        $notifications = NotificationsController::getNotifications(Auth::id());
+
+        $user = self::getUser($id);
+        $fav_projects = $user->favorites()->orderByDesc('created_at')->paginate(10);
+        return view('pages.user_view', ['user' => $user, 'fav_projects' => $fav_projects, 'notifications' => $notifications]);
     }
 
     public function update(int $id, Request $request)

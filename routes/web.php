@@ -2,13 +2,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 // Home
 Route::get('/', [Auth\LoginController::class,'home']);
 Route::get('/home', [HomepageController::class,'show']);
-Route::get('/profile/{id}', [UsersController::class,'showProfile']);
 Route::post('api/projectsSearch', [HomepageController::class,'searchProjects']);
 Route::post('api/sendEmail', [HomepageController::class,'sendEmail']);
 
@@ -44,11 +42,10 @@ Route::middleware(['admin'])->group(function () {
 Route::middleware(['unban'])->group(function () {
     // USER
     Route::get('/profile/{id}', [UsersController::class,'showProfile']);
-    Route::get('/profile/{id}', [UsersController::class,'showProfile']);
+    Route::get('/profile/{id}/view', [UsersController::class,'showProfileView']);
     Route::post('/profile/{id}/update', [UsersController::class,'update']);
     Route::post('/profile/{id}/update-password', [UsersController::class,'updatePassword']);
     Route::post('/profile/{id}/delete', [UsersController::class,'deleteUser']);
-    Route::get('/profile/{id}', [UsersController::class,'showProfile']);
 
     //Projects
     Route::get('projects', [ProjectsController::class,'showProjects']);
@@ -97,5 +94,4 @@ Route::middleware(['unban'])->group(function () {
 
 //Notifications
     Route::post('notification/{id}/manager', [NotificationsController::class,'managerNotification']);
-
 });
