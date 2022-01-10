@@ -138,4 +138,20 @@ class AdminController extends Controller
         $user->save();
         return redirect('/admin/manageUsers');
     }
+
+    public function banUser($id) {
+        Gate::authorize('admin',User::class);
+        $user = User::find($id);
+        $user->is_banned = true;
+        $user->save();
+        return redirect()->back();
+    }
+
+    public function unbanUser($id) {
+        Gate::authorize('admin',User::class);
+        $user = User::find($id);
+        $user->is_banned = false;
+        $user->save();
+        return redirect()->back();
+    }
 }
