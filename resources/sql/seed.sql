@@ -26,19 +26,22 @@ DROP TYPE IF EXISTS stage;
 DROP TYPE IF EXISTS userRole;
 
 CREATE TYPE notificationType AS ENUM (
-    'INVITE',
-    'FORUM',
-    'REPORT',
-    'MESSAGE',
-    'REMINDER',
-    'COMMENT'
+    'INVITE', --project
+    'FORUM', --project forum
+    'REPORT', --report
+    'MESSAGE', --private_message
+    'REMINDER', --task reminder
+    'COMMENT', --task comment
+    'CHANGE_MANAGER', --change_manager
+    'ASSIGN', --task assign
+    'COMPLETE_TASK' --complete task
 );
 
 
 CREATE TYPE reportState AS ENUM (
     'PENDING',
     'IGNORED',
-    'BANNED'
+    'DONE'
 );
 
 
@@ -74,6 +77,7 @@ CREATE TABLE users
     password varchar NOT NULL,
     img_url varchar,
     is_admin boolean NOT NULL DEFAULT false,
+    is_banned boolean NOT NULL DEFAULT false,
     search TSVECTOR,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
@@ -251,7 +255,7 @@ CREATE TABLE notifications --povoar
     id serial,
     notification_type notificationType NOT NULL,
     created_at timestamp NOT NULL,
-    user_id integer NOT NULL,
+    user_id integer,
     invitation_user_id integer,
     project_message_id integer,
     report_id integer,
@@ -282,7 +286,7 @@ CREATE TABLE notifications --povoar
     CONSTRAINT user_fk FOREIGN KEY (user_id)
     REFERENCES users (id)
     ON DELETE CASCADE,
-    CONSTRAINT notification_type_ck CHECK (notification_type = ANY (ARRAY['INVITE'::notificationType, 'FORUM'::notificationType, 'REPORT'::notificationType, 'MESSAGE'::notificationType, 'REMINDER'::notificationType, 'COMMENT'::notificationType]))
+    CONSTRAINT notification_type_ck CHECK (notification_type = ANY (ARRAY['INVITE'::notificationType, 'FORUM'::notificationType, 'REPORT'::notificationType, 'MESSAGE'::notificationType, 'REMINDER'::notificationType, 'COMMENT'::notificationType,'CHANGE_MANAGER'::notificationType,'ASSIGN'::notificationType,'COMPLETE_TASK'::notificationType]))
     );
 
 --functions
@@ -493,8 +497,8 @@ CREATE OR REPLACE FUNCTION check_notification_type() RETURNS TRIGGER AS
               $BODY$
 BEGIN
     if
-(new.notification_type = 'INVITE' and new.invitation_project_id IS NOT NULL and new.invitation_user_id IS NOT NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
-then
+        (new.notification_type = 'INVITE' and new.invitation_project_id IS NOT NULL and new.invitation_user_id IS NOT NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
+    then
 
     elsif
         (new.project_message_id IS NOT NULL and new.notification_type = 'FORUM' and new.invitation_user_id IS NULL and new.invitation_project_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
@@ -516,11 +520,22 @@ then
         (new.project_message_id IS NULL and new.notification_type = 'COMMENT' and new.invitation_user_id IS NULL and new.invitation_project_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NOT NULL)
     then
 
+    elsif
+        (new.notification_type = 'CHANGE_MANAGER' and new.invitation_project_id IS NOT NULL and new.invitation_user_id IS NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NULL and new.task_comment_id IS NULL)
+    then
+
+    elsif
+        (new.notification_type = 'ASSIGN' and new.invitation_project_id IS NULL and new.invitation_user_id IS NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NOT NULL and new.task_comment_id IS NULL)
+    then
+
+    elsif
+        (new.notification_type = 'COMPLETE_TASK' and new.invitation_project_id IS NULL and new.invitation_user_id IS NULL and new.project_message_id IS NULL and new.report_id IS NULL and new.private_message_id IS NULL and new.task_id IS NOT NULL and new.task_comment_id IS NULL)
+    then
     else
-delete from notifications where id = new.id;
-end if;
-RETURN NEW;
-END;
+        delete from notifications where id = new.id;
+    end if;
+    RETURN NEW;
+    END;
 $BODY$
     LANGUAGE plpgsql;
 
