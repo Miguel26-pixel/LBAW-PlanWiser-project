@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
 @section('topnavbar')
-@include('partials.navbar', ['notifications' => $notifications])
+    <?php if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->is_admin) {?>
+    @include('partials.adminnavbar')
+    <?php } else { ?>
+    @include('partials.navbar', ['notifications' => $notifications])
+    <?php } ?>
 @endsection
 
-@section('tasks')
+@section('title', 'Tasks')
 
 @section('content')
 
@@ -57,7 +61,7 @@
                                 <option selected value="-1"> </option>
                                 @foreach ($users as $user)
                                         <option value="{{ $user['user_id'] }}">{{$user['username']}} </option>
-                                @endforeach 
+                                @endforeach
                             </select>
                         </div>
                         @if ($errors->has('tag'))

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FavoriteProject;
+use App\Models\Invitation;
 use App\Models\Project;
 use App\Models\ProjectFile;
 use App\Models\ProjectUser;
@@ -156,11 +157,16 @@ class ProjectController extends Controller
     }
 
     public function leaveProject($id) {
+        Gate::authorize('inProject',Project::find($id));
         $project_user = ProjectUser::find(['user_id' => Auth::id(), 'project_id' => $id]);
         if ($project_user->user_role == "MANAGER" && Project::find($id)->managers()->count() < 2) {
             return redirect()->back()->withErrors("You can't leave the project because you are the only manager of the project");
         }
         $project_user->delete();
+        $invite = Invitation::where('project_id', '=', $id)->where('user_id', '=', Auth::id())->where('accept','=',true)->first();
+        if ($invite) {
+            $invite->delete();
+        }
         return redirect('/projects');
     }
 

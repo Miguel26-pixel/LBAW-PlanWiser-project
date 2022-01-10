@@ -3,7 +3,11 @@
 @section('title', 'Project')
 
 @section('topnavbar')
-@include('partials.navbar', ['notifications' => $notifications])
+    <?php if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->is_admin) {?>
+    @include('partials.adminnavbar')
+    <?php } else { ?>
+    @include('partials.navbar', ['notifications' => $notifications])
+    <?php } ?>
 @endsection
 
 @section('content')
@@ -152,6 +156,7 @@
                             <div class="col-md-12 text-center">
                                 <h3 class="text-danger"><i class="icon-heart"></i> : {{$num_favs}} </h3>
                             </div>
+
                             <div class="col-md-12 text-center">
                                 <a class="btn btn-outline-danger col-md-10" href="/project/{{$project->id}}/leave">Leave Project <i class="icon-logout"></i></a>
                             </div>

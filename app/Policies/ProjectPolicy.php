@@ -18,16 +18,21 @@ class ProjectPolicy
         return $user->is_admin || $this->checkUserInProject($user,$project) || $project->public;
     }
 
+    public function showUsers(User $user, Project $project)
+    {
+        return $user->is_admin || $this->checkUserInProject($user,$project);
+    }
+
     public function isPublic(User $user, Project $project) {
         return $user->is_admin || $this->checkUserInProject($user,$project) || $project->public;
     }
 
     public function inProject(User $user, Project $project) {
-        return $user->is_admin || $this->checkUserInProject($user,$project);
+        return $this->checkUserInProject($user,$project);
     }
 
     public function update(User $user, Project $project) {
-        return $user->is_admin || ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER') || $project->active;;
+        return ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER') || $project->active;;
     }
 
     private function checkUserInProject(User $user, Project $project) {
@@ -38,11 +43,11 @@ class ProjectPolicy
     }
 
     public function notGuest(User $user, Project $project) {
-        return $user->is_admin || ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role !== 'GUEST');
+        return ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role !== 'GUEST');
     }
 
     public function manager(User $user, Project $project) {
-        return $user->is_admin || ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER');
+        return ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER');
     }
 
     public function isActive(User $user, Project $project) {

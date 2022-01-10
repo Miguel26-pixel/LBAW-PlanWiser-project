@@ -21,9 +21,14 @@ class NotificationsController extends Controller
     static function getNotifications($id)
     {
         $my_notifications = Notification::where('user_id','=',$id)->where('seen', '=', false)->get();
-        //dd($my_notifications);
         $my_notifications = json_decode($my_notifications, true);
         return array_reverse($my_notifications);
     }
 
+    public function managerNotification($id) {
+        $notification = Notification::find($id);
+        $notification->seen = true;
+        $notification->save();
+        return redirect('/project/'.$notification->invitation_project_id.'/members');
+    }
 }
