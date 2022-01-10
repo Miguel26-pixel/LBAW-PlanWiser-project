@@ -255,7 +255,7 @@ CREATE TABLE notifications --povoar
     id serial,
     notification_type notificationType NOT NULL,
     created_at timestamp NOT NULL,
-    user_id integer,
+    user_id integer NOT NULL,
     invitation_user_id integer,
     project_message_id integer,
     report_id integer,
