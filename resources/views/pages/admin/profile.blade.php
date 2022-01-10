@@ -8,20 +8,20 @@
 
 @section('content')
         <div class="row m-0 justify-content-center">
-            <div class="col-md-7">
+            <?php
+            $path = '/images/no_img.png';
+            if (!is_null($user->img_url) && file_exists(public_path($user->img_url))) {
+                $path = $user->img_url;
+            }
+            ?>
+            <div class="mt-3 container text-center align-items-center">
+                <img src="{{ asset($path) }}" style="max-width: 200px">
+                <p><?php echo $user->username; ?></p>
+            </div>
+            <div class="col-md-8">
                 <div class="container">
                     <form action="/profile/{{$user->id}}/update" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <?php
-                        $path = '/images/no_img.png';
-                        if (!is_null($user->img_url) && file_exists(public_path($user->img_url))) {
-                            $path = $user->img_url;
-                        }
-                        ?>
-                        <div class="mt-3 container text-center align-items-center">
-                            <img src="{{ asset($path) }}" style="max-width: 200px">
-                            <p><?php echo $user->username; ?></p>
-                        </div>
                         <div class="card my-3">
                             <div class="card-header">
                                 Edit Profile
@@ -79,17 +79,42 @@
                             </div>
                         </div>
                     </form>
-                    <div class="card">
-                        <div class="card-header">
-                            Delete Account
-                        </div>
-                        <div class="card-body text-center">
-                            <form action="/admin/profile/{{$user->id}}/delete" method="POST">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card my-3">
+                    <div class="card-header">
+                        Options
+                    </div>
+                    <div class="card-body">
+                        <h3 class="text-center">Delete Account</h3>
+                        <form action="/admin/profile/{{$user->id}}/delete" method="POST">
+                            @csrf
+                            <p><span class="text-danger"><i class="icon-shield"></i> Warning: </span>To delete this account click on button below.<br>Be careful because there is no way back after delete the account!</p>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-danger">Delete Account</button>
+                            </div>
+                        </form>
+                        <br>
+                        @if (!$user->is_banned)
+                            <h3 class="text-center">Ban Account</h3>
+                            <form action="/admin/profile/{{$user->id}}/ban" method="POST">
                                 @csrf
-                                <p><span class="text-danger"><i class="icon-shield"></i> Warning: </span>To delete this account click on button below.<br>Be careful because there is no way back after delete the account!</p>
-                                <button type="submit" class="btn btn-danger">Delete my Account</button>
+                                <p><span class="text-danger"><i class="icon-shield"></i> Warning: </span>To ban this account click on button below.<br>After banning a user, he cannot access anything!</p>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-danger">Ban Account</button>
+                                </div>
                             </form>
-                        </div>
+                        @else
+                            <h3 class="text-center">Unban Account</h3>
+                            <form action="/admin/profile/{{$user->id}}/unban" method="POST">
+                                @csrf
+                                <p><span class="text-danger"><i class="icon-shield"></i> Warning: </span>To unban this account click on button below.<br>After unbanning a user, he can access anything!</p>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success">Unban Account</button>
+                                </div>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>

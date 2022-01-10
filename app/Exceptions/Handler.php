@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
                 return response()->json(["error" => "The user does not have access to this resource"], 403);
             else {
                 session()->push("notifications", "You don't have access to this resource.");
-                return redirect("/dashboard");
+                return redirect("/home");
             }
         }
 
