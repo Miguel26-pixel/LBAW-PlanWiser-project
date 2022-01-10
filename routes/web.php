@@ -80,6 +80,7 @@ Route::post('tasksCreate', [TasksController::class,'create']);
 Route::get('/project/{id}/task/{task_id}', [TasksController::class,'showTask']);
 Route::post('/project/{id}/task/{task_id}/update', [TasksController::class,'updateTask']);
 Route::post('api/project/{id}/tasks-search', [TasksController::class,'searchProjectTasks']);
+Route::post('/project/{id}/task/{task_id}/comment', [TaskCommentsController::class,'sendComment']);
 
 //Reports
 Route::get('reportsCreate', [ReportsController::class,'showReportForm']);

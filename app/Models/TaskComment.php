@@ -8,7 +8,9 @@ class TaskComment extends Model
 {
 
     // Don't add create and update timestamps in database.
-    public $timestamps  = true;
+    public $timestamps  = false;
+
+    protected $table = 'taskcomments';
 
     /**
      * The attributes that are mass assignable.
@@ -20,8 +22,8 @@ class TaskComment extends Model
     ];
 
 
-    public function notifications()
-  {
-    return $this->hasMany(Notification::class, 'taskcomment_id');
-  }
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
 }

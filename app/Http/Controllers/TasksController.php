@@ -6,6 +6,7 @@ use App\Models\ProjectUser;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\UserAssign;
+use App\Models\TaskComment;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -50,6 +51,8 @@ class TasksController extends Controller
 
         $users = ProjectUsersController::getProjectUsers($project_id);
 
+        $taskComments = TaskCommentsController::getTaskComments($id);
+
         $user_assigned = DB::table('userassigns')
                             ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
                             ->where('task_id', '=', $id)
@@ -61,10 +64,11 @@ class TasksController extends Controller
 
         return view('pages.task',['user_role' => $user_role,
                                     'project' => Project::find($project_id),
-                                    'task' => Task::find($id),
+                                    'task' => Task::find($id), 
                                     'notifications' => $notifications,
                                     'users' => $users,
-                                    'user_assigned' => $user_assigned]);
+                                    'user_assigned' => $user_assigned,
+                                    'task_comments' => $taskComments]);
     }
 
 
