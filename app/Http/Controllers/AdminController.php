@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Card;
+use App\Mail\ReportAnswer;
+use App\Models\Report;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -11,6 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -26,9 +28,51 @@ class AdminController extends Controller
     public function showReports()
     {
         Gate::authorize('admin',User::class);
-        $public_projects = ReportsController::getReports();
-        return view('pages.admin.reports', ['public_projects'=>$public_projects]);
+        $reports = ReportsController::getReports();
+        return view('pages.admin.reports', ['reports'=>$reports,'pending' => false,'type' => ""]);
+    }
 
+    public function showReportForm($id) {
+        Gate::authorize('admin',User::class);
+        $report = Report::find($id);
+        return view('pages.admin.answer_report', ['report'=>$report]);
+    }
+
+    public function answerReport($id, Request $request) {
+        switch ($request->action) {
+            case 'done':
+                if ($request->message == null) {
+                    return redirect()->back()->withErrors('Answer cannot be empty');
+                }
+                $report = Report::find($id);
+                Mail::to($report->user->email)->send(new ReportAnswer($request->message,$report,$report->user));
+                $report->report_state = 'BANNED';
+                $report->save();
+                break;
+            case 'ignore':
+                $report = Report::find($id);
+                $report->report_state = 'IGNORED';
+                $report->save();
+                break;
+        }
+        return redirect('/admin/reports');
+    }
+
+    public function searchReports(Request $request) {
+        Gate::authorize('admin',User::class);
+        if ($request->pending == 'on') {
+            $reports = Report::join('users','reports.user_id','=','users.id')
+                ->where('report_state','=','PENDING')
+                ->where('report_type','=',$request->type)
+                ->whereRaw('(users.username like \'%'.$request->search.'%\' or reports.text like \'%'.$request->search.'%\')')
+                ->paginate(10);
+        } else {
+            $reports = Report::join('users','reports.user_id','=','users.id')
+                                ->where('report_type','=',$request->type)
+                                ->whereRaw('(users.username like \'%'.$request->search.'%\' or reports.text like \'%'.$request->search.'%\')')
+                                ->paginate(10);
+        }
+        return view('pages.admin.reports', ['reports'=>$reports,'pending' => $request->pending == 'on','type' => $request->type]);
     }
 
     public function showUsersManagement()
