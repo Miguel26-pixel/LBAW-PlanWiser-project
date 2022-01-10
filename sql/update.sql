@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS reports;
 DROP TYPE IF EXISTS notificationType;
 DROP TYPE IF EXISTS reportState;
 
+ALTER TABLE users ADD is_banned boolean NOT NULL DEFAULT false;
+
 CREATE TYPE notificationType AS ENUM (
     'INVITE',
     'FORUM',
