@@ -34,4 +34,9 @@ class Task extends Model
   {
     return $this->hasMany(Notification::class);
   }
+
+  public function assignee()
+  {
+    return $this->hasOne(UserAssign::class);
+  }
 }

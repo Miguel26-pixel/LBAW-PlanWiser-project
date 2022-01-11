@@ -22,6 +22,20 @@
                                     echo '<button type="submit" class="btn-outline-success">Manager as Changed'.'</button>';
                                 echo '</form>';
                             }
+                            else if ($notification['notification_type'] == 'COMPLETE_TASK') {
+                                echo '<form action="/notification/'.$notification['id'].'/taskClosed" method="POST" class="notification-pop">';
+                                    echo csrf_field();
+                                    echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
+                                    echo '<button type="submit" class="btn-outline-success">Task has been closed.'.'</button>';
+                                echo '</form>';
+                            }
+                            else if ($notification['notification_type'] == 'ASSIGN') {
+                                echo '<form action="/notification/'.$notification['id'].'/assign" method="POST" class="notification-pop">';
+                                    echo csrf_field();
+                                    echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
+                                    echo '<button type="submit" class="btn-outline-success">Task has been assigned.'.'</button>';
+                                echo '</form>';
+                            }
                         }
                     ?>
                 </div>

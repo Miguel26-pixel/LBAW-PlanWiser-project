@@ -87,6 +87,7 @@ Route::middleware(['unban'])->group(function () {
     Route::get('/project/{id}/task/{task_id}', [TasksController::class,'showTask']);
     Route::post('/project/{id}/task/{task_id}/update', [TasksController::class,'updateTask']);
     Route::post('api/project/{id}/tasks-search', [TasksController::class,'searchProjectTasks']);
+    Route::post('/project/{id}/task/{task_id}/comment', [TaskCommentsController::class,'sendComment']);
 
 //Reports
     Route::get('reportsCreate', [ReportsController::class,'showReportForm']);
@@ -94,4 +95,6 @@ Route::middleware(['unban'])->group(function () {
 
 //Notifications
     Route::post('notification/{id}/manager', [NotificationsController::class,'managerNotification']);
+    Route::post('notification/{id}/taskClosed', [NotificationsController::class,'taskClosedNotification']);
+    Route::post('notification/{id}/assign', [NotificationsController::class,'assignNotification']);
 });

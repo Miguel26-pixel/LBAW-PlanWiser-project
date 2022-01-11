@@ -13,7 +13,7 @@
 @section('content')
         <div class="row m-0">
             <div class="col-md-2"> @include('partials.project_nav', ['project' => $project])</div>
-            <div class="col-md-10">
+            <div class="col-md-5">
                 <div class="mt-4 container align-items-center">
                     <h3><?php echo $task->name; ?></h3>
                 </div>
@@ -96,6 +96,60 @@
                     </form>
                 </div>
             </div>
+            <div class="col-md-5">
+            <div class="mt-4 container align-items-center">
+                <h3>Comments</h3>
+            </div>
+            <div class="col-md-12 px-4 my-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3" style="max-height:60vh;overflow:auto;">
+                            <table class="table table-bordered overflow-scroll">
+                                <thead class="table-success" >
+                                <tr>
+                                    <th scope="col" class="text-center" style="width: 4%"><i class="icon-user"></i></th>
+                                    <th scope="col" style="width: 10%">User</th>
+                                    <th scope="col">Comment</th>
+                                    <th scope="col" style="width: 10%">Date</th>
+                                </tr>
+                                </thead>
+                                <tbody id="table-tasks-body" >
+                                <?php
+                                //dd($task_comments);
+                                foreach ($task_comments as $comment) {
+                                    $path = '/images/no_img.png';
+                                    if (!is_null($comment->user->img_url) && file_exists(public_path($comment->user->img_url))) {
+                                        $path = $comment->user->img_url;
+                                    }
+                                    echo '<tr>';
+                                    echo '<td><img style="border-radius: 50%; max-width: 100%; max-height: 70px" src="'.asset($path).'"></td>';
+                                    echo '<td><a href="/profile/'.$comment->user->id.'" class="text-black" style="text-decoration: none">'.$comment->user->username.'</td>';
+                                    echo '<td>'.$comment->comment.'</td>';
+                                    echo '<td>'.$comment->created_at.'</td>';
+                                    echo '</tr>';
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            {{ $task_comments->links() }}
+                        </div>
+                        <form action="/project/{{$project->id}}/task/{{$task->id}}/comment" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <textarea name="comment" class="form-control" aria-label="With textarea" rows="3" placeholder="Write new comment"></textarea>
+                                </div>
+                                <div class="col-md-3 align-items-center justify-content-center" style="display: flex;">
+                                    <button type="submit" name="action" class="btn btn-secondary h-50">Send <i class="icon-rocket"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
 @endsection

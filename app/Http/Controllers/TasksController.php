@@ -6,6 +6,8 @@ use App\Models\ProjectUser;
 use App\Models\Task;
 use App\Models\Project;
 use App\Models\UserAssign;
+use App\Models\TaskComment;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -50,6 +52,8 @@ class TasksController extends Controller
 
         $users = ProjectUsersController::getProjectUsers($project_id);
 
+        $taskComments = TaskCommentsController::getTaskComments($id);
+
         $user_assigned = DB::table('userassigns')
                             ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
                             ->where('task_id', '=', $id)
@@ -66,10 +70,11 @@ class TasksController extends Controller
 
         return view('pages.task',['user_role' => $user_role,
                                     'project' => Project::find($project_id),
-                                    'task' => Task::find($id),
+                                    'task' => Task::find($id), 
                                     'notifications' => $notifications,
                                     'users' => $users,
-                                    'user_assigned' => $user_assigned]);
+                                    'user_assigned' => $user_assigned,
+                                    'task_comments' => $taskComments]);
     }
 
 
@@ -82,16 +87,38 @@ class TasksController extends Controller
             case 'update':
                 Gate::authorize('update',Task::find($id));
                 $validator = $request->validate($this->validator());
-                try {
+                //try {
                     $task = Task::find($id);
                     $task->name = $request->name;
                     $task->description = $request->description;
                     $task->due_date = $request->due_date;
                     $task->tag = $request->tag;
+
+                    if($request->tag == 'CLOSED') {
+                        $managers = Project::find($project_id)->managers;
+                        $assignee = $task->assignee;
+                        $notification = new Notification();
+                        $notification->user_id = $assignee->user_id;
+                        $notification->notification_type = 'COMPLETE_TASK';
+                        $notification->task_id = $task->id;
+                        $notification->created_at = now();
+                        $notification->save();
+
+                        foreach ($managers as $manager) {
+                            $notification = new Notification();
+                            $notification->notification_type = 'COMPLETE_TASK';
+                            $notification->user_id = $manager->id;
+                            $notification->task_id = $task->id;
+                            $notification->created_at = now();
+                            $notification->save();
+                        }
+
+                    }
+
                     $task->save();
-                } catch (QueryException $e){
+                /* //} catch (QueryException $e){
                     return redirect()->back()->withErrors('Due and reminder dates are both required. You should also verify that selected reminder date is before due date and that both after today.');
-                }
+                } */
 
 
                 if ($request->user_id == -1){
@@ -109,6 +136,15 @@ class TasksController extends Controller
                     $user_assign = new UserAssign;
                     $user_assign->task_id = $task->id;
                     $user_assign->user_id = $request->user_id;
+
+                    $notification = new Notification();
+                    $notification->user_id = $request->user_id;
+                    $notification->notification_type = 'ASSIGN';
+                    $notification->task_id = $task->id;
+                    $notification->created_at = now();
+                    $notification->save();
+
+
                     $user_assign->save();
                 }
 
@@ -211,6 +247,14 @@ class TasksController extends Controller
                 $user_assign = new UserAssign;
                 $user_assign->task_id = $task->id;
                 $user_assign->user_id = $request->user_id;
+
+                $notification = new Notification();
+                $notification->user_id = $request->user_id;
+                $notification->notification_type = 'ASSIGN';
+                $notification->task_id = $task->id;
+                $notification->created_at = now();
+                $notification->save();
+
                 $user_assign->save();
             }
         } catch (QueryException $e){

@@ -65,14 +65,18 @@
 <hr/>
 
 <div id="aboutUs" class='d-flex pt-5' style='height: 100vh'>
-    <div class='col-md-5' style="margin-left: 15%;">
+    <div class='d-flex col-md-5' style="margin-left: 15%; flex-direction:column; justify-content:center;">
         <div class="homepage-title">
-            ABOUT
+        ABOUT
         </div>
-        <h3 class="mt-3" style="color: grey">About plan wiser</h3>
-        <div style="font-size:large; padding-top: 10px; padding-right: 15px">
-            LOREM IMPSUM LOREM IMPSUM LOREM
-            IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUMLOREM IMPSUM LOREM IMPSUM LOREM IPSUM LOREM IPSUM
+        <div style="margin-left:13%">
+            <h3 class="mt-3" style="color: grey">About PlanWiser</h3>
+            <div style="font-size:large; padding-top: 10px; padding-right: 15px">
+            PlanWiser aims to be a place where users all over the world can easily manage and organize their projects, whether they are students, amateurs, or professional developers.
+
+            This platform allows members to create projects for everyone to see and to help each other with their public projects.
+
+            </div>
         </div>
     </div>
     <div class="col-md-5 m-0 d-flex flex-column justify-content-center align-items-center">
@@ -82,14 +86,14 @@
                 <img src="{{ asset('/images/team/team-1.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
                 <div class='text-center' style='font-size:large'>
                     Miguel Amorim
-                    <p>up201907565</p>
+                    <p>up201907756</p>
                 </div>
             </div>
             <div>
                 <img src="{{ asset('/images/team/team-2.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
                 <div class='text-center' style='font-size:large'>
                     Fernando Rego
-                    <p>up201907565</p>
+                    <p>up201905951</p>
                 </div>
             </div>
         </div>
@@ -98,7 +102,7 @@
                 <img src="{{ asset('/images/team/team-3.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
                 <div class='text-center' style='font-size:large'>
                     Margarida Raposo
-                    <p>up201907565</p>
+                    <p>up201906784</p>
                 </div>
             </div>
             <div>
@@ -113,7 +117,7 @@
 </div>
 <hr />
 <div id="support" class='pt-5' style='height: 100vh'>
-    <div class='col-md-5' style="margin-left: 15%; margin-top: 6%">
+    <div class='col-md-5' style="margin-left: 15%; margin-top: 6%;">
         <div class="homepage-title">
             SUPPORT
         </div>
@@ -180,9 +184,9 @@
         <div class="col-md-5 m-0 d-flex flex-column justify-content-center align-items-center" style="margin-left: 15%; margin-top: 6%">
             <h3 class="mt-3 make-a-report" style="color: grey">Contact Us</h3>
             <div class="make-a-report" style="font-size:large">
-                <p style="padding-bottom: 24px">Miguel Amorim - up201907565@fe.up.pt</p>
-                <p style="padding-bottom: 24px">Fernando Rego - up201907565@fe.up.pt</p>
-                <p style="padding-bottom: 24px">Margarida Raposo - up201907565@fe.up.pt</p>
+                <p style="padding-bottom: 24px">Miguel Amorim - up201907756@fe.up.pt</p>
+                <p style="padding-bottom: 24px">Fernando Rego - up201905951@fe.up.pt</p>
+                <p style="padding-bottom: 24px">Margarida Raposo - up201906784@fe.up.pt</p>
                 <p style="padding-bottom: 24px">Luísa Marques - up201907565@fe.up.pt</p>
             </div>
         </div>
