@@ -43,7 +43,7 @@
                             }
                         }
                         if ($count == 0) {
-                            echo '<hr>';
+                            echo '<div class="text-secondary">Empty</div>';
                         }
                     ?>
                 </div>
