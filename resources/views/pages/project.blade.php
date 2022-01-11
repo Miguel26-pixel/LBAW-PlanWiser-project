@@ -1,9 +1,13 @@
+<?php
+use Illuminate\Support\Facades\Auth;
+?>
+
 @extends('layouts.app')
 
 @section('title', 'Project')
 
 @section('topnavbar')
-    <?php if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->is_admin) {?>
+    <?php if (Auth::check() && Auth::user()->is_admin) {?>
     @include('partials.adminnavbar')
     <?php } else { ?>
     @include('partials.navbar', ['notifications' => $notifications])
@@ -88,7 +92,7 @@
                                 </a>
                             </div>
                             <br>
-                            <div style="max-height: 250px; overflow: auto">
+                            <div style="max-height: 150px; overflow: auto">
                                 <h4 class="text-center">Managers ({{count($admins->toArray())}})</h4>
                                 <?php
                                 foreach ($admins as $admin) {
@@ -101,14 +105,16 @@
                                             echo '<div class="col-md-6">';
                                                 echo $admin->username;
                                             echo '</div>';
-                                            echo '<a href="#" class="col-md-3 btn btn-outline-success">';
+                                        if (!(Auth::check() && $admin->id === Auth::id())) {
+                                            echo '<a href="mailto:'.$admin->email.'" class="col-md-3 btn btn-outline-success">';
                                                 echo '<i class="icon-envelope"></i>';
                                             echo'</a>';
+                                        }
                                     echo '</div>';
                                 }
                                 ?>
                             </div>
-                            <div style="max-height: 350px; overflow: auto">
+                            <div style="max-height: 250px; overflow: auto">
                                 <h4 class="text-center">Members ({{count($members->toArray())}})</h4>
                                 <?php
                                 foreach ($members as $member) {
@@ -122,9 +128,11 @@
                                             echo $member->username;
                                         echo '</div>';
                                     if ($user_role !== 'GUEST') {
-                                        echo '<a href="#" class="col-md-3 btn btn-outline-success">';
-                                            echo '<i class="icon-envelope"></i>';
-                                        echo'</a>';
+                                        if (!(Auth::check() && $member->id === Auth::id())) {
+                                            echo '<a href="mailto:'.$member->email.'" class="col-md-3 btn btn-outline-success">';
+                                                echo '<i class="icon-envelope"></i>';
+                                            echo'</a>';
+                                        }
                                     }
                                     echo '</div>';
                                 }
@@ -143,8 +151,8 @@
                                     echo '<div class="col-md-6">';
                                     echo $guest->username;
                                     echo '</div>';
-                                    if ($user_role !== 'GUEST') {
-                                        echo '<a href="#" class="col-md-3 btn btn-outline-success">';
+                                    if ($user_role == 'MANAGER') {
+                                        echo '<a href="mailto:'.$guest->email.'" class="col-md-3 btn btn-outline-success">';
                                         echo '<i class="icon-envelope"></i>';
                                         echo'</a>';
                                     }
