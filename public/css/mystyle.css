@@ -30,7 +30,7 @@ body {
     background-color: #e7e7e7;
     color: black;
     min-width: 400px;
-    left: -120px;
+    left: -100px;
     top: 45px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     padding: 12px 16px;
@@ -43,8 +43,8 @@ body {
 
 .navbar-align {
     display: grid;
-    grid-template-columns: auto repeat(6,1fr);
-    grid-template-areas: " . . . . notifications . . . . . . username sign-up login";
+    grid-template-columns: auto repeat(8,1fr);
+    grid-template-areas: " . . . . . . . sign-up login";
     align-items: center;
     margin: 2em 5em 1em 5em;
 }
@@ -70,7 +70,7 @@ body {
     grid-area: login;
 }
 #username-btn {
-    grid-area: username;
+    grid-area: sign-up;
 }
 #logout-btn {
     grid-area: login;
