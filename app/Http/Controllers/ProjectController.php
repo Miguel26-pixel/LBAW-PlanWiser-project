@@ -122,6 +122,27 @@ class ProjectController extends Controller
         return redirect("/projects");
     }
 
+    public function edit(int $id)
+    {
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        $project = Project::find($id);
+        $user = Auth::user();
+        Gate::authorize('show',$project);
+        $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
+        if (!$project_user) {
+            $user_role = 'GUEST';
+        } else {
+            $user_role = $project_user->user_role;
+        }
+        $admins = $project->managers;
+        $members = $project->members;
+        $guests = $project->guests;
+        $num_favs = $project->getNumFavs();
+        $is_fav = FavoriteProject::where('user_id' ,'=', $user->id)->where('project_id','=',$id)->exists();
+        return view('pages.projectEdit',['user_role' => $user_role,'project' => $project,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs, 'notifications' => $notifications]);
+   
+    }
+
     public function updateProject(int $id, Request $request)
     {
         Gate::authorize('update',Project::find($id));
@@ -153,7 +174,7 @@ class ProjectController extends Controller
 
                 return redirect("/projects");
         }
-        return redirect()->back();
+        return redirect('project/'.$id);
     }
 
     public function leaveProject($id) {

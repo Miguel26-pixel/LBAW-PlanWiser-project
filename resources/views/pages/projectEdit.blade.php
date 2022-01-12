@@ -25,7 +25,10 @@ use Illuminate\Support\Facades\Auth;
             </div>
             <div class="row m-0">
                 <div class="col-md-9">
+                    <form action="/project/{{$project->id}}/update" method="POST" enctype="multipart/form-data">
+                        @csrf
                         <div class="card my-3">
+
                             <div class="card-body">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -44,11 +47,11 @@ use Illuminate\Support\Facades\Auth;
                                     <div class="input-group mb-3 " style="width: 50%; padding-left: 0">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon1"> Public: </span>
-                                            
                                         </div>
 
                                         <select name="public" class="form-select" >
                                             <option value="True" {{($project->public) ? 'selected' : ''}}>True</option>
+                                            <option value="False" {{!($project->public) ? 'selected' : ''}}>False</option>
                                         </select>
                                     </div>
                                     <div class="input-group mb-3 " style="width: 50%; padding-right: 0">
@@ -62,12 +65,14 @@ use Illuminate\Support\Facades\Auth;
                                     </div>
                                 </div>
                                 <?php if ($user_role === 'MANAGER') { ?>
-                                    <div class="col-md-12 text-center">
-                                        <a href="{{$project->id}}/edit" class="btn btn-success" > Edit Project</a>
-                                    </div>
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" name="action" value="update" class="btn btn-success">Update Project</button>
+                                    <button type="submit" name="action" value="delete" class="btn btn-outline-danger">Delete Project</button>
+                                </div>
                                 <?php } ?>
                             </div>
                         </div>
+                    </form>
 
                 </div>
                 <div class="col-md-3">
