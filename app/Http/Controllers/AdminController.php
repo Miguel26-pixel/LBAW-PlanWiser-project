@@ -21,7 +21,7 @@ class AdminController extends Controller
     public function show()
     {
         Gate::authorize('admin',User::class);
-        $public_projects = ProjectsController::getPublicProjects(6);
+        $public_projects = Project::orderBy('created_at')->take(5)->get();
         $users = UsersController::getUsers();
         return view('pages.admin.home', ['public_projects'=>$public_projects, 'users'=>$users]);
     }
