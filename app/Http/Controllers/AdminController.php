@@ -142,6 +142,9 @@ class AdminController extends Controller
     public function banUser($id) {
         Gate::authorize('admin',User::class);
         $user = User::find($id);
+        if ($user->is_admin) {
+            return redirect()->back()->withErrors("This user is an an admin so you can't ban his account");
+        }
         $user->is_banned = true;
         $user->save();
         return redirect()->back();
