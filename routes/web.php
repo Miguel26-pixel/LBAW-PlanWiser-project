@@ -90,8 +90,10 @@ Route::middleware(['unban'])->group(function () {
     Route::post('/project/{id}/task/{task_id}/comment', [TaskCommentsController::class,'sendComment']);
 
 //Reports
-    Route::get('reportsCreate', [ReportsController::class,'showReportForm']);
-    Route::post('reportsCreate', [ReportsController::class,'create']);
+    Route::get('reportBug', [ReportsController::class,'showReportBugForm']);
+    Route::post('reportBug', [ReportsController::class,'reportBug']);
+    Route::get('reportUser/{id}', [ReportsController::class,'showReportUserForm']);
+    Route::post('reportUser/{id}', [ReportsController::class,'reportUser']);
 
 //Notifications
     Route::post('notification/{id}/manager', [NotificationsController::class,'managerNotification']);
