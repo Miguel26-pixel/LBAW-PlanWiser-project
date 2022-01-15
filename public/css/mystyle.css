@@ -6,13 +6,14 @@ body {
     margin: 0;
 }
 
-.my-container {
+.navbar-container {
     position: fixed;
-    z-index: 100;
+    z-index: 500;
     width: 100%;
     top: 0;
     border-bottom: 1px solid lightgray;
-    background: white
+    background: white;
+    display: flex;
 }
 
 .my-rocket {
@@ -42,17 +43,29 @@ body {
 }
 
 .navbar-align {
-    display: grid;
-    grid-template-columns: auto repeat(8,1fr);
-    grid-template-areas: " . . . . . . . sign-up login";
+    justify-content: space-around;
+    width: 100%;
+    display: flex;
     align-items: center;
-    margin: 2em 5em 1em 5em;
+    /*grid-template-columns: auto repeat(8,0.7fr);
+    grid-template-areas: " . . . . . . . . ."; 
+    align-items: center;  */
+    margin: 0.5em 1em;
 }
+
 .nav-item {
     border-style:hidden;
     font-size: 20px;
-    color: #2F4F4F;
+    color: #ffffff;
+    padding: 0.5em 1vw;
+    border-radius: 10em;
 }
+
+.nav-item:hover{
+    background-color: hsla(180, 25%, 33%, 0.801);
+    color: white;
+}
+
 .sidenav-item {
     width: 70%;
     border-style:hidden;
@@ -64,22 +77,28 @@ body {
     color: #2F4F4F;
 }
 #signup-btn {
-    grid-area: sign-up;
+    /* grid-area: sign-up; */
+    justify-self: flex-end;
 }
 #login-btn {
-    grid-area: login;
+    /* grid-area: login; */
+    justify-self: flex-end;
 }
 #username-btn {
-    grid-area: sign-up;
+    /* grid-area: sign-up; */
+    justify-self: flex-end;
 }
 #logout-btn {
-    grid-area: login;
+    /* grid-area: login; */
+    justify-self: flex-end;
 }
 #profile-btn {
-    grid-area: sign-up;
+    /* grid-area: sign-up; */
+    justify-self: flex-end;
 }
 #notifications-btn {
-    grid-area: notifications;
+    /* grid-area: notifications; */
+    justify-self: flex-end;
 }
 
 main > header h1 {
@@ -239,6 +258,7 @@ border-color: white;
     background-color: white;
     color: black;
     display: flex;
+    height: 100vh;
 }
 
 .homepage-title {
@@ -347,23 +367,36 @@ border-color: white;
     height: 400px;
     background-color: #dbdbdb;
     overflow-x: hidden;
-    padding-top: 60px;
+    padding-top: 15vh;
     padding-left: 20px;
-    padding-right: 40px;
     transition: 2s;
-    width: fit-content;
+    height: 100vh;
+    max-width: 200px;
+  }
+
+  .sidebar-title{
+    white-space: nowrap;
+    overflow: hidden;              
+    text-overflow: ellipsis;
+    color: #2f4f4f; 
+    font-weight:bolder; 
+    font-size:20px; 
+    padding-left: 58px;
+    padding-bottom: 2vh;
+    max-width: 1px;
   }
 
   /* The sidebar links */
   .sidebar a {
-    font-size: 25px;
+    font-size: 20px;
     color: #818181;
     display: block;
     transition: 0.3s;
   }
 
   .sidebar a:hover {
-    color: #198754;
+    color: #2f4f4f;
+    text-decoration: none;;
   }
 
 
@@ -376,7 +409,7 @@ border-color: white;
     text-decoration: none;
     cursor: pointer;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .sidebar-btn:hover {
@@ -384,7 +417,8 @@ border-color: white;
 }
 
 .sidebar-btn:focus {
-    color: #198754;
+    color: #2F4F4F;
+    background-color: lightgray;
 }
 
   /* The button used to open the sidebar */
