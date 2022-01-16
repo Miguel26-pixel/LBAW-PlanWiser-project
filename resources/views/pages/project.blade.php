@@ -52,7 +52,6 @@ use Illuminate\Support\Facades\Auth;
                     </div>
                 <?php } ?>
             </div>
-
             <div class="bg-light pt-3 pb-3 d-flex justify-content-around">
                 <div class="justify-flex-start">
                     <a class="btn btn-danger mb-2" href="/project/{{$project->id}}/{{($is_fav) ? 'remove-fav' : 'add-fav'}}">
@@ -79,15 +78,12 @@ use Illuminate\Support\Facades\Auth;
                     </h3>
                 </div>
             </div>
-
         </div>
-
         <div class="card my-3">
             <div class="card-body">
-
                 <br>
                 <div class="d-flex row">
-                    <div class="col-md-4" style="max-height: 150px; overflow: auto">
+                    <div class="col-md-4" style="max-height: 300px; overflow: auto; border-right: 1px solid lightgray">
                         <h4 class="text-center">Managers ({{count($admins->toArray())}})</h4>
                         <?php
                         foreach ($admins as $admin) {
@@ -101,15 +97,17 @@ use Illuminate\Support\Facades\Auth;
                             echo $admin->username;
                             echo '</div>';
                             if (!(Auth::check() && $admin->id === Auth::id())) {
-                                echo '<a href="mailto:' . $admin->email . '" style="max-width: 50px" class="align-content-center col-sm-2 btn btn-secondary">';
+                                echo '<a href="mailto:' . $admin->email . '" class="col-md-3 btn btn-outline-success">';
                                 echo '<i class="icon-envelope"></i>';
                                 echo '</a>';
+                            } else {
+                                echo '<div class="col-md-3"></div>';
                             }
                             echo '</div>';
                         }
                         ?>
                     </div>
-                    <div class="col-md-4" style="max-height: 250px; overflow: auto">
+                    <div class="col-md-4" style="max-height: 300px; overflow: auto; border-right: 1px solid lightgray">
                         <h4 class="text-center">Members ({{count($members->toArray())}})</h4>
                         <?php
                         foreach ($members as $member) {
@@ -133,7 +131,7 @@ use Illuminate\Support\Facades\Auth;
                         }
                         ?>
                     </div>
-                    <div class="col-md-4" style="max-height: 250px; overflow: auto">
+                    <div class="col-md-4" style="max-height: 300px; overflow: auto">
                         <h4 class="text-center">Guests ({{count($guests->toArray())}})</h4>
                         <?php
                         foreach ($guests as $guest) {
@@ -158,16 +156,15 @@ use Illuminate\Support\Facades\Auth;
                 </div>
                 <br>
                 <div class="col-md-12 text-center">
+                    <?php
+                    if ($user_role !== 'GUEST') {
+                        echo '<div class="float-right text-center">';
+                        echo '<a class="btn btn-outline-danger float-right" href="/project/{{$project->id}}/leave">Leave Project <i class="icon-logout"></i></a>';
+                        echo '</div>';
+                    }
 
+                    ?>
                 </div>
-                <?php
-                if ($user_role !== 'GUEST') {
-                    echo '<div class="float-right text-center">';
-                    echo '<a class="btn btn-outline-danger float-right" href="/project/{{$project->id}}/leave">Leave Project <i class="icon-logout"></i></a>';
-                    echo '</div>';
-                }
-
-                ?>
             </div>
         </div>
     </div>

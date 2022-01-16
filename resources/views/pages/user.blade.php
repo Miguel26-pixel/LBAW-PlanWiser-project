@@ -122,7 +122,7 @@
             <div class="d-flex justify-content-center">
                 {{ $fav_projects->links() }}
             </div>
-        
+
             <div class="container text-center my-3">
                 <h2>Options</h2>
             </div>
@@ -150,8 +150,6 @@
             </div>
         </div>
     </div>
-    <div class="col-md-1">
-
-    </div>
+    <div class="col-md-1"></div>
 </div>
 @endsection

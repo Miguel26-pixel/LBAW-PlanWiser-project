@@ -24,7 +24,7 @@
                 </a>
                 <a href="/project/{{$project->id}}/files" class="sidenav_link sidebar-btn">
                     <i class='fa fa-file' style="font-size:28px"></i>
-                    <span class="nav_name">File</span>
+                    <span class="nav_name">Files</span>
                 </a>
                 <a href="/project/{{$project->id}}/tasks"  class="sidenav_link sidebar-btn">
                     <i class='fa fa-tasks' style="font-size:28px"></i>
