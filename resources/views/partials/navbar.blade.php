@@ -3,7 +3,7 @@
         <div style="display: flex; gap: 1em; align-items: center; width: 57em; justify-content: flex-start; padding-right: 80vw">
             <div style="display: flex; align-items: center; margin-right: 2vw">
                 <a href="{{ url('/') }}" style="background-color: #ffffff; padding: 0.7em; border-radius: 50%; align-self:center">
-                    <img src="{{asset('/images/logo.png')}}" height="40">
+                    <img src="{{asset('/images/logo.png')}}" alt="logo" height="40">
                 </a>
                 <a href="{{ url('/') }}" style="color: white; font-size: 200%; font-weight: bold; margin-left: 0.4em">
                     PlanWiser
@@ -26,28 +26,28 @@
                                 foreach ($notifications as $notification) {
                                     if($notification->notification_type == 'INVITE') {
                                         $count++;
-                                        echo '<div  class="notification-pop">';
-                                        echo '<a href="/invitation/'.$notification->id.'" class=" btn-outline-success">You have been invited to the project '.$notification->project->title.'</a>';
+                                        echo '<div  class="notification-pop text-center">';
+                                        echo '<a href="/invitation/'.$notification->id.'" class="my-1 w-100 btn btn-outline-success">You have been invited to the project '.$notification->project->title.'</a>';
                                         echo '</div>';
                                     } else if ($notification->notification_type == 'CHANGE_MANAGER') {
                                         $count++;
-                                        echo '<form action="/notification/'.$notification->id.'/manager" method="POST" class="notification-pop">';
+                                        echo '<form action="/notification/'.$notification->id.'/manager" method="POST" class="notification-pop text-center">';
                                         echo csrf_field();
-                                        echo '<button type="submit" class="btn-outline-success">'.$notification->project->title.' has a new Manager</button>';
+                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The project '.$notification->project->title.' has a new Manager</button>';
                                         echo '</form>';
                                     }
                                     else if ($notification->notification_type == 'COMPLETE_TASK') {
                                         $count++;
-                                        echo '<form action="/notification/'.$notification->id.'/taskClosed" method="POST" class="notification-pop">';
+                                        echo '<form action="/notification/'.$notification->id.'/taskClosed" method="POST" class="notification-pop text-center">';
                                         echo csrf_field();
-                                        echo '<button type="submit" class="btn-outline-success">. Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been closed'.'</button>';
+                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The task '.$notification->task->name.' from project '.$notification->task->project->title.' had been closed</button>';
                                         echo '</form>';
                                     }
                                     else if ($notification->notification_type == 'ASSIGN') {
                                         $count++;
-                                        echo '<form action="/notification/'.$notification->id.'/assign" method="POST" class="notification-pop">';
+                                        echo '<form action="/notification/'.$notification->id.'/assign" method="POST" class="notification-pop text-center">';
                                         echo csrf_field();
-                                        echo '<button type="submit" class="btn-outline-success">Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been assigned to you'.'</button>';
+                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been assigned to you</button>';
                                         echo '</form>';
                                     }
                                 }
@@ -109,7 +109,10 @@
 
             let button = document.createElement('button');
             button.type = 'submit';
-            button.class = "btn-outline-success";
+            button.classList.add("btn");
+            button.classList.add("btn-outline-success");
+            button.classList.add("my-1");
+            button.classList.add("w-100");
             button.innerText = data.message;
             button.style.color = "#198754";
 
@@ -119,7 +122,7 @@
 
             div_pop.appendChild(csrf);
             div_pop.appendChild(button);
-            body.appendChild(div_pop);
+            body.prepend(div_pop);
         });
 
         var channel2 = pusher.subscribe('notifications-closedTasks');
@@ -141,7 +144,10 @@
 
             let button = document.createElement('button');
             button.type = 'submit';
-            button.class = "btn-outline-success";
+            button.classList.add("btn");
+            button.classList.add("btn-outline-success");
+            button.classList.add("my-1");
+            button.classList.add("w-100");
             button.innerText = data.message;
             button.style.color = "#198754";
 
@@ -151,7 +157,7 @@
 
             div_pop.appendChild(csrf);
             div_pop.appendChild(button);
-            body.appendChild(div_pop);
+            body.prepend(div_pop);
         });
 
 
@@ -172,12 +178,15 @@
 
             let button = document.createElement("a");
             button.setAttribute("href", "/invitation/" + data.notification_id);
-            button.class = "btn-outline-success";
+            button.classList.add("btn");
+            button.classList.add("btn-outline-success");
+            button.classList.add("my-1");
+            button.classList.add("w-100");
             button.innerText = data.message;
             button.style.color = "#198754";
 
             div_pop.appendChild(button);
-            body.appendChild(div_pop);
+            body.prepend(div_pop);
         });
 
 
@@ -200,7 +209,10 @@
 
             let button = document.createElement('button');
             button.type = 'submit';
-            button.class = "btn-outline-success";
+            button.classList.add("btn");
+            button.classList.add("btn-outline-success");
+            button.classList.add("my-1");
+            button.classList.add("w-100");
             button.innerText = data.message;
             button.style.color = "#198754";
 
@@ -210,7 +222,7 @@
 
             div_pop.appendChild(csrf);
             div_pop.appendChild(button);
-            body.appendChild(div_pop);
+            body.prepend(div_pop);
         });
 
 

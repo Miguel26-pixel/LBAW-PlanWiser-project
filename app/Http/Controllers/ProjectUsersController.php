@@ -66,7 +66,7 @@ class ProjectUsersController extends Controller
                 $notification->created_at = now();
                 $notification->save();
 
-                event(new ChangeManager($request->name, $proj->title, $user_id, $notification->id));
+                event(new ChangeManager($proj->title, $user_id, $notification->id));
             }
         }
         $project_user->save();
