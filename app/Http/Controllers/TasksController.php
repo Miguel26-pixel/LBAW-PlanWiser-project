@@ -8,6 +8,9 @@ use App\Models\Project;
 use App\Models\UserAssign;
 use App\Models\TaskComment;
 use App\Models\Notification;
+use App\Events\AssignTask;
+use App\Events\ClosedTask;
+use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -87,6 +90,7 @@ class TasksController extends Controller
             case 'update':
                 Gate::authorize('update',Task::find($id));
                 $validator = $request->validate($this->validator());
+                $proj = Project::find($project_id);
                 //try {
                     $task = Task::find($id);
                     $task->name = $request->name;
@@ -104,6 +108,9 @@ class TasksController extends Controller
                         $notification->created_at = now();
                         $notification->save();
 
+                        event(new ClosedTask($request->name, $proj->title, $assignee->user_id, $notification->id));
+
+
                         foreach ($managers as $manager) {
                             $notification = new Notification();
                             $notification->notification_type = 'COMPLETE_TASK';
@@ -111,6 +118,8 @@ class TasksController extends Controller
                             $notification->task_id = $task->id;
                             $notification->created_at = now();
                             $notification->save();
+
+                            event(new ClosedTask($request->name, $proj->title, $manager->id, $notification->id));
                         }
 
                     }
@@ -146,6 +155,8 @@ class TasksController extends Controller
 
 
                     $user_assign->save();
+
+                    event(new AssignTask($request->name, $proj->title, $request->user_id, $notification->id));
                 }
 
                 break;
@@ -229,6 +240,7 @@ class TasksController extends Controller
     protected function create(Request $request)
     {
         Gate::authorize('manager',Project::find($request->project_id));
+        $proj = Project::find($request->project_id);
         try {
             $notifications = NotificationsController::getNotifications(Auth::id());
             $validator = $request->validate($this->validator());
@@ -247,7 +259,8 @@ class TasksController extends Controller
                 $user_assign = new UserAssign;
                 $user_assign->task_id = $task->id;
                 $user_assign->user_id = $request->user_id;
-
+                //dd(Config::get('broadcasting'));
+            
                 $notification = new Notification();
                 $notification->user_id = $request->user_id;
                 $notification->notification_type = 'ASSIGN';
@@ -256,6 +269,8 @@ class TasksController extends Controller
                 $notification->save();
 
                 $user_assign->save();
+
+                event(new AssignTask($request->name, $proj->title, $request->user_id, $notification->id));
             }
         } catch (QueryException $e){
             return redirect()->back()->withErrors('Due and reminder dates are both required. You should also verify that selected reminder date is before due date and that both after today.');

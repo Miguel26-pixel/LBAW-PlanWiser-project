@@ -462,4 +462,33 @@ a:hover{
     text-decoration: underline;
 }
 
+.notification-number {
+    visibility: hidden;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 5%;
+    width: 0.5em;
+    height: 0.5em;
+    left: 90%;
+    animation: blink 1s infinite;
+}
+
+.notification-number div {
+    position: relative;
+    font-size: 10px;
+}
+
+@keyframes blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
 

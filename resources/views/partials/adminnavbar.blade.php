@@ -1,15 +1,3 @@
-<!--div class="my-container" style="height: 107px">
-    <div class="navbar-align">
-        <a href="{{ url('/') }}"><img src="{{ asset('/images/planwiserlogo.png') }}" style="width: 200px;" /></a>
-        <a class="btn btn-outline-success nav-item" href="{{ url('admin/manageUsers') }}">Users</a>
-        <a class="btn btn-outline-success nav-item" href="{{ url('admin/reports') }}">Reports</a>
-        <a class="btn btn-outline-success nav-item" href="{{ url('admin/projects') }}"> Projects <a>
-
-        <a id="profile-btn" class="btn btn-outline-success nav-item" href="{{ url('admin/profile/'.Auth::id()) }} "> {{ Auth::user()->username }} </a>
-        <a id="logout-btn" class="btn btn-outline-success nav-item" href="{{ url('/logout') }}"> Log Out </a>
-    </div>
-</div-->
-
 <div class="navbar navbar-expand-lg navbar-container" style="background-color: #2f4f4f">
     <div class="navbar-align">
         <div style="display: flex; gap: 1em; align-items: center; width: 57em; justify-content: flex-start; padding-right: 80vw">
@@ -54,3 +42,4 @@
         @endif
     </div>
 </div>
+

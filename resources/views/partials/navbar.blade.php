@@ -20,43 +20,42 @@
                         <li class="navbar-nav mr-auto"><a class="nav-item" href="{{ url('/projects') }}"> Projects </a></li>
                         <div class="nav-item my-dropdown">
                             Notifications
-                            <div class="my-dropdown-content">
+                            <div id="dropdown" class="my-dropdown-content">
                                 <?php
                                 $count = 0;
                                 foreach ($notifications as $notification) {
-                                    if ($notification['notification_type'] == 'INVITE') {
+                                    if($notification->notification_type == 'INVITE') {
                                         $count++;
                                         echo '<div  class="notification-pop">';
-                                        echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
-                                        echo '<a href="/invitation/' . $notification['id'] . '" class=" btn-outline-success">Invite Notification' . '</a>';
+                                        echo '<a href="/invitation/'.$notification->id.'" class=" btn-outline-success">You have been invited to the project '.$notification->project->title.'</a>';
                                         echo '</div>';
-                                    } else if ($notification['notification_type'] == 'CHANGE_MANAGER') {
+                                    } else if ($notification->notification_type == 'CHANGE_MANAGER') {
                                         $count++;
-                                        echo '<form action="/notification/' . $notification['id'] . '/manager" method="POST" class="notification-pop">';
+                                        echo '<form action="/notification/'.$notification->id.'/manager" method="POST" class="notification-pop">';
                                         echo csrf_field();
-                                        echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
-                                        echo '<button type="submit" class="btn-outline-success">Manager as Changed' . '</button>';
+                                        echo '<button type="submit" class="btn-outline-success">'.$notification->project->title.' has a new Manager</button>';
                                         echo '</form>';
-                                    } else if ($notification['notification_type'] == 'COMPLETE_TASK') {
+                                    }
+                                    else if ($notification->notification_type == 'COMPLETE_TASK') {
                                         $count++;
-                                        echo '<form action="/notification/' . $notification['id'] . '/taskClosed" method="POST" class="notification-pop">';
+                                        echo '<form action="/notification/'.$notification->id.'/taskClosed" method="POST" class="notification-pop">';
                                         echo csrf_field();
-                                        echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
-                                        echo '<button type="submit" class="btn-outline-success">Task has been closed.' . '</button>';
+                                        echo '<button type="submit" class="btn-outline-success">. Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been closed'.'</button>';
                                         echo '</form>';
-                                    } else if ($notification['notification_type'] == 'ASSIGN') {
+                                    }
+                                    else if ($notification->notification_type == 'ASSIGN') {
                                         $count++;
-                                        echo '<form action="/notification/' . $notification['id'] . '/assign" method="POST" class="notification-pop">';
+                                        echo '<form action="/notification/'.$notification->id.'/assign" method="POST" class="notification-pop">';
                                         echo csrf_field();
-                                        echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
-                                        echo '<button type="submit" class="btn-outline-success">Task has been assigned.' . '</button>';
+                                        echo '<button type="submit" class="btn-outline-success">Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been assigned to you'.'</button>';
                                         echo '</form>';
                                     }
                                 }
-                                if ($count == 0) {
-                                    echo '<div class="text-secondary">Empty</div>';
-                                }
                                 ?>
+                                <div id="empty" class="text-secondary">Empty</div>
+                            </div>
+                            <div class="notification-number">
+                                <div></div>
                             </div>
                         </div>
                     @endif
@@ -80,3 +79,161 @@
         @endif
     </div>
 </div>
+
+<script>
+    window.addEventListener('load', () => {
+
+            // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('262b1acd7446e5873066', {
+            cluster: 'eu',
+        });
+
+        var channel1 = pusher.subscribe('notifications-assignTasks');
+        console.log('event-assignTask-{{Auth::id()}}');
+        channel1.bind('event-assignTask-{{Auth::id()}}', function(data) {
+
+            let assign = document.querySelector('.notification-number');
+            assign.style.visibility = 'visible';
+
+            let empty = document.getElementById("empty");
+            empty.style.visibility = 'hidden';
+
+            let body = document.getElementById("dropdown");
+
+            let div_pop = document.createElement("form");
+            div_pop.class = "notification-pop";
+            div_pop.setAttribute('method','POST');
+            div_pop.setAttribute('action',"/notification/" + data.notification_id + "/assign");
+
+            let button = document.createElement('button');
+            button.type = 'submit';
+            button.class = "btn-outline-success";
+            button.innerText = data.message;
+            button.style.color = "#198754";
+
+            let csrf = document.createElement('meta');
+            csrf.setAttribute('name','csrf-token');
+            csrf.setAttribute('content', '{{ csrf_field() }}');
+
+            div_pop.appendChild(csrf);
+            div_pop.appendChild(button);
+            body.appendChild(div_pop);
+        });
+
+        var channel2 = pusher.subscribe('notifications-closedTasks');
+
+        channel2.bind('event-closedTask-{{Auth::id()}}', function(data) {
+
+            let assign = document.querySelector('.notification-number');
+            assign.style.visibility = 'visible';
+
+            let empty = document.getElementById("empty");
+            empty.style.visibility = 'hidden';
+
+            let body = document.getElementById("dropdown");
+
+            let div_pop = document.createElement("form");
+            div_pop.class = "notification-pop";
+            div_pop.setAttribute('method','POST');
+            div_pop.setAttribute('action',"/notification/" + data.notification_id + "/taskClosed");
+
+            let button = document.createElement('button');
+            button.type = 'submit';
+            button.class = "btn-outline-success";
+            button.innerText = data.message;
+            button.style.color = "#198754";
+
+            let csrf = document.createElement('meta');
+            csrf.setAttribute('name','csrf-token');
+            csrf.setAttribute('content', '{{ csrf_field() }}');
+
+            div_pop.appendChild(csrf);
+            div_pop.appendChild(button);
+            body.appendChild(div_pop);
+        });
+
+
+        var channel3 = pusher.subscribe('notifications-invites');
+
+        channel3.bind('event-invite-{{Auth::id()}}', function(data) {
+
+            let assign = document.querySelector('.notification-number');
+            assign.style.visibility = 'visible';
+
+            let empty = document.getElementById("empty");
+            empty.style.visibility = 'hidden';
+
+            let body = document.getElementById("dropdown");
+
+            let div_pop = document.createElement("div");
+            div_pop.class = "notification-pop";
+
+            let button = document.createElement("a");
+            button.setAttribute("href", "/invitation/" + data.notification_id);
+            button.class = "btn-outline-success";
+            button.innerText = data.message;
+            button.style.color = "#198754";
+
+            div_pop.appendChild(button);
+            body.appendChild(div_pop);
+        });
+
+
+        var channel4 = pusher.subscribe('notifications-changeManager');
+
+        channel4.bind('event-changeManager-{{Auth::id()}}', function(data) {
+
+            let assign = document.querySelector('.notification-number');
+            assign.style.visibility = 'visible';
+
+            let empty = document.getElementById("empty");
+            empty.style.visibility = 'hidden';
+
+            let body = document.getElementById("dropdown");
+
+            let div_pop = document.createElement("form");
+            div_pop.class = "notification-pop";
+            div_pop.setAttribute('method','POST');
+            div_pop.setAttribute('action',"/notification/" + data.notification_id + "/manager");
+
+            let button = document.createElement('button');
+            button.type = 'submit';
+            button.class = "btn-outline-success";
+            button.innerText = data.message;
+            button.style.color = "#198754";
+
+            let csrf = document.createElement('meta');
+            csrf.setAttribute('name','csrf-token');
+            csrf.setAttribute('content', '{{ csrf_field() }}');
+
+            div_pop.appendChild(csrf);
+            div_pop.appendChild(button);
+            body.appendChild(div_pop);
+        });
+
+
+    });
+
+    function red_dot(count) {
+        if (count > 0) {
+            let assign = document.querySelector('.notification-number');
+            assign.style.visibility = 'visible';
+            let empty = document.getElementById("empty");
+            empty.style.display = 'none';
+        }
+        else {
+            let assign = document.querySelector('.notification-number');
+            assign.style.visibility = 'hidden';
+            let empty = document.getElementById("empty");
+            empty.style.display = 'block';
+        }
+    }
+</script>
+
+<?php
+ if (Auth::check()) {
+    echo '<script type="text/javascript"> red_dot('.$count.') </script>';
+ }
+?>
