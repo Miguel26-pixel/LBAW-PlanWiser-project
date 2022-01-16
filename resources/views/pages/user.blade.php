@@ -12,10 +12,7 @@
 
 @section('content')
 <div class="row m-0 d-flex flex-direction-column justify-content-center my-5">
-    <div class="col-md-1">
-
-    </div>
-
+    <div class="col-md-1"></div>
     <div class="col-md-10">
         <div class="container">
             <form action="/profile/{{$user->id}}/update" method="POST" enctype="multipart/form-data">
