@@ -38,23 +38,19 @@
             </div>
         </div>
         @if (Auth::check())
-        <div style="align-items: center; width: 40em; justify-content: flex-end; padding-right: 2em">
             <div class="collapse navbar-collapse navbarSupportedContent" style="justify-content: flex-end;">
                 <ul class="navbar-nav">
                     <li class="navbar-nav mr-auto"><a class="nav-item" href="{{ url('/profile/'.Auth::id()) }} "> {{ Auth::user()->username }} </a></li>
                     <li class="navbar-nav mr-auto"><a class="nav-item" href="{{ url('/logout') }}"> Log Out </a></li>
                 </ul>
             </div>
-        </div>
         @else
+            <div class="collapse navbar-collapse navbarSupportedContent" style="justify-content: flex-end;">
+                <ul class="navbar-nav">
+                    <a id="profile-btn" class=" nav-item" href="{{ url('/register') }}" style="width: max-content"> Sign Up </a>
+                    <a id="logout-btn" class="nav-item" href="{{ url('/login') }}" style="width: max-content"> Log In </a>
+                </ul>
+            </div>
+        @endif
     </div>
-    <div style="align-items: center; width: 30em; justify-content: flex-end; padding-right: 10em; margin-left: 40vw">
-        <div class="collapse navbar-collapse navbarSupportedContent" style="justify-content: flex-end;">
-            <ul class="navbar-nav">
-                <a id="profile-btn" class=" nav-item" href="{{ url('/register') }}" style="width: max-content"> Sign Up </a>
-                <a id="logout-btn" class="nav-item" href="{{ url('/login') }}" style="width: max-content"> Log In </a>
-            </ul>
-        </div>
-    </div>
-    @endif
 </div>
