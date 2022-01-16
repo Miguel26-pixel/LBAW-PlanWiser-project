@@ -14,14 +14,12 @@
                             if($notification->notification_type == 'INVITE') {
                                 $count++;
                                 echo '<div  class="notification-pop">';
-                                    echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
                                     echo '<a href="/invitation/'.$notification->id.'" class=" btn-outline-success">You have been invited to the project '.$notification->project->title.'</a>';
                                 echo '</div>';
                             } else if ($notification->notification_type == 'CHANGE_MANAGER') {
                                 $count++;
                                 echo '<form action="/notification/'.$notification->id.'/manager" method="POST" class="notification-pop">';
                                     echo csrf_field();
-                                    echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
                                     echo '<button type="submit" class="btn-outline-success">'.$notification->project->title.' has a new Manager</button>';
                                 echo '</form>';
                             }
@@ -29,7 +27,6 @@
                                 $count++;
                                 echo '<form id="assign" action="/notification/'.$notification->id.'/taskClosed" method="POST" class="notification-pop">';
                                     echo csrf_field();
-                                    echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
                                     echo '<button type="submit" class="btn-outline-success">. Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been closed'.'</button>';
                                 echo '</form>';
                             }
@@ -37,7 +34,6 @@
                                 $count++;
                                 echo '<form id="assign" action="/notification/'.$notification->id.'/assign" method="POST" class="notification-pop">';
                                     echo csrf_field();
-                                    echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
                                     echo '<button type="submit" class="btn-outline-success">Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been assigned to you'.'</button>';
                                 echo '</form>';
                             }
@@ -80,15 +76,22 @@
 
             let body = document.getElementById("dropdown");
 
-            let div_pop = document.createElement("div");
+            let div_pop = document.createElement("form");
             div_pop.class = "notification-pop";
+            div_pop.setAttribute('method','POST');
+            div_pop.setAttribute('action',"/notification/" + data.notification_id + "/assign");
 
-            let button = document.createElement("a");
-            button.setAttribute("href", "/notification/" + data.notification_id + "/assign");
+            let button = document.createElement('button');
+            button.type = 'submit';
             button.class = "btn-outline-success";
             button.innerText = data.message;
             button.style.color = "#198754";
 
+            let csrf = document.createElement('meta');
+            csrf.setAttribute('name','csrf-token');
+            csrf.setAttribute('content', '{{ csrf_field() }}');
+
+            div_pop.appendChild(csrf);
             div_pop.appendChild(button);
             body.appendChild(div_pop);
         });
@@ -105,15 +108,22 @@
 
             let body = document.getElementById("dropdown");
 
-            let div_pop = document.createElement("div");
+            let div_pop = document.createElement("form");
             div_pop.class = "notification-pop";
+            div_pop.setAttribute('method','POST');
+            div_pop.setAttribute('action',"/notification/" + data.notification_id + "/taskClosed");
 
-            let button = document.createElement("a");
-            button.setAttribute("href", "/notification/" + data.notification_id + "/taskClosed");
+            let button = document.createElement('button');
+            button.type = 'submit';
             button.class = "btn-outline-success";
             button.innerText = data.message;
             button.style.color = "#198754";
 
+            let csrf = document.createElement('meta');
+            csrf.setAttribute('name','csrf-token');
+            csrf.setAttribute('content', '{{ csrf_field() }}');
+
+            div_pop.appendChild(csrf);
             div_pop.appendChild(button);
             body.appendChild(div_pop);
         });
@@ -157,15 +167,22 @@
 
             let body = document.getElementById("dropdown");
 
-            let div_pop = document.createElement("div");
+            let div_pop = document.createElement("form");
             div_pop.class = "notification-pop";
+            div_pop.setAttribute('method','POST');
+            div_pop.setAttribute('action',"/notification/" + data.notification_id + "/manager");
 
-            let button = document.createElement("a");
-            button.setAttribute("href", "/notification/" + data.notification_id + "/manager");
+            let button = document.createElement('button');
+            button.type = 'submit';
             button.class = "btn-outline-success";
             button.innerText = data.message;
             button.style.color = "#198754";
 
+            let csrf = document.createElement('meta');
+            csrf.setAttribute('name','csrf-token');
+            csrf.setAttribute('content', '{{ csrf_field() }}');
+
+            div_pop.appendChild(csrf);
             div_pop.appendChild(button);
             body.appendChild(div_pop);
         });
