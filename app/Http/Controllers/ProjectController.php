@@ -140,7 +140,7 @@ class ProjectController extends Controller
         $num_favs = $project->getNumFavs();
         $is_fav = FavoriteProject::where('user_id' ,'=', $user->id)->where('project_id','=',$id)->exists();
         return view('pages.projectEdit',['user_role' => $user_role,'project' => $project,'admins' => $admins, 'members' => $members, 'guests' => $guests, 'is_fav' => $is_fav, 'num_favs' => $num_favs, 'notifications' => $notifications]);
-   
+
     }
 
     public function updateProject(int $id, Request $request)
@@ -231,25 +231,6 @@ class ProjectController extends Controller
         Storage::disk('public')->delete($file->url);
         $file->delete();
         return redirect()->back();
-    }
-
-    private function checkUserInProject($id) {
-        $project = Project::find($id);
-        $users = $project->users;
-        $check = false;
-        foreach ($users as $user) { if ($user->id == Auth::id()) $check = true; }
-        return $check;
-    }
-
-    public function uploadFolder($id,Request $request) {
-        /*$check = $this->checkUserInProject($id);
-        if (!$check) {
-            return redirect()->back();
-        }
-        dd($request);
-        foreach ($request->input_folder as $file) {
-            dd($file->webkitRelativePath);
-        }*/
     }
 
     public function downloadZIP($id) {

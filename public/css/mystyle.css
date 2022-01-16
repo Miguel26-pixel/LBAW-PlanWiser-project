@@ -364,14 +364,13 @@ border-color: white;
     z-index: 1;
     top: 0;
     left: 0;
-    height: 400px;
     background-color: #dbdbdb;
     overflow-x: hidden;
     padding-top: 15vh;
     padding-left: 20px;
     transition: 2s;
     height: 100vh;
-    max-width: 200px;
+    max-width: 400px;
   }
 
   .sidebar-title{

@@ -50,12 +50,12 @@
 
     function changeNav() {
         if (open === true) {
-            document.getElementById("mySidebar").style.width = "60px";
+            document.getElementById("mySidebar").style.width = "150px";
             document.getElementById("arrow").classList.remove("icon-arrow-left");
             document.getElementById("arrow").classList.add("icon-arrow-right");
             open = false;
         } else {
-            document.getElementById("mySidebar").style.width = "200px";
+            document.getElementById("mySidebar").style.width = "400px";
             document.getElementById("arrow").classList.remove("icon-arrow-right");
             document.getElementById("arrow").classList.add("icon-arrow-left");
             document.getElementById("side-project-title").style.color = "#2f4f4f";
@@ -113,7 +113,7 @@
         width: 200px;
         background-color: #dbdbdb;
         padding: .5rem 1rem 0 1rem;
-        transition: .5s;
+        transition: 2s;
         color: #818181;
         height: 91vh;
         z-index: 200;
@@ -169,7 +169,7 @@
 
     .show {
         left: 0;
-        width: 58px;
+        width: 75px;
     }
 
     .active {
@@ -197,12 +197,12 @@
         .sidenavbar {
             left: 0;
             padding: 0;
-            width: 57px;
+            width: 50px;
         }
 
         .show {
             left: 0;
-            width: 57px;
+            width: 50px;
         }
     }
 
@@ -217,7 +217,7 @@
 
         .overlay{
             left: 0;
-            width: 58px;
+            width: 75px;
         }
     }
 </style>
