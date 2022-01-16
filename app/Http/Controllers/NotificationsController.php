@@ -47,4 +47,13 @@ class NotificationsController extends Controller
         $task = Task::find($notification->task_id);
         return redirect('/project/'.$task->project_id.'/task/'.$task->id);
     }
+
+    public function clearNotifications($id) {
+        $notifications = Notification::where('user_id','=',$id)->get();
+        foreach ($notifications as $notification) {
+            $notification->seen = true;
+            $notification->save();
+        }
+        return redirect()->back();
+    }
 }

@@ -20,39 +20,45 @@
                         <li class="navbar-nav mr-auto"><a class="nav-item" href="{{ url('/projects') }}"> Projects </a></li>
                         <div class="nav-item my-dropdown">
                             Notifications
-                            <div id="dropdown" class="my-dropdown-content">
-                                <?php
-                                $count = 0;
-                                foreach ($notifications as $notification) {
-                                    if($notification->notification_type == 'INVITE') {
-                                        $count++;
-                                        echo '<div  class="notification-pop text-center">';
-                                        echo '<a href="/invitation/'.$notification->id.'" class="my-1 w-100 btn btn-outline-success">You have been invited to the project '.$notification->project->title.'</a>';
-                                        echo '</div>';
-                                    } else if ($notification->notification_type == 'CHANGE_MANAGER') {
-                                        $count++;
-                                        echo '<form action="/notification/'.$notification->id.'/manager" method="POST" class="notification-pop text-center">';
-                                        echo csrf_field();
-                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The project '.$notification->project->title.' has a new Manager</button>';
-                                        echo '</form>';
+                            <div class="my-dropdown-content">
+                                <div id="dropdown" style="padding:0 16px 0 16px; max-height: 300px; overflow: auto">
+                                    <?php
+                                    $count = 0;
+                                    foreach ($notifications as $notification) {
+                                        if($notification->notification_type == 'INVITE') {
+                                            $count++;
+                                            echo '<div  class="notification-pop text-center">';
+                                            echo '<a href="/invitation/'.$notification->id.'" class="my-1 w-100 btn btn-outline-success">You have been invited to the project '.$notification->project->title.'</a>';
+                                            echo '</div>';
+                                        } else if ($notification->notification_type == 'CHANGE_MANAGER') {
+                                            $count++;
+                                            echo '<form action="/notification/'.$notification->id.'/manager" method="POST" class="notification-pop text-center">';
+                                            echo csrf_field();
+                                            echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The project '.$notification->project->title.' has a new Manager</button>';
+                                            echo '</form>';
+                                        }
+                                        else if ($notification->notification_type == 'COMPLETE_TASK') {
+                                            $count++;
+                                            echo '<form action="/notification/'.$notification->id.'/taskClosed" method="POST" class="notification-pop text-center">';
+                                            echo csrf_field();
+                                            echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The task '.$notification->task->name.' from project '.$notification->task->project->title.' had been closed</button>';
+                                            echo '</form>';
+                                        }
+                                        else if ($notification->notification_type == 'ASSIGN') {
+                                            $count++;
+                                            echo '<form action="/notification/'.$notification->id.'/assign" method="POST" class="notification-pop text-center">';
+                                            echo csrf_field();
+                                            echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been assigned to you</button>';
+                                            echo '</form>';
+                                        }
                                     }
-                                    else if ($notification->notification_type == 'COMPLETE_TASK') {
-                                        $count++;
-                                        echo '<form action="/notification/'.$notification->id.'/taskClosed" method="POST" class="notification-pop text-center">';
-                                        echo csrf_field();
-                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The task '.$notification->task->name.' from project '.$notification->task->project->title.' had been closed</button>';
-                                        echo '</form>';
-                                    }
-                                    else if ($notification->notification_type == 'ASSIGN') {
-                                        $count++;
-                                        echo '<form action="/notification/'.$notification->id.'/assign" method="POST" class="notification-pop text-center">';
-                                        echo csrf_field();
-                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been assigned to you</button>';
-                                        echo '</form>';
-                                    }
-                                }
-                                ?>
-                                <div id="empty" class="text-secondary">Empty</div>
+                                    ?>
+                                </div>
+                                <form id="clear" action="/notifications/{{\Illuminate\Support\Facades\Auth::id()}}/clear" method="POST" class="text-center">
+                                    @csrf
+                                    <button type="submit" class="my-1 w-50 btn btn-outline-danger">Clear All</button>
+                                </form>
+                                <div id="empty" class="my-1 text-secondary text-center">Empty</div>
                             </div>
                             <div class="notification-number">
                                 <div></div>
@@ -94,11 +100,7 @@
         console.log('event-assignTask-{{Auth::id()}}');
         channel1.bind('event-assignTask-{{Auth::id()}}', function(data) {
 
-            let assign = document.querySelector('.notification-number');
-            assign.style.visibility = 'visible';
-
-            let empty = document.getElementById("empty");
-            empty.style.visibility = 'hidden';
+            red_dot(1);
 
             let body = document.getElementById("dropdown");
 
@@ -129,11 +131,7 @@
 
         channel2.bind('event-closedTask-{{Auth::id()}}', function(data) {
 
-            let assign = document.querySelector('.notification-number');
-            assign.style.visibility = 'visible';
-
-            let empty = document.getElementById("empty");
-            empty.style.visibility = 'hidden';
+            red_dot(1);
 
             let body = document.getElementById("dropdown");
 
@@ -165,11 +163,7 @@
 
         channel3.bind('event-invite-{{Auth::id()}}', function(data) {
 
-            let assign = document.querySelector('.notification-number');
-            assign.style.visibility = 'visible';
-
-            let empty = document.getElementById("empty");
-            empty.style.visibility = 'hidden';
+            red_dot(1);
 
             let body = document.getElementById("dropdown");
 
@@ -194,11 +188,7 @@
 
         channel4.bind('event-changeManager-{{Auth::id()}}', function(data) {
 
-            let assign = document.querySelector('.notification-number');
-            assign.style.visibility = 'visible';
-
-            let empty = document.getElementById("empty");
-            empty.style.visibility = 'hidden';
+            red_dot(1);
 
             let body = document.getElementById("dropdown");
 
@@ -234,12 +224,16 @@
             assign.style.visibility = 'visible';
             let empty = document.getElementById("empty");
             empty.style.display = 'none';
+            let clear = document.getElementById("clear");
+            clear.style.display = 'block';
         }
         else {
             let assign = document.querySelector('.notification-number');
             assign.style.visibility = 'hidden';
             let empty = document.getElementById("empty");
             empty.style.display = 'block';
+            let clear = document.getElementById("clear");
+            clear.style.display = 'none';
         }
     }
 </script>
