@@ -17,8 +17,7 @@
     </div>
     <div class="col-sm-8">
         <div class="d-flex gap-4 mt-4 container align-items-center text-uppercase">
-            <h3><i id="side-collapse-menu"></i></h3>
-            <h3>Project Forum</h3>
+            <h3><a class="text-decoration-none" href="/project/{{$project->id}}">{{$project->title}}</a> / Forum</h3>
         </div>
         <div class="col-md-12 px-4 my-4">
             <div class="card">

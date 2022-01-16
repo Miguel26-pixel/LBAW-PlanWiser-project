@@ -24,8 +24,7 @@ use Illuminate\Support\Facades\Auth;
     </div>
     <div class="col-sm-8">
         <div class="d-flex gap-4 mt-4 container align-items-center text-uppercase">
-            <h3><i id="side-collapse-menu"></i></h3>
-            <h3>Edit Project</h3>
+            <h3><a class="text-decoration-none" href="/project/{{$project->id}}">{{$project->title}}</a> / Edit</h3>
         </div>
         <form action="/project/{{$project->id}}/update" method="POST" enctype="multipart/form-data">
             @csrf
@@ -82,7 +81,7 @@ use Illuminate\Support\Facades\Auth;
                                         Archived
                                     </label>
                                 </div>
-                            </div>  
+                            </div>
                         </div>
                     </div>
                     <?php if ($user_role === 'MANAGER') { ?>

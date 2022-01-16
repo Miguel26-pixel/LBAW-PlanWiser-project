@@ -15,7 +15,9 @@
     <nav class="nav">
         <div class="nav_list">
             <div class="text-center my-4">
-                <div class="sidebar-btn nav_name">{{$project->title}}</div>
+                <a  href="/project/{{$project->id}}" class="sidenav_link sidebar-btn">
+                    <span class="nav_name">{{$project->title}}</span>
+                </a>
             </div>
             <a  href="/project/{{$project->id}}" class="sidenav_link sidebar-btn">
                 <i class='fa fa-home' style="font-size:28px"></i>
