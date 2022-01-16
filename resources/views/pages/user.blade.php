@@ -88,7 +88,6 @@
                     </div>
                 </div>
             </form>
-
         </div>
 
         <div class="container text-center my-3">

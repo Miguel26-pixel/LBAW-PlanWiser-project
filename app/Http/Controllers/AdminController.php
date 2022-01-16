@@ -21,7 +21,7 @@ class AdminController extends Controller
     public function show()
     {
         Gate::authorize('admin',User::class);
-        $public_projects = ProjectsController::getPublicProjects(6);
+        $public_projects = Project::orderBy('created_at')->take(5)->get();
         $users = UsersController::getUsers();
         return view('pages.admin.home', ['public_projects'=>$public_projects, 'users'=>$users]);
     }
@@ -142,6 +142,9 @@ class AdminController extends Controller
     public function banUser($id) {
         Gate::authorize('admin',User::class);
         $user = User::find($id);
+        if ($user->is_admin) {
+            return redirect()->back()->withErrors("This user is an an admin so you can't ban his account");
+        }
         $user->is_banned = true;
         $user->save();
         return redirect()->back();

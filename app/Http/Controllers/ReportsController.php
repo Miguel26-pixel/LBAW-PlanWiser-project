@@ -22,10 +22,17 @@ class ReportsController extends Controller
         $this->middleware('auth');
     }
 
-    public function showReportForm()
+    public function showReportBugForm()
     {
         $notifications = NotificationsController::getNotifications(Auth::id());
-        return view('pages.reportsCreate', ['notifications' => $notifications]);
+        return view('pages.reportBug', ['notifications' => $notifications]);
+    }
+
+    public function showReportUserForm($id)
+    {
+        $notifications = NotificationsController::getNotifications(Auth::id());
+        $reported = User::find($id);
+        return view('pages.reportUser', ['notifications' => $notifications,'reported' => $reported]);
     }
 
     protected function validator()
@@ -72,9 +79,44 @@ class ReportsController extends Controller
         return redirect('/profile/'.Auth::id());
     }
 
+    public function reportBug(Request $request) {
+        $validator = $request->validate($this->validator());
+
+        $report = new Report();
+        $report->text = $request->text;
+        $report->user_id = Auth::id();
+        $report->report_type = "BUG";
+        $report->created_at = Carbon::now();
+        Gate::authorize('create',$report);
+        $report->save();
+        Mail::to(env('MAIL_FROM_ADDRESS'))->send(new \App\Mail\Report($report,User::find(Auth::id()),null));
+        return redirect('/profile/'.Auth::id());
+    }
+
+    public function reportUser($id,Request $request) {
+        $validator = $request->validate($this->validator());
+
+        $report = new Report();
+        $report->text = $request->text;
+        $report->user_id = Auth::id();
+        $report->report_type = "USER";
+        $report->created_at = Carbon::now();
+        Gate::authorize('create',$report);
+        $reported = User::find($id);
+        if (!$reported) {
+            return redirect()->back()->withErrors('There are no users with the given username');
+        }
+        if (Auth::id() == $reported->id) {
+            return redirect()->back()->withErrors("You can't report your own account");
+        }
+        $report->reported_user_id = $reported->id;
+        $report->save();
+        Mail::to(env('MAIL_FROM_ADDRESS'))->send(new \App\Mail\Report($report,User::find(Auth::id()),$reported));
+        return redirect('/profile/'.$id.'/view');
+    }
+
     static function getReports()
     {
         return Report::orderBy('created_at')->paginate(10);
-
     }
 }
