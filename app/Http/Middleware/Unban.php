@@ -16,7 +16,7 @@ class Unban
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user() == null || $request->user()->is_banned || $request->user()->is_admin) {
+        if ($request->user() == null || $request->user()->is_banned) {
             return redirect('/home')->withErrors('User is banned');
         }
         return $next($request);

@@ -12,7 +12,7 @@
 
 @section('content')
     <div class="row m-0">
-        <div class="col-md-7">
+        <div class="col-md-8">
             <div class="container">
                 <?php
                 $path = '/images/no_img.png';
@@ -53,8 +53,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-5 my-5">
+        
             <div class="container text-center my-3">
                 <h2>User Favourite Projects</h2>
             </div>
@@ -85,6 +84,19 @@
                 </table>
                 <div class="d-flex justify-content-center">
                     {{ $fav_projects->links() }}
+                </div>
+            </div>
+            <div class="container text-center my-3">
+                <h2>Options</h2>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-center">Report User</h4>
+                    <p><span class="text-danger"><i class="icon-shield"></i> Warning: </span>To report this user click on button below.
+                        <br>The creation of a report will send an email to the support. The answer will be send to your email of this account</p>
+                    <div class="col-md-12 text-center">
+                        <a href="/reportUser/{{$user->id}}" class="text-decoration-none btn btn-danger">Report User</a>
+                    </div>
                 </div>
             </div>
         </div>
