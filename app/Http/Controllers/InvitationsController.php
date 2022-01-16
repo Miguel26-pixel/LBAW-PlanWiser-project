@@ -67,7 +67,6 @@ class InvitationsController extends Controller
         $old_invite = json_decode($old_invite, true);
 
         if($old_invite !== []) {
-            dd($old_invite);
             return redirect('/project/' . $project_id.'/members');
         }
 
@@ -85,7 +84,7 @@ class InvitationsController extends Controller
                                             ->where('invitation_project_id', $project_id)
                                             ->first();
 
-            event(new Invite($user_id[0]['id'], $notification->id));
+            event(new Invite($project->title,$user_id[0]['id'], $notification->id));
 
         }
 
@@ -107,29 +106,23 @@ class InvitationsController extends Controller
 
     public function dealWithInvite(int $id, Request $request)
     {
-        $public_projects = ProjectsController::getPublicProjects(6);
-        $notifications = NotificationsController::getNotifications(Auth::id());
         $not = Notification::find($id);
         $invitation = Invitation::where('user_id', '=', $not->invitation_user_id)
-                                    ->where('project_id', '=', $not->invitation_project_id)->get();
-        $project = Project::find($not->invitation_project_id);
+                                    ->where('project_id', '=', $not->invitation_project_id)->first();
         $projectU = ProjectUser::where('user_id', '=', $not->user_id)
-                                    ->where('project_id', '=', $not->invitation_project_id)->get();
-
-        $projectU = json_decode($projectU, true);
-        if($projectU == []){
+                                    ->where('project_id', '=', $not->invitation_project_id)->first();
+        if(!$projectU){
             if ($request->action == 'accept') {
-                $invitation[0]->accept = true;
-                $invitation[0]->save();
+                $invitation->accept = true;
+                $invitation->save();
+                $not->seen = true;
+                $not->save();
+                return redirect('/project/'.$not->invitation_project_id);
             }
         }
-
         $not->seen = true;
         $not->save();
-        $notifications = NotificationsController::getNotifications(Auth::id());
-
-
-        return redirect('/project/'.$not->invitation_project_id);
+        return redirect('/projects');
     }
 }
 

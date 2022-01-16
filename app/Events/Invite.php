@@ -14,6 +14,8 @@ class Invite implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $message;
+
     public $user_id;
 
     public $notification_id;
@@ -23,8 +25,9 @@ class Invite implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($user_id, $notification_id)
+    public function __construct($project_name, $user_id, $notification_id)
     {
+        $this->message  = "You have been invited to the project {$project_name}";
         $this->user_id = $user_id;
         $this->notification_id = $notification_id;
     }

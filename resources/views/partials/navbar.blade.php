@@ -15,14 +15,14 @@
                                 $count++;
                                 echo '<div  class="notification-pop">';
                                     echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
-                                    echo '<a href="/invitation/'.$notification->id.'" class=" btn-outline-success">. You have been invited to the project '.$notification->project->title.' had been closed'.'</a>';
+                                    echo '<a href="/invitation/'.$notification->id.'" class=" btn-outline-success">You have been invited to the project '.$notification->project->title.'</a>';
                                 echo '</div>';
                             } else if ($notification->notification_type == 'CHANGE_MANAGER') {
                                 $count++;
                                 echo '<form action="/notification/'.$notification->id.'/manager" method="POST" class="notification-pop">';
                                     echo csrf_field();
                                     echo '<div scope="row"><a class="text-info my-rocket"></a></div>';
-                                    echo '<button type="submit" class="btn-outline-success">.'.$notification->project->title.' has a new Manager</button>';
+                                    echo '<button type="submit" class="btn-outline-success">'.$notification->project->title.' has a new Manager</button>';
                                 echo '</form>';
                             }
                             else if ($notification->notification_type == 'COMPLETE_TASK') {
