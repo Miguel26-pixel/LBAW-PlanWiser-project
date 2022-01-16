@@ -12,7 +12,7 @@
 
 @section('content')
     <div class="row m-0">
-        <div class="col-md-7">
+        <div class="col-md-8">
             <div class="container">
                 <?php
                 $path = '/images/no_img.png';
@@ -53,8 +53,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-5 my-5">
+        
             <div class="container text-center my-3">
                 <h2>User Favourite Projects</h2>
             </div>
