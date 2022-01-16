@@ -7,7 +7,7 @@
         <header>
             @yield('topnavbar')
         </header>
-        <div style="margin-top: 107px">
+        <div style="margin-top: 90px">
             @if ($errors->any())
             <div class="row m-0">
                 <div class="col-md-3"></div>

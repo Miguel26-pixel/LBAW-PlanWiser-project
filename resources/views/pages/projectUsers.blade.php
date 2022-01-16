@@ -1,94 +1,95 @@
 @extends('layouts.app')
 
 @section('topnavbar')
-    <?php if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->is_admin) {?>
+<?php if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->is_admin) { ?>
     @include('partials.adminnavbar')
-    <?php } else { ?>
+<?php } else { ?>
     @include('partials.navbar', ['notifications' => $notifications])
-    <?php } ?>
+<?php } ?>
 @endsection
 
 @section('title', 'ProjectUsers')
 
 @section('content')
 
-    <div class="row m-0">
-        <div class="col-2">
-            @include('partials.project_nav', ['project' => $project])
+<div class="row m-0">
+    <div class="col-sm-2">
+        @include('partials.project_nav', ['project' => $project])
+    </div>
+    <div class="col-sm-8">
+        <div class="d-flex gap-4 mt-4 container align-items-center text-uppercase">
+            <h3><i id="side-collapse-menu"></i></h3>
+            <h3>Project Members</h3>
         </div>
-        <div class="col-10">
-            <div class="mt-4 container align-items-center">
-                <h3>Project Members</h3>
-            </div>
-            <div class="col-md-12 px-4">
-                <div class="card my-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <form action="/api/project/{{$project->id}}/members-search" method="POST" class="input-group rounded w-50">
-                            @csrf
-                            <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <button type="submit" class="input-group-text border-0" id="search-addon">
-                                <i class="icon-magnifier"></i>
-                            </button>
-                        </form>
-                        <?php if ($user_role === 'MANAGER') { ?>
+        <div class="col-md-12 px-4">
+            <div class="card my-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <form action="/api/project/{{$project->id}}/members-search" method="POST" class="input-group rounded w-50">
+                        @csrf
+                        <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" class="input-group-text border-0" id="search-addon">
+                            <i class="icon-magnifier"></i>
+                        </button>
+                    </form>
+                    <?php if ($user_role === 'MANAGER') { ?>
                         <a href="/project/{{$project->id}}/members/invitation" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> Add Member</a>
-                        <?php } ?>
-                    </div>
-                    <div class="card-body" >
-                        <table class="table table-bordered">
-                            <thead class="table-success" >
+                    <?php } ?>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead class="table-success">
                             <tr>
                                 <th scope="col" class="text-center" style="width: 5%"><i class="icon-arrow-right-circle"></i></th>
                                 <th scope="col">Username</th>
                                 <th scope="col" style="width: 45%">Email</th>
                                 <th scope="col" style="width: 20%">Role</th>
-                                <?php if ($user_role === 'MANAGER') {?>
+                                <?php if ($user_role === 'MANAGER') { ?>
                                     <th scope="col" style="width: 5%">Remove</th>
                                 <?php } ?>
                             </tr>
-                            </thead>
-                            <tbody id="table-members-body">
+                        </thead>
+                        <tbody id="table-members-body">
                             <?php
                             foreach ($project_users as $user) {
                                 echo '<tr>';
-                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/profile/'.$user['user_id'].'"><i class="icon-rocket"></i></a></th>'; //TODO href
-                                echo '<td>'.$user["username"].'</td>';
-                                echo '<td>'.$user['email'].'</td>';
+                                echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/profile/' . $user['user_id'] . '"><i class="icon-rocket"></i></a></th>'; //TODO href
+                                echo '<td>' . $user["username"] . '</td>';
+                                echo '<td>' . $user['email'] . '</td>';
                                 if ($user_role === 'MANAGER' && $user['user_role'] != 'MANAGER') {
                                     echo '<td>';
-                                        echo '<form action="/project/'.$project->id.'/members/'.$user['user_id'].'/update" method="POST">';
-                                            echo csrf_field();
-                                            echo '<div class="row m-0">';
-                                                echo '<div class="col-md-9">';
-                                                    echo '<select name="role" class="form-select" aria-label="Disabled select example" required>';
-                                                        echo '<option value="GUEST" '.(($user["user_role"] == 'GUEST') ? 'selected' : '').'>GUEST</option>';
-                                                        echo '<option value="MEMBER" '.(($user["user_role"] == 'MEMBER') ? 'selected' : '').'>MEMBER</option>';
-                                                        echo '<option value="MANAGER" '.(($user["user_role"] == 'MANAGER') ? 'selected' : '').'>MANAGER</option>';
-                                                    echo '</select>';
-                                                echo '</div>';
-                                                echo '<div class="col-md-3">';
-                                                    echo '<button type="submit" class="btn btn-success"><i class="icon-arrow-right-circle"></i></button>';
-                                                echo '</div>';
-                                            echo '</div>';
-                                        echo '</form>';
+                                    echo '<form action="/project/' . $project->id . '/members/' . $user['user_id'] . '/update" method="POST">';
+                                    echo csrf_field();
+                                    echo '<div class="row m-0">';
+                                    echo '<div class="col-md-9">';
+                                    echo '<select name="role" class="form-select" aria-label="Disabled select example" required>';
+                                    echo '<option value="GUEST" ' . (($user["user_role"] == 'GUEST') ? 'selected' : '') . '>GUEST</option>';
+                                    echo '<option value="MEMBER" ' . (($user["user_role"] == 'MEMBER') ? 'selected' : '') . '>MEMBER</option>';
+                                    echo '<option value="MANAGER" ' . (($user["user_role"] == 'MANAGER') ? 'selected' : '') . '>MANAGER</option>';
+                                    echo '</select>';
+                                    echo '</div>';
+                                    echo '<div class="col-md-3">';
+                                    echo '<button type="submit" class="btn btn-success"><i class="icon-arrow-right-circle"></i></button>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                    echo '</form>';
                                     echo '</td>';
                                     echo '<td class="text-center">';
-                                        echo '<form action="/project/'.$project->id.'/members/'.$user['user_id'].'/remove" method="POST">';
-                                            echo csrf_field();
-                                            echo '<button type="submit" class="btn btn-danger"><i class="icon-close"></i></button>';
-                                        echo '</form>';
+                                    echo '<form action="/project/' . $project->id . '/members/' . $user['user_id'] . '/remove" method="POST">';
+                                    echo csrf_field();
+                                    echo '<button type="submit" class="btn btn-danger"><i class="icon-close"></i></button>';
+                                    echo '</form>';
                                     echo '</td>';
                                 } else {
-                                    echo '<td>'.$user['user_role'].'</td>';
+                                    echo '<td>' . $user['user_role'] . '</td>';
                                 }
                                 echo '</tr>';
                             }
                             ?>
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
