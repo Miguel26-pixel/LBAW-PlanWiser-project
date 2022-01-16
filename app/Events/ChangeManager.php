@@ -10,7 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class AssignTask implements ShouldBroadcast
+class ChangeManager implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -25,9 +25,9 @@ class AssignTask implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($task_name, $project_name, $user_id, $notification_id)
+    public function __construct($project_name, $manager_name, $user_id, $notification_id)
     {
-        $this->message  = "You were assigned to the task {$task_name} from project {$project_name}";
+        $this->message  = "{$manager_name} is now manager of the project {$project_name}";
         $this->user_id = $user_id;
         $this->notification_id = $notification_id;
     }
@@ -39,10 +39,10 @@ class AssignTask implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['notifications-assignTasks'];
+        return ['notifications-changeManager'];
     }
 
     public function broadcastAs() {
-        return "event-assignTask-{$this->user_id}";
+        return "event-changeManager-{$this->user_id}";
     }
 }

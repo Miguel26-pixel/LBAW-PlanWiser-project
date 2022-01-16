@@ -10,7 +10,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class AssignTask implements ShouldBroadcast
+class ClosedTask implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -27,7 +27,7 @@ class AssignTask implements ShouldBroadcast
      */
     public function __construct($task_name, $project_name, $user_id, $notification_id)
     {
-        $this->message  = "You were assigned to the task {$task_name} from project {$project_name}";
+        $this->message  = "The task {$task_name} from project {$project_name} had been closed";
         $this->user_id = $user_id;
         $this->notification_id = $notification_id;
     }
@@ -39,10 +39,10 @@ class AssignTask implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['notifications-assignTasks'];
+        return ['notifications-closedTasks'];
     }
 
     public function broadcastAs() {
-        return "event-assignTask-{$this->user_id}";
+        return "event-closedTask-{$this->user_id}";
     }
 }

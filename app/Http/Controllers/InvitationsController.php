@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\Notification;
 use App\Models\ProjectUser;
 use App\Models\Invitation;
+use App\Events\Invite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -78,6 +79,13 @@ class InvitationsController extends Controller
             $invitation->accept = false;
             $invitation->user_role = $request->user_role;;
             $invitation->save();
+
+            $notification = Notification::where('notification_type', '=', 'INVITE')
+                                            ->where('invitation_user_id', $user_id[0]['id'])
+                                            ->where('invitation_project_id', $project_id)
+                                            ->first();
+
+            event(new Invite($user_id[0]['id'], $notification->id));
 
         }
 

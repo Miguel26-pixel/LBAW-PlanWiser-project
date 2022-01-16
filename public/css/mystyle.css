@@ -432,11 +432,11 @@ a:hover{
     visibility: hidden;
     background-color: red;
     border-radius: 50%;
-    position: relative;
-    top: -1.6em;
+    position: absolute;
+    top: 5%;
     width: 0.5em;
     height: 0.5em;
-    left: 5.9em;
+    left: 90%;
     animation: blink 1s infinite;
 }
 

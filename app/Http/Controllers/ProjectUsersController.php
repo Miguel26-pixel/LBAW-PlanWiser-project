@@ -6,6 +6,7 @@ use App\Models\Invitation;
 use App\Models\Notification;
 use App\Models\Project;
 use App\Models\ProjectUser;
+use App\Events\ChangeManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,7 @@ class ProjectUsersController extends Controller
         Gate::authorize('manager',Project::find($id));
         $project_user = ProjectUser::find(['user_id' => $user_id, 'project_id' => $id]);
         $project_user->user_role = $request->role;
+        $proj = Project::find($id);
         if ($request->role == 'MANAGER') {
             $user_ids = ProjectUser::where('project_id', '=', $id)->pluck('user_id');
             foreach ($user_ids as $user_id) {
@@ -63,6 +65,8 @@ class ProjectUsersController extends Controller
                 $notification->user_id = $user_id;
                 $notification->created_at = now();
                 $notification->save();
+
+                event(new ChangeManager($request->name, $proj->title, $user_id, $notification->id));
             }
         }
         $project_user->save();

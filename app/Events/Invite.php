@@ -10,11 +10,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class AssignTask implements ShouldBroadcast
+class Invite implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $message;
 
     public $user_id;
 
@@ -25,9 +23,8 @@ class AssignTask implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($task_name, $project_name, $user_id, $notification_id)
+    public function __construct($user_id, $notification_id)
     {
-        $this->message  = "You were assigned to the task {$task_name} from project {$project_name}";
         $this->user_id = $user_id;
         $this->notification_id = $notification_id;
     }
@@ -39,10 +36,10 @@ class AssignTask implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['notifications-assignTasks'];
+        return ['notifications-invites'];
     }
 
     public function broadcastAs() {
-        return "event-assignTask-{$this->user_id}";
+        return "event-invite-{$this->user_id}";
     }
 }
