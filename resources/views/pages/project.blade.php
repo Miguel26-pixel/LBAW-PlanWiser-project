@@ -27,55 +27,57 @@ use Illuminate\Support\Facades\Auth;
             <h3><i id="side-collapse-menu"></i></h3>
             <h3>About</h3>
         </div>
-        <div class="card my-3">
-            <div class="card-body d-flex flex-column">
-                <div style="border-radius: 5px; align-self: center; background-color: hsla(180, 25%, 33%, 0.801); color: white; width: 100%; text-align: center; padding: 1em">
-                    <h3>{{$project->title}}</h3>
-                </div>
-                <div class="mt-5 mb-5">
-                    <h4 style="color: hsla(180, 25%, 33%, 0.801);" class="text-center col-md-12 mb-4">Description</h4>
-                    <div style="border-style:solid ;border-color:  hsla(180, 25%, 33%, 0.801); padding: 1em;  border-radius: 5px;">{{$project->description}}</div>
-                </div>
-                <div class="d-flex align-items-center justify-content-center" style="gap: 10vw">
-                    <div class="mb-3 text-align-center text-center">
-                        <h5 style="color: #2f4f4f; font-weight: bold">Visibility:</h5>
-                        {{($project->public) ? 'Public' : 'Private'}}
+        <div class="col-md-12 px-4 my-4">
+            <div class="card my-3">
+                <div class="card-body d-flex flex-column">
+                    <div style="border-radius: 5px; align-self: center; background-color: hsla(180, 25%, 33%, 0.801); color: white; width: 100%; text-align: center; padding: 1em">
+                        <h3>{{$project->title}}</h3>
                     </div>
-                    <div class="mb-3 text-center">
-                        <h5 style="color: #2f4f4f; font-weight: bold">State:</h5>
-                        {{($project->active) ? 'Active' : 'Archived'}}
+                    <div class="mt-5 mb-5">
+                        <h4 style="color: hsla(180, 25%, 33%, 0.801);" class="text-center col-md-12 mb-4">Description</h4>
+                        <div style="border-style:solid ;border-color:  hsla(180, 25%, 33%, 0.801); padding: 1em;  border-radius: 5px;">{{$project->description}}</div>
                     </div>
+                    <div class="d-flex align-items-center justify-content-center" style="gap: 10vw">
+                        <div class="mb-3 text-align-center text-center">
+                            <h5 style="color: #2f4f4f; font-weight: bold">Visibility:</h5>
+                            {{($project->public) ? 'Public' : 'Private'}}
+                        </div>
+                        <div class="mb-3 text-center">
+                            <h5 style="color: #2f4f4f; font-weight: bold">State:</h5>
+                            {{($project->active) ? 'Active' : 'Archived'}}
+                        </div>
+                    </div>
+                    <?php if ($user_role === 'MANAGER') { ?>
+                        <div class="text-center">
+                            <a href="{{$project->id}}/edit" class="btn green-btn mt-5"> Edit Project</a>
+                        </div>
+                    <?php } ?>
                 </div>
-                <?php if ($user_role === 'MANAGER') { ?>
+                <div class="bg-light pt-3 pb-3 d-flex justify-content-around">
+                    <div class="justify-flex-start">
+                        <a class="btn btn-danger mb-2" href="/project/{{$project->id}}/{{($is_fav) ? 'remove-fav' : 'add-fav'}}">
+                            {{($is_fav) ? 'Remove from Favorites ' : 'Add to Favorites '}}
+                            <?php
+                            if ($is_fav) {
+                                echo '<i class="icon-dislike"></i>';
+                            } else {
+                                echo '<i class="icon-heart"></i>';
+                            }
+                            ?>
+                        </a>
+                    </div>
                     <div class="text-center">
-                        <a href="{{$project->id}}/edit" class="btn green-btn mt-5"> Edit Project</a>
+                        <h3>
+                            <?php
+                            if ($is_fav) {
+                                echo '<i class="fa fa-heart" style="color:red"></i>';
+                            } else {
+                                echo '<i class="icon-heart" style="color: red"></i>';
+                            }
+                            ?>
+                            {{$num_favs}}
+                        </h3>
                     </div>
-                <?php } ?>
-            </div>
-            <div class="bg-light pt-3 pb-3 d-flex justify-content-around">
-                <div class="justify-flex-start">
-                    <a class="btn btn-danger mb-2" href="/project/{{$project->id}}/{{($is_fav) ? 'remove-fav' : 'add-fav'}}">
-                        {{($is_fav) ? 'Remove from Favorites ' : 'Add to Favorites '}}
-                        <?php
-                        if ($is_fav) {
-                            echo '<i class="icon-dislike"></i>';
-                        } else {
-                            echo '<i class="icon-heart"></i>';
-                        }
-                        ?>
-                    </a>
-                </div>
-                <div class="text-center">
-                    <h3>
-                        <?php
-                        if ($is_fav) {
-                            echo '<i class="fa fa-heart" style="color:red"></i>';
-                        } else {
-                            echo '<i class="icon-heart" style="color: red"></i>';
-                        }
-                        ?>
-                        {{$num_favs}}
-                    </h3>
                 </div>
             </div>
         </div>

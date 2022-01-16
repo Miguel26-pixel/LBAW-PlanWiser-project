@@ -94,7 +94,7 @@
                             </div>
                         </form>
                         <br>
-                        @if (!$user->is_banned)
+                        @if (!$user->is_banned && Illuminate\Support\Facades\Auth::id() != $user->id)
                             <h3 class="text-center">Ban Account</h3>
                             <form action="/admin/profile/{{$user->id}}/ban" method="POST">
                                 @csrf
@@ -103,7 +103,7 @@
                                     <button type="submit" class="btn btn-danger">Ban Account</button>
                                 </div>
                             </form>
-                        @else
+                        @elseif(Illuminate\Support\Facades\Auth::id() != $user->id)
                             <h3 class="text-center">Unban Account</h3>
                             <form action="/admin/profile/{{$user->id}}/unban" method="POST">
                                 @csrf

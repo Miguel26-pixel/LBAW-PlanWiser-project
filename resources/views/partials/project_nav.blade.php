@@ -13,32 +13,30 @@
 
 <div class="sidenavbar" id="nav-bar">
     <nav class="nav">
-        <div>
-            <div>
-                <div class="sidebar-title pt-5">{{$project->title}}</div>
+        <div class="nav_list">
+            <div class="text-center my-4">
+                <div class="sidebar-btn nav_name">{{$project->title}}</div>
             </div>
-            <div class="nav_list">
-                <a  href="/project/{{$project->id}}" class="sidenav_link sidebar-btn">
-                    <i class='fa fa-home' style="font-size:28px"></i>
-                    <span class="nav_name">Home</span>
-                </a>
-                <a href="/project/{{$project->id}}/files" class="sidenav_link sidebar-btn">
-                    <i class='fa fa-file' style="font-size:28px"></i>
-                    <span class="nav_name">Files</span>
-                </a>
-                <a href="/project/{{$project->id}}/tasks"  class="sidenav_link sidebar-btn">
-                    <i class='fa fa-tasks' style="font-size:28px"></i>
-                    <span class="nav_name">Tasks</span>
-                </a>
-                <a href="/project/{{$project->id}}/forum" class="sidenav_link sidebar-btn">
-                    <i class='fa fa-comment' style="font-size:28px"></i>
-                    <span class="nav_name">Forum</span>
-                </a>
-                <a href="/project/{{$project->id}}/members" class="sidenav_link sidebar-btn">
-                    <i class='fa fa-users' style="font-size:28px"></i>
-                    <span class="nav_name">Members</span>
-                </a>
-            </div>
+            <a  href="/project/{{$project->id}}" class="sidenav_link sidebar-btn">
+                <i class='fa fa-home' style="font-size:28px"></i>
+                <span class="nav_name">Home</span>
+            </a>
+            <a href="/project/{{$project->id}}/files" class="sidenav_link sidebar-btn">
+                <i class='fa fa-file' style="font-size:28px"></i>
+                <span class="nav_name">Files</span>
+            </a>
+            <a href="/project/{{$project->id}}/tasks"  class="sidenav_link sidebar-btn">
+                <i class='fa fa-tasks' style="font-size:28px"></i>
+                <span class="nav_name">Tasks</span>
+            </a>
+            <a href="/project/{{$project->id}}/forum" class="sidenav_link sidebar-btn">
+                <i class='fa fa-comment' style="font-size:28px"></i>
+                <span class="nav_name">Forum</span>
+            </a>
+            <a href="/project/{{$project->id}}/members" class="sidenav_link sidebar-btn">
+                <i class='fa fa-users' style="font-size:28px"></i>
+                <span class="nav_name">Members</span>
+            </a>
         </div>
         <a href="javascript:void(0)" class="sidenav_link mb-5"><i class='icon-arrow-left' id="header-toggle"></i></a>
     </nav>
@@ -114,7 +112,7 @@
         top: 90px;
         width: 200px;
         background-color: #dbdbdb;
-        padding: .5rem 1rem 0 0;
+        padding: .5rem 1rem 0 1rem;
         transition: .5s;
         color: #818181;
         height: 91vh;
