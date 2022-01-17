@@ -72,6 +72,5 @@ class ProjectsController extends Controller
                             ->orderBy('created_at')
                             ->get();
         }
-
     }
 }

@@ -89,15 +89,14 @@
 <script>
     window.addEventListener('load', () => {
 
-            // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = false;
 
         var pusher = new Pusher('262b1acd7446e5873066', {
             cluster: 'eu',
         });
 
         var channel1 = pusher.subscribe('notifications-assignTasks');
-        console.log('event-assignTask-{{Auth::id()}}');
         channel1.bind('event-assignTask-{{Auth::id()}}', function(data) {
 
             red_dot(1);
@@ -118,11 +117,7 @@
             button.innerText = data.message;
             button.style.color = "#198754";
 
-            let csrf = document.createElement('meta');
-            csrf.setAttribute('name','csrf-token');
-            csrf.setAttribute('content', '{{ csrf_field() }}');
-
-            div_pop.appendChild(csrf);
+            div_pop.insertAdjacentHTML( 'beforeend', '{{ csrf_field() }}' );
             div_pop.appendChild(button);
             body.prepend(div_pop);
         });
@@ -149,11 +144,7 @@
             button.innerText = data.message;
             button.style.color = "#198754";
 
-            let csrf = document.createElement('meta');
-            csrf.setAttribute('name','csrf-token');
-            csrf.setAttribute('content', '{{ csrf_field() }}');
-
-            div_pop.appendChild(csrf);
+            div_pop.insertAdjacentHTML( 'beforeend', '{{ csrf_field() }}' );
             div_pop.appendChild(button);
             body.prepend(div_pop);
         });
@@ -206,11 +197,7 @@
             button.innerText = data.message;
             button.style.color = "#198754";
 
-            let csrf = document.createElement('meta');
-            csrf.setAttribute('name','csrf-token');
-            csrf.setAttribute('content', '{{ csrf_field() }}');
-
-            div_pop.appendChild(csrf);
+            div_pop.insertAdjacentHTML( 'beforeend', '{{ csrf_field() }}' );
             div_pop.appendChild(button);
             body.prepend(div_pop);
         });
