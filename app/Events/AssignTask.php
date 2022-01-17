@@ -27,7 +27,7 @@ class AssignTask implements ShouldBroadcast
      */
     public function __construct($task_name, $project_name, $user_id, $notification_id)
     {
-        $this->message  = "You were assigned to the task {$task_name} from project {$project_name}";
+        $this->message  = "The task {$task_name} from project {$project_name} had been assigned to you";
         $this->user_id = $user_id;
         $this->notification_id = $notification_id;
     }

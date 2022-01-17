@@ -25,9 +25,9 @@ class ChangeManager implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($project_name, $manager_name, $user_id, $notification_id)
+    public function __construct($project_name, $user_id, $notification_id)
     {
-        $this->message  = "{$manager_name} is now manager of the project {$project_name}";
+        $this->message  = "The project {$project_name} has a new Manager";
         $this->user_id = $user_id;
         $this->notification_id = $notification_id;
     }

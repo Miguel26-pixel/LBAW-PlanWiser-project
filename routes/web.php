@@ -100,4 +100,5 @@ Route::middleware(['unban'])->group(function () {
     Route::post('notification/{id}/manager', [NotificationsController::class,'managerNotification']);
     Route::post('notification/{id}/taskClosed', [NotificationsController::class,'taskClosedNotification']);
     Route::post('notification/{id}/assign', [NotificationsController::class,'assignNotification']);
+    Route::post('notifications/{id}/clear', [NotificationsController::class,'clearNotifications']);
 });

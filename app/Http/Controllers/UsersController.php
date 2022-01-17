@@ -35,7 +35,7 @@ class UsersController extends Controller
 
     static function getUsers()
     {
-        return (new User())->where('is_admin', '=', false)->get();
+        return (new User())->where('is_admin', '=', false)->orderByDesc('id')->get();
     }
 
     public function showProfile(int $id)

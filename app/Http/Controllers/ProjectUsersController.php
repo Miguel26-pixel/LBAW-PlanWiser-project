@@ -7,6 +7,7 @@ use App\Models\Notification;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Events\ChangeManager;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,17 +30,16 @@ class ProjectUsersController extends Controller
                         ->join('projectusers', 'users.id', '=', 'projectusers.user_id')
                         ->where('projectusers.project_id', $project_id)
                         ->get(['user_id', 'username','email','user_role']);
-        $myusers = json_decode($myusers,true);
-
-        return $myusers;
+        return json_decode($myusers,true);
     }
 
     public function showProjectUsers($project_id)
     {
-        Gate::authorize('showUsers',Project::find($project_id));
+        $project = Project::find($project_id);
+        Gate::authorize('showUsers',$project);
         $notifications = NotificationsController::getNotifications(Auth::id());
 
-        $myusers = $this->getProjectUsers($project_id);
+        $myusers = User::join('projectusers', 'users.id', '=', 'projectusers.user_id')->where('projectusers.project_id', $project_id)->paginate(10);
         $project_user = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id]);
         if (!$project_user) {
             $user_role = 'GUEST';
@@ -66,7 +66,7 @@ class ProjectUsersController extends Controller
                 $notification->created_at = now();
                 $notification->save();
 
-                event(new ChangeManager($request->name, $proj->title, $user_id, $notification->id));
+                event(new ChangeManager($proj->title, $user_id, $notification->id));
             }
         }
         $project_user->save();
@@ -89,7 +89,7 @@ class ProjectUsersController extends Controller
         return redirect()->back();
     }
 
-    public function searchProjectMembers($project_id, Request $request) {
+    /*public function searchProjectMembers($project_id, Request $request) {
         $users = DB::table('users')
             ->join('projectusers', 'users.id', '=','projectusers.user_id')
             ->join('projects', 'projectusers.project_id', '=','projects.id')
@@ -103,5 +103,16 @@ class ProjectUsersController extends Controller
         $notifications = NotificationsController::getNotifications(Auth::id());
         $user_role = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id])->user_role;
         return view('pages.projectUsers',['user_role' => $user_role, 'project_users' => $users,'project' => Project::find($project_id), 'notifications' => $notifications]);
+    }*/
+
+    public function searchProjectMembers($project_id, Request $request) {
+        return DB::table('users')
+            ->join('projectusers', 'users.id', '=','projectusers.user_id')
+            ->join('projects', 'projectusers.project_id', '=','projects.id')
+            ->where('projects.id','=',$project_id)
+            ->whereRaw("(users.username like '%".$request->search."%'
+                                                or users.email like '%".$request->search."%'
+                                                or CAST(user_role AS VARCHAR) like '".$request->search."%')")
+            ->get();
     }
 }
