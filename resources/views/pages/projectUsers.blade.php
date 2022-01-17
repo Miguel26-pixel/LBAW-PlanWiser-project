@@ -23,13 +23,12 @@
         <div class="col-md-12 px-4">
             <div class="card my-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <form action="/api/project/{{$project->id}}/members-search" method="POST" class="input-group rounded w-50">
-                        @csrf
+                    <div class="input-group rounded w-50">
                         <input type="search" name="search" id="mySearch" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                         <button type="submit" class="input-group-text border-0" id="search-addon">
                             <i class="icon-magnifier"></i>
                         </button>
-                    </form>
+                    </div>
                     <?php if ($user_role === 'MANAGER') { ?>
                         <a href="/project/{{$project->id}}/members/invitation" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> Add Member</a>
                     <?php } ?>
