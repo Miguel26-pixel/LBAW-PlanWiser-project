@@ -117,6 +117,6 @@ class ReportsController extends Controller
 
     static function getReports()
     {
-        return Report::orderBy('created_at')->paginate(10);
+        return Report::orderByDesc('created_at')->paginate(10);
     }
 }

@@ -21,8 +21,8 @@ class AdminController extends Controller
     public function show()
     {
         Gate::authorize('admin',User::class);
-        $public_projects = Project::orderBy('created_at')->take(5)->get();
-        $users = UsersController::getUsers();
+        $public_projects = Project::orderByDesc('created_at')->take(5)->get();
+        $users = User::orderByDesc('id')->take(3)->get();
         return view('pages.admin.home', ['public_projects'=>$public_projects, 'users'=>$users]);
     }
 
@@ -86,7 +86,7 @@ class AdminController extends Controller
     public function showProjects()
     {
         Gate::authorize('admin',User::class);
-        $projects = Project::paginate(10);
+        $projects = Project::orderByDesc('created_at')->paginate(10);
         return view('pages.admin.projects', ['public_projects'=>$projects]);
     }
 
