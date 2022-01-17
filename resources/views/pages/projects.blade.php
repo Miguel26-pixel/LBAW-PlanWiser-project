@@ -13,7 +13,7 @@
 @section('content')
 
 <div class="row m-0">
-    <div class="col-md">
+    <div class="col-md mt-5">
         <div class="container text-center my-3">
             <h2>Projects</h2>
         </div>

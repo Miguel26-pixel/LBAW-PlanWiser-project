@@ -28,8 +28,8 @@
         @if (Auth::check())
             <div class="collapse navbar-collapse navbarSupportedContent" style="justify-content: flex-end;">
                 <ul class="navbar-nav">
-                    <li class="navbar-nav mr-auto"><a class="nav-item" href="{{ url('/profile/'.Auth::id()) }} "> {{ Auth::user()->username }} </a></li>
-                    <li class="navbar-nav mr-auto"><a class="nav-item" href="{{ url('/logout') }}"> Log Out </a></li>
+                    <li class="navbar-nav"><a class="nav-item" href="{{ url('/profile/'.Auth::id()) }} " style="width: max-content"> {{ Auth::user()->username }} </a></li>
+                    <li class="navbar-nav"><a class="nav-item" href="{{ url('/logout') }}" style="width: max-content"> Log Out </a></li>
                 </ul>
             </div>
         @else

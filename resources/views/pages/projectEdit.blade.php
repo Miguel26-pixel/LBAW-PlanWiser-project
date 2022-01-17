@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Auth;
         @include('partials.project_nav', ['project' => $project])
     </div>
     <div class="col-sm-8">
-        <div class="d-flex gap-4 mt-4 container align-items-center text-uppercase">
+        <div class="d-flex gap-4 mt-5 container align-items-center text-uppercase">
             <h3><a class="text-decoration-none text-success" href="/project/{{$project->id}}">{{$project->title}}</a> / Edit</h3>
         </div>
         <form action="/project/{{$project->id}}/update" method="POST" enctype="multipart/form-data">
