@@ -85,6 +85,9 @@
                             ?>
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {{ $project_users->links() }}
+                    </div>
                 </div>
             </div>
         </div>
