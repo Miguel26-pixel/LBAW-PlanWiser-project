@@ -30,7 +30,7 @@
                             </select>
                         </div>
                         <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                        <button type="submit" class="input-group-text border-0" id="search-addon">
+                        <button type="submit" class="input-group-text border-0 btn-success" id="search-addon">
                             <i class="icon-magnifier"></i>
                         </button>
                     </form>
