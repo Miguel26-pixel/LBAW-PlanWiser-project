@@ -56,7 +56,7 @@
                             </form>
                             <div id="empty-full" class="my-1 text-secondary text-center">Empty</div>
                         </div>
-                        <div class="notification-number">
+                        <div id="notification-number-full" class="notification-number">
                             <div></div>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                             </form>
                             <div id="empty-compact" class="my-1 text-secondary text-center">Empty</div>
                         </div>
-                        <div class="notification-number">
+                        <div id="notification-number-compact" class="notification-number" style="left: 78%">
                             <div></div>
                         </div>
                     </div>
@@ -270,8 +270,10 @@
 
     function red_dot(count) {
         if (count > 0) {
-            let assign = document.querySelector('.notification-number');
-            assign.style.visibility = 'visible';
+            let assign1 = document.getElementById('notification-number-full');
+            assign1.style.visibility = 'visible';
+            let assign2 = document.getElementById('notification-number-compact');
+            assign2.style.visibility = 'visible';
             let empty_full = document.getElementById("empty-full");
             empty_full.style.display = 'none';
             let clear_full = document.getElementById("clear-full");
@@ -282,8 +284,10 @@
             clear_compact.style.display = 'block';
         }
         else {
-            let assign = document.querySelector('.notification-number');
-            assign.style.visibility = 'hidden';
+            let assign1 = document.getElementById('notification-number-full');
+            assign1.style.visibility = 'hidden';
+            let assign2 = document.getElementById('notification-number-compact');
+            assign2.style.visibility = 'hidden';
             let empty_full = document.getElementById("empty-full");
             empty_full.style.display = 'block';
             let clear_full = document.getElementById("clear-full");
