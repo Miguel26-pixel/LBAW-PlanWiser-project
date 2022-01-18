@@ -25,14 +25,14 @@
             </div>
         </div>
         @if (Auth::check())
-            <div class="collapse navbar-collapse navbarSupportedContent" style="justify-content: flex-end;">
+            <div class="">
                 <ul class="navbar-nav">
                     <li class="navbar-nav"><a class="nav-item" href="{{ url('/profile/'.Auth::id()) }} " style="width: max-content"> {{ Auth::user()->username }} </a></li>
                     <li class="navbar-nav"><a class="nav-item" href="{{ url('/logout') }}" style="width: max-content"> Log Out </a></li>
                 </ul>
             </div>
         @else
-            <div class="collapse navbar-collapse navbarSupportedContent" style="justify-content: flex-end;">
+            <div class="">
                 <ul class="navbar-nav">
                     <a id="profile-btn" class=" nav-item" href="{{ url('/register') }}" style="width: max-content"> Sign Up </a>
                     <a id="logout-btn" class="nav-item" href="{{ url('/login') }}" style="width: max-content"> Log In </a>
