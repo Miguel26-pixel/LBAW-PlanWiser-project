@@ -1,6 +1,6 @@
 <div class="sidenavbar" id="nav-bar">
     <nav class="nav">
-        <div class="nav_list mt-5">
+        <div class="nav_list mt-5 pt-5">
             <a  href="/project/{{$project->id}}" class="sidenav_link sidebar-btn">
                 <i class='fa fa-home' style="font-size:28px"></i>
                 <span class="nav_name">Home</span>
