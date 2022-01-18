@@ -17,8 +17,7 @@
 
             <div class="collapse navbar-collapse navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="navbar-nav mr-auto"><a class="nav-item" href="/home#aboutUs" style="width: max-content"> About Us </a></li>
-                    <li class="navbar-nav mr-auto"><a class="nav-item" href="/home#support"> Support </a></li>
+                    <li class="navbar-nav mr-auto"><a class="nav-item" href="/admin"> Dashboard </a></li>
                     <li class="navbar-nav mr-auto"><a class="nav-item" href="{{ url('admin/manageUsers') }}">Users</a></li>
                     <li class="navbar-nav mr-auto"><a class="nav-item" href="{{ url('admin/reports') }}">Reports</a></li>
                     <li class="navbar-nav mr-auto"><a class="nav-item" href="{{ url('admin/projects') }}"> Projects </a></li>

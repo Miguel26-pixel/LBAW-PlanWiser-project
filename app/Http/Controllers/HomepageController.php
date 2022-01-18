@@ -17,9 +17,6 @@ class HomepageController extends Controller
         }
         $public_projects = ProjectsController::getPublicProjects(6);
         $notifications = NotificationsController::getNotifications(Auth::id());
-        if(Auth::user()->is_admin){
-           return redirect('/admin');
-        }
         return view('pages.homepage', ['public_projects' => $public_projects, 'notifications' => $notifications]);
     }
 
