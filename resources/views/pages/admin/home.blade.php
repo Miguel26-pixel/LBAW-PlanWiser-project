@@ -10,6 +10,9 @@
 
 <div class="row m-0  justify-content-center">
     <div class="col-md-5 mt-5">
+        <div class="container text-center my-3">
+            <h2>Dashboard</h2>
+        </div>
         <div class="container">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">

@@ -16,7 +16,7 @@
         @include('partials.project_nav', ['project' => $project])
     </div>
     <div class="col-sm-8">
-        <div class="d-flex gap-4 mt-4 container align-items-center text-uppercase">
+        <div class="d-flex gap-4 mt-5 container align-items-center text-uppercase">
             <h3><a class="text-decoration-none text-success" href="/project/{{$project->id}}">{{$project->title}}</a> / <a class="text-decoration-none text-success" href="/project/{{$project->id}}/tasks">Tasks</a> / {{$task->name}}</h3>
         </div>
 

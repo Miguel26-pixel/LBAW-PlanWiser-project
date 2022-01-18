@@ -6,6 +6,12 @@ body {
     margin: 0;
 }
 
+.my-rocket {
+    text-decoration: none;
+}
+
+/*----- NavBar Style-----*/
+
 .navbar-container {
     position: fixed;
     z-index: 500;
@@ -14,10 +20,6 @@ body {
     border-bottom: 1px solid lightgray;
     background: white;
     display: flex;
-}
-
-.my-rocket {
-    text-decoration: none;
 }
 
 .my-dropdown {
@@ -30,8 +32,8 @@ body {
     position: absolute;
     background-color: #e7e7e7;
     color: black;
-    min-width: 400px;
-    left: -120px;
+    width: 400px;
+    left: -130px;
     top: 45px;
     padding: 12px 0 12px 0;
     z-index: 1;
@@ -42,13 +44,8 @@ body {
 }
 
 .navbar-align {
-    justify-content: space-around;
     width: 100%;
     display: flex;
-    align-items: center;
-    /*grid-template-columns: auto repeat(8,0.7fr);
-    grid-template-areas: " . . . . . . . . .";
-    align-items: center;  */
     margin: 0.5em 5em;
 }
 
@@ -65,191 +62,39 @@ body {
     color: white;
 }
 
-.sidenav-item {
-    width: 70%;
-    border-style:hidden;
-    font-size: 20px;
-    color: #2F4F4F;
-}
-.sidenav-item:hover {
-    background-color: lightgrey;
-    color: #2F4F4F;
-}
-#signup-btn {
-    /* grid-area: sign-up; */
-    justify-self: flex-end;
-}
-#login-btn {
-    /* grid-area: login; */
-    justify-self: flex-end;
-}
-#username-btn {
-    /* grid-area: sign-up; */
-    justify-self: flex-end;
-}
-#logout-btn {
-    /* grid-area: login; */
-    justify-self: flex-end;
-}
-#profile-btn {
-    /* grid-area: sign-up; */
-    justify-self: flex-end;
-}
-#notifications-btn {
-    /* grid-area: notifications; */
-    justify-self: flex-end;
+@media screen and (min-width: 1010px) {
+    #full-nav { display: flex !important; }
+    #compact-nav { display: none !important; }
 }
 
-main > header h1 {
-margin: 0;
-}
-main > header a.button {
-margin-left: 1em;
-margin-right: 1em;
-justify-self: center;
-}
-main > header span {
-margin-left: 1em;
-margin-right: 1em;
-justify-self: center;
-}
-#cards {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-}
-#cards article.card {
-display: flex;
-flex-direction: column;
-background-color: #d3edc3;
-padding: 1em;
-margin: 1em;
-}
-#cards article.card header {
-display: flex;
-align-items: center;
-}
-#cards article.card header h2 {
-flex-grow: 1;
-}
-#cards article.card header a.delete {
-display: none;
-font-size: 2.6rem;
-margin-top: .5rem;
-margin-bottom: 2.5rem;
-line-height: 1.25;
-}
-#cards article.card header:hover a.delete {
-display: inline;
-}
-#cards article.card li {
-list-style-type: none;
-}
-#cards article.card li label {
-display: flex;
-align-items: baseline;
-}
-#cards article.card li label span {
-margin-left: .5em;
-flex-grow: 1;
-}
-#cards article.card li label a {
-display: none;
-}
-#cards article.card li label:hover a {
-display: inline;
-}
-#cards article.card input:checked + span {
-text-decoration: var(--primary-color) solid line-through;
-}
-#cards article.card ul {
-margin: 0;
-}
-#cards article.card form {
-margin: 0;
-}
-#cards article.card input[type=text] {
-background-color: white;
-margin: 0;
-}
-#content label {
-font-weight: normal;
-}
-#content > form {
-margin: auto;
-padding: 1em;
-max-width: 60em;
-border: 1px solid black;
-}
-#content > form .error {
-font-weight: bold;
-color: #ff3333;
-}
-#content > form input {
-background-color: white;
-border: 1px solid white;
-}
-#content > form input:hover {
-background-color: white;
-border: 1px solid black;
-}
-@media (max-width: 70em) {
-#cards {
-    grid-template-columns: repeat(2, 1fr);
-}
-main > header {
-    display: grid;
-}
-main > header h1 {
-    grid-row-end: span 2;
-}
-}
-@media (max-width: 40em) {
-#cards {
-    grid-template-columns: 1fr;
-}
-}
-@media (max-width: 25em) {
-body {
-    margin: 0;
-}
-main > header {
-    margin: 0;
-    padding: 0.5em;
-}
-main > header span {
-    margin: 0;
-}
-#content form {
-    margin: 0;
-    max-width: 25em;
-}
-article.card {
-    margin: 0;
-    border-bottom: 1px solid rgba(96, 108, 118, 0.4);
-}
-}
-/**
-* Overide milligram colors
-* Some styles might be missing
-**/
-.button {
-background-color: white;
-color:black;
-border-style: hidden;
-}
-a.button {
-background-color: white;
-color: black;
-border-style: hidden;
+@media screen and (max-width: 1010px) {
+    #full-nav { display: none !important; }
+    #compact-nav { display: flex !important; }
 }
 
-/*vale*/
-input[type=text]:focus,
-input[type=email]:focus,
-input[type=password]:focus {
-border-color: white;
+.navbar-dropdown {
+    position: relative;
+    display: inline-block;
 }
 
+.navbar-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 200px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    right: 0;
+    padding: 12px 0 12px 0;
+    z-index: 1;
+}
+
+.navbar-dropdown:hover .navbar-dropdown-content {
+    display: block;
+}
+
+.dropdown-item:hover {
+    background-color: #d1e7dd;
+}
 
 /*----- Homepage Style-----*/
 
@@ -272,135 +117,80 @@ border-color: white;
 
 /*----- Auth forms-----*/
 
-  .loginbackground {
-      min-height: 692px;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      top: 0;
-      z-index: 0;
-      overflow: hidden;
-  }
+.formbg {
+    margin: 0px auto;
+    width: 100%;
+    max-width: 448px;
+    background: white;
+    border-radius: 4px;
+    box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
+}
 
-  .formbg {
-      margin: 0px auto;
-      width: 100%;
-      max-width: 448px;
-      background: white;
-      border-radius: 4px;
-      box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;
-  }
+label {
+    margin-bottom: 10px;
+}
 
-  label {
-      margin-bottom: 10px;
-  }
-  .reset-pass a,label {
-      font-size: 14px;
-      font-weight: 600;
-      display: block;
-  }
-  .reset-pass > a {
-      text-align: right;
-      margin-bottom: 10px;
-  }
-  .grid--50-50 {
-      display: grid;
-      grid-template-columns: 50% 50%;
-      align-items: center;
-  }
+.reset-pass a,label {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+}
+.reset-pass > a {
+    text-align: right;
+    margin-bottom: 10px;
+}
+.grid--50-50 {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+}
 
-  .field input {
-      font-size: 16px;
-      line-height: 28px;
-      padding: 8px 16px;
-      width: 100%;
-      min-height: 44px;
-      border: unset;
-      border-radius: 4px;
-      outline-color: rgb(84 105 212 / 0.5);
-      background-color: rgb(255, 255, 255);
-      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-                  rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px;
-  }
+.field input {
+    font-size: 16px;
+    line-height: 28px;
+    padding: 8px 16px;
+    width: 100%;
+    min-height: 44px;
+    border: unset;
+    border-radius: 4px;
+    outline-color: rgb(84 105 212);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+              rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+}
 
-  input[type="submit"] {
-      background-color: #2F4F4F;
-      box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-                  rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-                  rgba(0, 0, 0, 0.12) 0px 1px 1px 0px;
+input[type="submit"] {
+    background-color: #2F4F4F;
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+              rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+              rgba(0, 0, 0, 0.12) 0px 1px 1px 0px;
 
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-  }
-  .field-checkbox input {
-      width: 20px;
-      height: 15px;
-      margin-right: 5px;
-      box-shadow: unset;
-      min-height: unset;
-  }
-  .field-checkbox label {
-      display: flex;
-      align-items: center;
-      margin: 0;
-  }
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+.field-checkbox input {
+    width: 20px;
+    height: 15px;
+    margin-right: 5px;
+    box-shadow: unset;
+    min-height: unset;
+}
+.field-checkbox label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
 .green-planwiser:hover {
     color: #198754;
 }
 
 /*-----Project SideBar-----*/
-
-.sidebar {
-    color: black;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #dbdbdb;
-    overflow-x: hidden;
-    padding-top: 15vh;
-    padding-left: 20px;
-    transition: 2s;
-    height: 100vh;
-    max-width: 400px;
-  }
-
-  .sidebar-title{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #2f4f4f;
-    font-weight:bolder;
-    font-size:20px;
-    padding-left: 58px;
-    padding-bottom: 2vh;
-    max-width: 1px;
-  }
-
-  /* The sidebar links */
-  .sidebar a {
-    font-size: 20px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-  }
-
-  .sidebar a:hover {
-    color: #2f4f4f;
-    text-decoration: none;;
-  }
-
-
-  .sidebar:hover {
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
 
 .sidebar-btn {
     color: grey;
@@ -419,21 +209,71 @@ border-color: white;
     background-color: lightgray;
 }
 
-  /* The button used to open the sidebar */
-  .openbtn {
-    cursor: pointer;
-    background-color: grey;
-    color: white;
-    border: solid;
-  }
+.sidenavbar {
+    position: fixed;
+    left: 0;
+    top: 90px;
+    width: 200px;
+    background-color: #dbdbdb;
+    padding: .5rem 1rem 0 1rem;
+    transition: 2s;
+    color: #818181;
+    height: 90vh;
+    z-index: 200;
+}
 
+.nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden
+}
 
-  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-  @media screen and (max-height: 450px) {
-    .sidebar {padding-top: 15px;}
-    .sidebar a {font-size: 18px;}
-  }
+.sidenav_link {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: 1rem;
+    padding: .5rem 0 .5rem 1.5vh;
+}
 
+.sidenav_link {
+    position: relative;
+    color: #818181;
+    margin-bottom: 2vh;
+    transition: .3s
+}
+
+.sidenav_link:hover {
+    color: #2f4f4f;
+    text-decoration: none;
+
+}
+
+.show {
+    left: 0;
+    width: 75px;
+}
+
+@media screen and (max-width: 1200px) {
+    .sidenavbar {
+        left: 0;
+        padding: 0;
+        width: 50px;
+    }
+    .show {
+        left: 0;
+        width: 50px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .show {
+        left: -30%;
+        width: 0;
+    }
+}
 
 /*------Notifications-------*/
 
@@ -441,16 +281,6 @@ border-color: white;
     border-bottom: 1px solid lightgray;
     font-size: 16px;
 }
-
-.notification-btn {
-    width: 100%;
-}
-
-.round-profile-pic {
-    vertical-align: middle;
-    width: 50px;
-    height: 50px;
-  }
 
 a{
     text-decoration: none;
@@ -487,6 +317,6 @@ a:hover{
     100% {
       opacity: 1;
     }
-  }
+}
 
 
