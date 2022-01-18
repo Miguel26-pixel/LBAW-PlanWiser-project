@@ -12,7 +12,7 @@
 
 @section('content')
 <div class="homepage" style="margin-bottom: 10%">
-    <div class="col-md-4 homepage-title">Project wiser</br> with</br><h class="green-planwiser">PlanWiser</h></div>
+    <div class="col-md-4 homepage-title">Project wiser</br> with</br><h class="green-planwiser">PlanWiser</h></br><h class="ready-to-be">Are u ready to be productive?</h></br><a class="get-started-btn" href="{{ url('/register') }}">Get Started</a></div>
 
     <div class="col-md-5 pt-5">
         <div class="container text-center my-3">
