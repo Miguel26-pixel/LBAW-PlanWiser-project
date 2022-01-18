@@ -32,8 +32,8 @@ body {
     position: absolute;
     background-color: #e7e7e7;
     color: black;
-    min-width: 400px;
-    left: -120px;
+    width: 400px;
+    left: -130px;
     top: 45px;
     padding: 12px 0 12px 0;
     z-index: 1;
@@ -60,6 +60,40 @@ body {
 .nav-item:hover{
     background-color: hsla(180, 25%, 33%, 0.801);
     color: white;
+}
+
+@media screen and (min-width: 1010px) {
+    #full-nav { display: flex !important; }
+    #compact-nav { display: none !important; }
+}
+
+@media screen and (max-width: 1010px) {
+    #full-nav { display: none !important; }
+    #compact-nav { display: flex !important; }
+}
+
+.navbar-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.navbar-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 200px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    right: 0;
+    padding: 12px 0 12px 0;
+    z-index: 1;
+}
+
+.navbar-dropdown:hover .navbar-dropdown-content {
+    display: block;
+}
+
+.dropdown-item:hover {
+    background-color: #d1e7dd;
 }
 
 /*----- Homepage Style-----*/
@@ -184,7 +218,7 @@ input[type="submit"] {
     padding: .5rem 1rem 0 1rem;
     transition: 2s;
     color: #818181;
-    height: 100vh;
+    height: 90vh;
     z-index: 200;
 }
 
