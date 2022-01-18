@@ -115,6 +115,29 @@ body {
     white-space: nowrap;
 }
 
+.ready-to-be {
+    color: grey;
+    font-size: 16px;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.get-started-btn {
+    background-color: #1d6460;
+    color:white;
+    font-size: 16px;
+    width: fit-content;
+    padding: 2%;
+    border-radius: 10px;
+}
+
+.get-started-btn:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    color: white;
+    text-decoration: none;
+
+}
+
 /*----- Auth forms-----*/
 
 .formbg {
