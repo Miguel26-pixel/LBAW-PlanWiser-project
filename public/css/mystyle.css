@@ -351,6 +351,7 @@ a:hover{
     width: 100vw;
     height: 100vh;
     overflow-y: hidden;
+    padding: 2%;
   }
   .error-container{
     display: flex;
@@ -375,7 +376,7 @@ a:hover{
     color: white;
     font-weight: 500;
     --position: absolute;
-    top: 35%;
+    top: 30%;
     left: 55%;
   }
   .error-message2{
@@ -385,7 +386,7 @@ a:hover{
     font-weight: 300;
     width: 360px;
     --position: absolute;
-    top: 45%;
+    top: 40%;
     left: 55%;
   }
 
@@ -397,6 +398,16 @@ a:hover{
     letter-spacing: 3px;
     text-shadow: 0 0 5px #6EECC1;
     animation: error-flux 2s linear infinite;
+
+  }
+
+  .redirect-back-icon{
+    font-size: 40px;
+    color: #5BE0B3;
+    text-shadow: 0 0 5px #6EECC1;
+    animation: error-flux 2s linear infinite;
+    margin-left: 2%;
+    cursor: pointer;
 
   }
 

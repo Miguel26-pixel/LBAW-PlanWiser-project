@@ -3,5 +3,6 @@
 @include('layouts.head')
 <body>
 @yield('errors')
+@yield('scripts')
 </body>
 </html>
