@@ -24,27 +24,27 @@
                                     if($notification->notification_type == 'INVITE') {
                                         $count++;
                                         echo '<div  class="notification-pop text-center">';
-                                        echo '<a href="/invitation/'.$notification->id.'" class="my-1 w-100 btn btn-outline-success">You have been invited to the project '.$notification->project->title.'</a>';
+                                        echo '<a href="/invitation/'.$notification->id.'" class="my-1 w-100 btn btn-outline-secondary">You have been invited to the project '.$notification->project->title.'</a>';
                                         echo '</div>';
                                     } else if ($notification->notification_type == 'CHANGE_MANAGER') {
                                         $count++;
                                         echo '<form action="/notification/'.$notification->id.'/manager" method="POST" class="notification-pop text-center">';
                                         echo csrf_field();
-                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The project '.$notification->project->title.' has a new Manager</button>';
+                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-secondary">The project '.$notification->project->title.' has a new Manager</button>';
                                         echo '</form>';
                                     }
                                     else if ($notification->notification_type == 'COMPLETE_TASK') {
                                         $count++;
                                         echo '<form action="/notification/'.$notification->id.'/taskClosed" method="POST" class="notification-pop text-center">';
                                         echo csrf_field();
-                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The task '.$notification->task->name.' from project '.$notification->task->project->title.' had been closed</button>';
+                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-secondary">The task '.$notification->task->name.' from project '.$notification->task->project->title.' had been closed</button>';
                                         echo '</form>';
                                     }
                                     else if ($notification->notification_type == 'ASSIGN') {
                                         $count++;
                                         echo '<form action="/notification/'.$notification->id.'/assign" method="POST" class="notification-pop text-center">';
                                         echo csrf_field();
-                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-success">The Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been assigned to you</button>';
+                                        echo '<button type="submit" class="my-1 w-100 btn btn-outline-secondary">The Task '.$notification->task->name.' from project '.$notification->task->project->title.' had been assigned to you</button>';
                                         echo '</form>';
                                     }
                                 }
@@ -174,7 +174,7 @@
             let button = document.createElement('button');
             button.type = 'submit';
             button.classList.add("btn");
-            button.classList.add("btn-outline-success");
+            button.classList.add("btn-outline-secondary");
             button.classList.add("my-1");
             button.classList.add("w-100");
             button.innerText = data.message;
@@ -201,7 +201,7 @@
             let button = document.createElement('button');
             button.type = 'submit';
             button.classList.add("btn");
-            button.classList.add("btn-outline-success");
+            button.classList.add("btn-outline-secondary");
             button.classList.add("my-1");
             button.classList.add("w-100");
             button.innerText = data.message;
@@ -227,7 +227,7 @@
             let button = document.createElement("a");
             button.setAttribute("href", "/invitation/" + data.notification_id);
             button.classList.add("btn");
-            button.classList.add("btn-outline-success");
+            button.classList.add("btn-outline-secondary");
             button.classList.add("my-1");
             button.classList.add("w-100");
             button.innerText = data.message;
@@ -254,7 +254,7 @@
             let button = document.createElement('button');
             button.type = 'submit';
             button.classList.add("btn");
-            button.classList.add("btn-outline-success");
+            button.classList.add("btn-outline-secondary");
             button.classList.add("my-1");
             button.classList.add("w-100");
             button.innerText = data.message;

@@ -53,7 +53,7 @@
                                 echo '<th scope="row" class="text-center"><a class="text-info my-rocket" href="/project/' . $project['id'] . '/task/' . $task['id'] . '"><i class="icon-rocket"></i></a></th>';
                                 echo '<td>' . $task['name'] . '</td>';
                                 echo '<td>' . $task['description'] . '</td>';
-                                echo '<td>' . $task['due_date'] . '</td>';
+                                echo '<td>' . explode(' ',$task['due_date'])[0] . '</td>';
                                 echo '<td>' . $task['username'] . '</td>';
                                 echo '<td>' . $task['tag'] . '</td>';
                                 echo '</tr>';
