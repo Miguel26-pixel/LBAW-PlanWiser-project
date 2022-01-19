@@ -388,7 +388,7 @@ a:hover{
     top: 45%;
     left: 55%;
   }
-  
+
   .error-neon{
     text-align: center;
     font-family: 'Varela Round', sans-serif;
@@ -397,9 +397,9 @@ a:hover{
     letter-spacing: 3px;
     text-shadow: 0 0 5px #6EECC1;
     animation: error-flux 2s linear infinite;
-    
+
   }
-  
+
   @keyframes error-flux {
     0%,
     100% {
@@ -413,7 +413,7 @@ a:hover{
   }
 
 
-  @media screen and (max-width: 780px) {
+  @media screen and (max-width: 767px) {
     .error-number {
         justify-content: center;
         align-items: center;
@@ -422,7 +422,10 @@ a:hover{
         justify-content: center;
         align-items: center;
     }
+    .error-container {
+        padding-top: 25vh !important;
+    }
 }
-  
+
 
 

@@ -2,9 +2,9 @@
 
 @section('errors')
 <div class="error-body">
-    <div class="error-container row m-0" style="padding-top: 15%;">
+    <div class="error-container row m-0" style="padding-top: 30vh;">
         <div class="error-number col-md-6">
-            <div class="error-neon">500</div> 
+            <div class="error-neon">500</div>
         </div>
         <div class="error-start-flex col-md-6">
             <div class="error-meaning">
