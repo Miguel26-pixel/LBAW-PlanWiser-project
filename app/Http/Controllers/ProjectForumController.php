@@ -12,7 +12,7 @@ class ProjectForumController extends Controller
 {
     function show($id) {
         $project = Project::find($id);
-        Gate::authorize('notGuest',$project);
+        Gate::authorize('notGuestOrAdmin',$project);
         $notifications = NotificationsController::getNotifications(Auth::id());
         $messages = ProjectMessage::where('project_id','=',$id)->orderByDesc('created_at')->paginate(7);
         return view('pages.projectForum',['project' => $project, 'notifications' => $notifications,'messages' => $messages]);

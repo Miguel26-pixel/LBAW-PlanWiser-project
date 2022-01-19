@@ -32,6 +32,7 @@ class TasksController extends Controller
 
     public function showTaskForm(int $id)
     {
+        Gate::authorize('isActive',Project::find($id));
         Gate::authorize('manager',Project::find($id));
         $notifications = NotificationsController::getNotifications(Auth::id());
 
@@ -73,7 +74,7 @@ class TasksController extends Controller
 
         return view('pages.task',['user_role' => $user_role,
                                     'project' => Project::find($project_id),
-                                    'task' => Task::find($id), 
+                                    'task' => Task::find($id),
                                     'notifications' => $notifications,
                                     'users' => $users,
                                     'user_assigned' => $user_assigned,
@@ -82,20 +83,20 @@ class TasksController extends Controller
 
 
     public function updateTask(int $project_id, int $id, Request $request) {
-
+        Gate::authorize('isActive',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
-
         switch ($request->input('action'))
         {
             case 'update':
                 Gate::authorize('update',Task::find($id));
                 $validator = $request->validate($this->validator());
                 $proj = Project::find($project_id);
-                //try {
+                try {
                     $task = Task::find($id);
                     $task->name = $request->name;
                     $task->description = $request->description;
                     $task->due_date = $request->due_date;
+                    $task->reminder_date = $request->reminder_date;
                     $task->tag = $request->tag;
 
                     if($request->tag == 'CLOSED') {
@@ -110,7 +111,6 @@ class TasksController extends Controller
 
                         event(new ClosedTask($request->name, $proj->title, $assignee->user_id, $notification->id));
 
-
                         foreach ($managers as $manager) {
                             $notification = new Notification();
                             $notification->notification_type = 'COMPLETE_TASK';
@@ -121,18 +121,15 @@ class TasksController extends Controller
 
                             event(new ClosedTask($request->name, $proj->title, $manager->id, $notification->id));
                         }
-
                     }
 
                     $task->save();
-                /* //} catch (QueryException $e){
+                } catch (QueryException $e){
                     return redirect()->back()->withErrors('Due and reminder dates are both required. You should also verify that selected reminder date is before due date and that both after today.');
-                } */
-
+                }
 
                 if ($request->user_id == -1){
-                    $user_assigned = UserAssign::where('task_id', '=', $id)
-                                            ->delete(['user_id' =>$request->user_id]);
+                    UserAssign::where('task_id', '=', $id)->delete(['user_id' =>$request->user_id]);
                     break;
                 }
 
@@ -189,45 +186,6 @@ class TasksController extends Controller
                         ->orderby('tasks.due_date')
                         ->get(['tasks.id','name','description','due_date','username', 'tasks.tag']);
         $my_TASKS = json_decode($my_TASKS,true);
-
-        /*
-        $my_TODO = DB::table('tasks')
-                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
-                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
-                        ->where('tasks.project_id', $project_id)
-                        ->where('tasks.tag', 'TODO')
-                        ->get(['tasks.id','name','description','due_date','username']);
-        $my_TODO = json_decode($my_TODO,true);
-        //dd($my_TODO);
-        $my_DOING = DB::table('tasks')
-                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
-                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
-                        ->where('tasks.project_id', $project_id)
-                        ->where('tasks.tag', 'DOING')
-                        ->get(['tasks.id', 'name','description','due_date','username']);
-        $my_DOING = json_decode($my_DOING,true);
-        //dd($my_DOING);
-        $my_REVIEW = DB::table('tasks')
-                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
-                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
-                        ->where('tasks.project_id', $project_id)
-                        ->where('tasks.tag', 'REVIEW')
-                        ->get(['tasks.id', 'name','description','due_date','username']);
-        $my_REVIEW = json_decode($my_REVIEW,true);
-        //dd($my_REVIEW);
-        $my_CLOSED = DB::table('tasks')
-                        ->leftjoin('userassigns', 'tasks.id', '=', 'userassigns.task_id')
-                        ->leftjoin('users', 'users.id', '=', 'userassigns.user_id')
-                        ->where('tasks.project_id', $project_id)
-                        ->where('tasks.tag', 'CLOSED')
-                        ->get(['tasks.id', 'name','description','due_date','username']);
-        $my_CLOSED = json_decode($my_CLOSED,true);
-        //dd($my_CLOSED);
-        return view('pages.tasks',['tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id), 'notifications' => $notifications]);
-
-        return view('pages.tasks',['tasks' => $my_TASKS, 'tasks', 'tasks_TODO' => $my_TODO, 'tasks_DOING' => $my_DOING,'tasks_REVIEW' => $my_REVIEW,'tasks_CLOSED' => $my_CLOSED,'project' => Project::find($project_id)]);
-        */
-
         return view('pages.tasks',['user_role' => $user_role,'tasks' => $my_TASKS, 'tasks', 'project' => Project::find($project_id), 'notifications' => $notifications, 'users' => $users]);
     }
 
@@ -239,8 +197,9 @@ class TasksController extends Controller
      */
     protected function create(Request $request)
     {
-        Gate::authorize('manager',Project::find($request->project_id));
         $proj = Project::find($request->project_id);
+        Gate::authorize('isActive',$proj);
+        Gate::authorize('manager',$proj);
         try {
             $notifications = NotificationsController::getNotifications(Auth::id());
             $validator = $request->validate($this->validator());
@@ -260,7 +219,7 @@ class TasksController extends Controller
                 $user_assign->task_id = $task->id;
                 $user_assign->user_id = $request->user_id;
                 //dd(Config::get('broadcasting'));
-            
+
                 $notification = new Notification();
                 $notification->user_id = $request->user_id;
                 $notification->notification_type = 'ASSIGN';
@@ -275,15 +234,9 @@ class TasksController extends Controller
         } catch (QueryException $e){
             return redirect()->back()->withErrors('Due and reminder dates are both required. You should also verify that selected reminder date is before due date and that both after today.');
         }
-
-
-return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
+        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
     }
-/*
-    static function getProjectTasks($project_id) {
-        return (new Task())->where('project_id','=',$project_id)->orderBy('due_date');
-    }
-*/
+
     public function searchProjectTasks(int $project_id, Request $request)
     {
         return DB::table('tasks')

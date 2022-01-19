@@ -48,7 +48,15 @@
                             $task->due_date = explode(' ', $task->due_date)[0];
                             ?>
                             <input name="due_date" type="date" class="form-control" value="{{$task->due_date}}">
-
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"> Reminder Date: </span>
+                            </div>
+                            <?php
+                            $task->reminder_date = explode(' ', $task->reminder_date)[0];
+                            ?>
+                            <input name="reminder_date" type="date" class="form-control" value="{{$task->reminder_date}}">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -89,7 +97,9 @@
 
 
                         <div class="col-md-12 text-center">
-                            <button type="submit" name="action" value="update" class="btn green-btn">Update Task</button>
+                            <?php if ($task->tag !== 'CLOSED') { ?>
+                                <button type="submit" name="action" value="update" class="btn green-btn">Update Task</button>
+                            <?php } ?>
                             <?php if ($user_role === 'MANAGER') { ?>
                                 <button type="submit" name="action" value="delete" class="btn btn-outline-danger">Delete Task</button>
                             <?php } ?>
