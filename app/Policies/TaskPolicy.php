@@ -19,8 +19,8 @@ class TaskPolicy
     }
 
     public function update(User $user, Task $task) {
-        return $task->tag != 'CLOSED' && (($this->checkUserInProject($user,$task->project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $task->project->id])->user_role == 'MANAGER')
-            || ($this->checkUserInProject($user, $task->project) && UserAssign::where('user_id', '=', $user->id)->where('task_id', '=', $task->id)->count()>0));
+        return ($this->checkUserInProject($user,$task->project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $task->project->id])->user_role == 'MANAGER')
+            || ($this->checkUserInProject($user, $task->project) && UserAssign::where('user_id', '=', $user->id)->where('task_id', '=', $task->id)->count()>0);
     }
 
     private function checkUserInProject(User $user, Project $project) {
