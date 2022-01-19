@@ -16,8 +16,21 @@
         @include('partials.project_nav', ['project' => $project])
     </div>
     <div class="col-sm-8">
-        <div class="d-flex gap-4 mt-5 container align-items-center text-uppercase">
+        <div class="d-flex gap-4 mt-5 mb-5 container align-items-center text-uppercase">
             <h3><a class="text-decoration-none text-success" href="/project/{{$project->id}}">{{$project->title}}</a> / Forum</h3>
+        </div>
+        <div class="px-4 my-4">
+            <form action="/project/{{$project->id}}/forum/send" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-10">
+                        <textarea name="message" class="form-control" aria-label="With textarea" rows="3" placeholder="Write new message to forum"></textarea>
+                    </div>
+                    <div class="col-md-2 align-items-center justify-content-center" style="display: flex;">
+                        <button type="submit" name="action" class="btn btn-secondary">Send Message</button>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="col-md-12 px-4 my-4">
             <div class="card">
@@ -53,17 +66,6 @@
                     <div class="d-flex justify-content-center">
                         {{ $messages->links() }}
                     </div>
-                    <form action="/project/{{$project->id}}/forum/send" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-10">
-                                <textarea name="message" class="form-control" aria-label="With textarea" rows="3" placeholder="Write new message to forum"></textarea>
-                            </div>
-                            <div class="col-md-2 align-items-center justify-content-center" style="display: flex;">
-                                <button type="submit" name="action" class="btn btn-secondary">Send Message</button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>

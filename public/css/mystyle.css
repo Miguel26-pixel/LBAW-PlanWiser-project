@@ -343,3 +343,62 @@ a:hover{
 }
 
 
+/*----- 403 error page ----*/
+
+
+.error-body{
+    background-color: #1C2127;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: hidden;
+  }
+  .error-container{
+    position: flex;
+  }
+  .error-message{
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    color: white;
+    font-weight: 500;
+    position: absolute;
+    top: 35%;
+    left: 55%;
+  }
+  .error-message2{
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    color: white;
+    font-weight: 300;
+    width: 360px;
+    position: absolute;
+    top: 45%;
+    left: 55%;
+  }
+  
+  .error-neon{
+    text-align: center;
+    margin-top: 12%;
+    margin-right: 25%;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 150px;
+    color: #5BE0B3;
+    letter-spacing: 3px;
+    text-shadow: 0 0 5px #6EECC1;
+    animation: error-flux 2s linear infinite;
+    
+  }
+  
+  @keyframes error-flux {
+    0%,
+    100% {
+      text-shadow: 0 0 5px #00FFC6, 0 0 15px #00FFC6, 0 0 50px #00FFC6, 0 0 50px #00FFC6, 0 0 2px #B9FFE8, 2px 2px 3px #12E29C;
+      color: #4BFFEF;
+    }
+    50% {
+      text-shadow: 0 0 3px #00B58D, 0 0 7px #00B58D, 0 0 25px #00B58D, 0 0 25px #00B58D, 0 0 2px #00B58D, 2px 2px 3px #006A60;
+      color: #63D3AE;
+    }
+  }
+  
+
+
