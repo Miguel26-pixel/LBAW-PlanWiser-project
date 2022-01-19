@@ -46,6 +46,10 @@ class ProjectPolicy
         return ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role !== 'GUEST');
     }
 
+    public function notGuestOrAdmin(User $user, Project $project) {
+        return $user->is_admin || ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role !== 'GUEST');
+    }
+
     public function manager(User $user, Project $project) {
         return ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER');
     }

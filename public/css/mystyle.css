@@ -353,14 +353,28 @@ a:hover{
     overflow-y: hidden;
   }
   .error-container{
-    position: flex;
+    display: flex;
+  }
+  .error-number {
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+  }
+  .error-meaning {
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+  }
+  .error-start-flex {
+    justify-content: start;
+    display: flex;
   }
   .error-message{
     font-family: 'Poppins', sans-serif;
     font-size: 30px;
     color: white;
     font-weight: 500;
-    position: absolute;
+    --position: absolute;
     top: 35%;
     left: 55%;
   }
@@ -370,24 +384,22 @@ a:hover{
     color: white;
     font-weight: 300;
     width: 360px;
-    position: absolute;
+    --position: absolute;
     top: 45%;
     left: 55%;
   }
-  
+
   .error-neon{
     text-align: center;
-    margin-top: 12%;
-    margin-right: 25%;
     font-family: 'Varela Round', sans-serif;
     font-size: 150px;
     color: #5BE0B3;
     letter-spacing: 3px;
     text-shadow: 0 0 5px #6EECC1;
     animation: error-flux 2s linear infinite;
-    
+
   }
-  
+
   @keyframes error-flux {
     0%,
     100% {
@@ -399,6 +411,20 @@ a:hover{
       color: #63D3AE;
     }
   }
-  
+
+  @media screen and (max-width: 767px) {
+    .error-number {
+        justify-content: center;
+        align-items: center;
+    }
+    .error-start-flex {
+        justify-content: center;
+        align-items: center;
+    }
+    .error-container {
+        padding-top: 25vh !important;
+    }
+}
+
 
 
