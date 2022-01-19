@@ -10,6 +10,10 @@ body {
     text-decoration: none;
 }
 
+.card-body {
+    overflow-x: auto;
+}
+
 /*----- NavBar Style-----*/
 
 .navbar-container {
