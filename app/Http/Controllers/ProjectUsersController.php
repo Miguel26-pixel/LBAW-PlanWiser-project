@@ -42,7 +42,7 @@ class ProjectUsersController extends Controller
         $myusers = User::join('projectusers', 'users.id', '=', 'projectusers.user_id')->where('projectusers.project_id', $project_id)->paginate(10);
         $project_user = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id]);
         if (!$project_user) {
-            $user_role = 'GUEST';
+            $user_role = 'VISITOR';
         } else {
             $user_role = $project_user->user_role;
         }

@@ -43,11 +43,13 @@ class ProjectPolicy
     }
 
     public function notGuest(User $user, Project $project) {
-        return ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role !== 'GUEST');
+        $projectUser = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
+        return ($this->checkUserInProject($user,$project) && $projectUser !== 'GUEST' && $projectUser !== 'VISITOR');
     }
 
     public function notGuestOrAdmin(User $user, Project $project) {
-        return $user->is_admin || ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role !== 'GUEST');
+        $projectUser = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
+        return $user->is_admin || ($this->checkUserInProject($user,$project) && $projectUser !== 'GUEST' && $projectUser !== 'VISITOR');
     }
 
     public function manager(User $user, Project $project) {

@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 
 <div class="row">
     <div class="col-sm-2">
-        @include('partials.project_nav', ['project' => $project])
+        @include('partials.project_nav', ['project' => $project, 'user_role' => $user_role])
     </div>
     <div class="col-sm-8">
         <div class="d-flex gap-4 mt-5 container align-items-center text-uppercase">
@@ -38,12 +38,10 @@ use Illuminate\Support\Facades\Auth;
                     </div>
                     <div class="d-flex align-items-center justify-content-center" style="gap: 10vw">
                         <div class="mb-3 text-align-center text-center">
-                            <h5 style="color: #2f4f4f; font-weight: bold">Visibility:</h5>
-                            {{($project->public) ? 'Public' : 'Private'}}
+                            <h5 style="color: #2f4f4f; font-weight: bold">Visibility: <h6>{{($project->public) ? 'Public' : 'Private'}}</h6></h5>
                         </div>
                         <div class="mb-3 text-center">
-                            <h5 style="color: #2f4f4f; font-weight: bold">State:</h5>
-                            {{($project->active) ? 'Active' : 'Archived'}}
+                            <h5 style="color: #2f4f4f; font-weight: bold">State: <h6>{{($project->active) ? 'Active' : 'Archived'}}</h6></h5>
                         </div>
                     </div>
                     <?php if ($user_role === 'MANAGER') { ?>
@@ -80,6 +78,7 @@ use Illuminate\Support\Facades\Auth;
                 </div>
             </div>
         </div>
+        <?php if ($user_role !== 'VISITOR') { ?>
         <div class="card my-3">
             <div class="card-body">
                 <br>
@@ -98,7 +97,7 @@ use Illuminate\Support\Facades\Auth;
                             echo $admin->username;
                             echo '</div>';
                             if (!(Auth::check() && $admin->id === Auth::id())) {
-                                echo '<a href="mailto:' . $admin->email . '" class="col-md-3 btn btn-outline-success">';
+                                echo '<a href="mailto:' . $admin->email . '" class="btn green-btn col-md-3">';
                                 echo '<i class="icon-envelope"></i>';
                                 echo '</a>';
                             } else {
@@ -123,7 +122,7 @@ use Illuminate\Support\Facades\Auth;
                             echo '</div>';
                             if ($user_role !== 'GUEST') {
                                 if (!(Auth::check() && $member->id === Auth::id())) {
-                                    echo '<a href="mailto:' . $member->email . '" class="col-md-3 btn btn-outline-success">';
+                                    echo '<a href="mailto:' . $member->email . '" class="btn green-btn col-md-3">';
                                     echo '<i class="icon-envelope"></i>';
                                     echo '</a>';
                                 }
@@ -146,7 +145,7 @@ use Illuminate\Support\Facades\Auth;
                             echo $guest->username;
                             echo '</div>';
                             if ($user_role == 'MANAGER') {
-                                echo '<a href="mailto:' . $guest->email . '" class="col-md-3 btn btn-outline-success">';
+                                echo '<a href="mailto:' . $guest->email . '" class="btn green-btn col-md-3">';
                                 echo '<i class="icon-envelope"></i>';
                                 echo '</a>';
                             }
@@ -168,6 +167,7 @@ use Illuminate\Support\Facades\Auth;
                 </div>
             </div>
         </div>
+        <?php } ?>
     </div>
 </div>
 

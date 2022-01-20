@@ -33,7 +33,7 @@ class ProjectController extends Controller
         Gate::authorize('show',$project);
         $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
         if (!$project_user) {
-            $user_role = 'GUEST';
+            $user_role = 'VISITOR';
         } else {
             $user_role = $project_user->user_role;
         }
@@ -53,7 +53,7 @@ class ProjectController extends Controller
         $files = $project->files;
         $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
         if (!$project_user) {
-            $user_role = 'GUEST';
+            $user_role = 'VISITOR';
         } else {
             $user_role = $project_user->user_role;
         }
@@ -130,7 +130,7 @@ class ProjectController extends Controller
         Gate::authorize('show',$project);
         $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
         if (!$project_user) {
-            $user_role = 'GUEST';
+            $user_role = 'VISITOR';
         } else {
             $user_role = $project_user->user_role;
         }

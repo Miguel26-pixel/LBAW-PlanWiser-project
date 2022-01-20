@@ -12,10 +12,17 @@ class ProjectForumController extends Controller
 {
     function show($id) {
         $project = Project::find($id);
+        Gate::authorize('inProject',$project);
         Gate::authorize('notGuestOrAdmin',$project);
         $notifications = NotificationsController::getNotifications(Auth::id());
         $messages = ProjectMessage::where('project_id','=',$id)->orderByDesc('created_at')->paginate(7);
-        return view('pages.projectForum',['project' => $project, 'notifications' => $notifications,'messages' => $messages]);
+        $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
+        if (!$project_user) {
+            $user_role = 'VISITOR';
+        } else {
+            $user_role = $project_user->user_role;
+        }
+        return view('pages.projectForum',['project' => $project, 'notifications' => $notifications,'messages' => $messages,'user_role' => $user_role]);
     }
 
     function sendMessage($id, Request $request) {

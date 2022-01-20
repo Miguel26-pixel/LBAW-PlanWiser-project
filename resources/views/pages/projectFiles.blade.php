@@ -13,7 +13,7 @@
 @section('content')
 <div class="row m-0">
     <div class="col-sm-2">
-        @include('partials.project_nav', ['project' => $project])
+        @include('partials.project_nav', ['project' => $project, 'user_role' => $user_role])
     </div>
     <div class="col-sm-8">
         <div class="d-flex gap-4 mt-5 container align-items-center text-uppercase">

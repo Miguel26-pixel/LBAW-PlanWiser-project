@@ -9,18 +9,24 @@
                 <i class='fa fa-file' style="font-size:28px"></i>
                 <span class="nav_name">Files</span>
             </a>
+            <?php if($user_role !== 'VISITOR' && $user_role !== 'GUEST') {?>
             <a href="/project/{{$project->id}}/tasks"  class="sidenav_link sidebar-btn">
                 <i class='fa fa-tasks' style="font-size:28px"></i>
                 <span class="nav_name">Tasks</span>
             </a>
+            <?php } ?>
+            <?php if($user_role !== 'VISITOR' && $user_role !== 'GUEST') {?>
             <a href="/project/{{$project->id}}/forum" class="sidenav_link sidebar-btn">
                 <i class='fa fa-comment' style="font-size:28px"></i>
                 <span class="nav_name">Forum</span>
             </a>
+            <?php } ?>
+            <?php if($user_role !== 'VISITOR') {?>
             <a href="/project/{{$project->id}}/members" class="sidenav_link sidebar-btn">
                 <i class='fa fa-users' style="font-size:28px"></i>
                 <span class="nav_name">Members</span>
             </a>
+            <?php } ?>
         </div>
         <a href="javascript:void(0)" class="sidenav_link mb-5"><i class='icon-arrow-left' id="header-toggle"></i></a>
     </nav>

@@ -67,7 +67,7 @@ class TasksController extends Controller
 
         $project_user = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id]);
         if (!$project_user) {
-            $user_role = 'GUEST';
+            $user_role = 'VISITOR';
         } else {
             $user_role = $project_user->user_role;
         }
@@ -169,12 +169,13 @@ class TasksController extends Controller
 
     public function showTasks($project_id)
     {
+        Gate::authorize('inProject',Project::find($project_id));
         Gate::authorize('show',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
         $users = ProjectUsersController::getProjectUsers($project_id);
         $project_user = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $project_id]);
         if (!$project_user) {
-            $user_role = 'GUEST';
+            $user_role = 'VISITOR';
         } else {
             $user_role = $project_user->user_role;
         }

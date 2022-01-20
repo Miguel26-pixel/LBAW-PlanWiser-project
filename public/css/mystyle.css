@@ -213,6 +213,16 @@ input[type="submit"] {
     color: #198754;
 }
 
+.green-contact {
+    color: #198754;
+    border-color: #198754;
+}
+
+.green-contact:hover {
+    color: grey;
+    background-color: #198754;
+}
+
 /*-----Project SideBar-----*/
 
 .sidebar-btn {
@@ -343,7 +353,7 @@ a:hover{
 }
 
 
-/*----- 403 error page ----*/
+/*----- error page ----*/
 
 
 .error-body{
