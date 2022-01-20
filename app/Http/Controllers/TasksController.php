@@ -112,6 +112,7 @@ class TasksController extends Controller
                         event(new ClosedTask($request->name, $proj->title, $assignee->user_id, $notification->id));
 
                         foreach ($managers as $manager) {
+                            if ($manager->id == $assignee->user_id) continue;
                             $notification = new Notification();
                             $notification->notification_type = 'COMPLETE_TASK';
                             $notification->user_id = $manager->id;

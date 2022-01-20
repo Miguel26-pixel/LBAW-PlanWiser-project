@@ -97,9 +97,7 @@
 
 
                         <div class="col-md-12 text-center">
-                            <?php if ($task->tag !== 'CLOSED') { ?>
-                                <button type="submit" name="action" value="update" class="btn green-btn">Update Task</button>
-                            <?php } ?>
+                            <button type="submit" name="action" value="update" class="btn green-btn">Update Task</button>
                             <?php if ($user_role === 'MANAGER') { ?>
                                 <button type="submit" name="action" value="delete" class="btn btn-outline-danger">Delete Task</button>
                             <?php } ?>
