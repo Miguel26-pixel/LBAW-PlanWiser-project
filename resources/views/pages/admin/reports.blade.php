@@ -70,7 +70,7 @@
                                     echo '<td></td>';
                                 } else {
                                     echo '<td class="text-center">User</td>';
-                                    echo '<td class="overflow-hidden"><a class="text-decoration-none" href="/admin/profile/'.$report->reported->id.'">'.$report->reported->username.'</td>';
+                                    echo '<td class="overflow-hidden"><a class="text-decoration-none" href="/admin/profile/'.$report->reported->id.'">'.$report->reported->username.'</a></td>';
                                 }
                                 echo '<td class="text-center">'.$report->created_at.'</td>';
                                 echo '</tr>';

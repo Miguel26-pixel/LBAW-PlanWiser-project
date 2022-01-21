@@ -56,9 +56,7 @@
                             </form>
                             <div id="empty-full" class="my-1 text-secondary text-center">Empty</div>
                         </div>
-                        <div id="notification-number-full" class="notification-number">
-                            <div></div>
-                        </div>
+                        <div id="notification-number-full" class="notification-number"></div>
                     </div>
                 @endif
             </ul>
@@ -121,9 +119,7 @@
                             </form>
                             <div id="empty-compact" class="my-1 text-secondary text-center">Empty</div>
                         </div>
-                        <div id="notification-number-compact" class="notification-number" style="left: 78%">
-                            <div></div>
-                        </div>
+                        <div id="notification-number-compact" class="notification-number" style="left: 78%"></div>
                     </div>
                 @endif
                 <div class="navbar-dropdown" style="float: right;">

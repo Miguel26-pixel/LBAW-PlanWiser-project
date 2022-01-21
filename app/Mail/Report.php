@@ -34,6 +34,6 @@ class Report extends Mailable
      */
     public function build()
     {
-        return $this->view('pages.emails.report',['report' => $this->report, 'user' => $this->user, 'user_reported' => $this->user_reported]);
+        return $this->view('pages.emails.report',['report' => $this->report, 'user' => $this->user, 'user_reported' => $this->user_reported])->subject('Report');
     }
 }

@@ -136,9 +136,9 @@
             <div class="formbg-inner" style="padding: 48px">
                 <form id="stripe-login" method="POST" action="api/sendEmail">
                     {{ csrf_field() }}
-                    <div class="field" style="padding-bottom: 24px" value="{{ old('name') }}"  autofocus>
+                    <div class="field" style="padding-bottom: 24px">
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="name" required>
+                        <input type="text" name="name" id="name" value="{{ old('name') }}" required>
                     </div>
                     @if ($errors->has('name'))
                         <div class="field">
@@ -147,9 +147,9 @@
                             </span>
                         </div>
                     @endif
-                    <div class="field" style="padding-bottom: 24px" value="{{ old('email') }}"  autofocus>
+                    <div class="field" style="padding-bottom: 24px">
                         <label for="email">Email</label>
-                        <input type="email" name="email" id="email" required>
+                        <input type="email" name="email" id="email" value="{{ old('email') }}" required>
                     </div>
                     @if ($errors->has('email'))
                         <div class="field">
@@ -158,9 +158,9 @@
                             </span>
                         </div>
                     @endif
-                    <div class="field" style="padding-bottom: 24px" value="{{ old('message') }}"  autofocus>
+                    <div class="field" style="padding-bottom: 24px">
                         <label for="message">Message</label>
-                        <textarea class="form-control" rows="3" type="message" name="message" id="message" required> </textarea>
+                        <textarea class="form-control" rows="3" name="message" id="message" required>{{ old('message') }}</textarea>
                     </div>
                     @if ($errors->has('message'))
                         <div class="field">
@@ -223,7 +223,7 @@
                 let tr = body.insertRow();
                 let link = tr.insertCell();
                 link.classList.add('text-center');
-                link.innerHTML = '<a class="text-info my-rocket" href="/project/' + project['id'] + '"><i class="icon-rocket"></i></a>';
+                link.innerHTML = '<a class="text-info my-rocket" href="/project/' + project['id'] + '"><i class="icon-rocket"><\/i><\/a>';
                 let title = tr.insertCell();
                 title.innerHTML = project['title'];
                 let description = tr.insertCell();

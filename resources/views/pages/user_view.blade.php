@@ -12,6 +12,7 @@
 
 @section('content')
     <div class="row m-0">
+        <div class="col-md-2"></div>
         <div class="col-md-8">
             <div class="container">
                 <?php
@@ -100,5 +101,6 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-2"></div>
     </div>
 @endsection

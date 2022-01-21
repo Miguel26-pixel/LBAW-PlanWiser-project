@@ -38,7 +38,7 @@
                                 }
                                 echo '<tr>';
                                 echo '<td><div class="d-flex gap-3">';
-                                echo '<a href="profile/' . $user['id'] . '"><img alt="User picture" src="' . asset($path) . '"class="img-fluid mx-auto d-block rounded-circle" style="width: 50px; height: 50px""></a>';
+                                echo '<a href="profile/' . $user['id'] . '"><img alt="User picture" src="' . asset($path) . '"class="img-fluid mx-auto d-block rounded-circle" style="width: 50px; height: 50px"></a>';
                                 echo '<a href="profile/' . $user['id'] . '"><div style="font-weight: bold; color: black">' . $user['username'] . '</div><p style="color: grey">' . $user['email'] . '</p></a>';
                                 echo '</div>';
                                 echo '</td></tr>';

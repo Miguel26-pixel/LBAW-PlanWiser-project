@@ -24,9 +24,8 @@
             @yield('content')
         </div>
     </main>
+    @yield('scripts')
+    @yield('scripts_nav')
+    @yield('scripts_navbar')
 </body>
-@yield('scripts')
-@yield('scripts_nav')
-@yield('scripts_navbar')
-
 </html>

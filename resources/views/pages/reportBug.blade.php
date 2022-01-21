@@ -17,9 +17,9 @@
                 <span style="padding-bottom: 15px">Bug Report</span>
                 <form id="stripe-login" method="POST" action='/reportBug'>
                     {{ csrf_field() }}
-                    <div class="field" style="padding-bottom: 24px"  autofocus>
+                    <div class="field" style="padding-bottom: 24px">
                         <label for="text">Report's description</label>
-                        <textarea rows="5" class="col-md-12" type=" text" name="text" required></textarea>
+                        <textarea rows="5" class="col-md-12" name="text" required></textarea>
                     </div>
                     @if ($errors->has('text'))
                         <div class="field">

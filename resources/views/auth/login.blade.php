@@ -11,9 +11,9 @@
             <span style="padding-bottom: 15px">Log In to your account</span>
             <form id="stripe-login" method="POST" action="{{ route('login') }}">
                 {{ csrf_field() }}
-                <div class="field" style="padding-bottom: 24px" value="{{ old('email') }}" required autofocus>
+                <div class="field" style="padding-bottom: 24px">
                     <label for="email">Email</label>
-                    <input type="email" name="email">
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" required>
                 </div>
                 @if ($errors->has('email'))
                 <div class="field">
@@ -29,7 +29,7 @@
                             <a href="/recover-password">Forgot your password?</a>
                         </div>
                     </div>
-                    <input type="password" name="password">
+                    <input type="password" name="password" id="password" required>
                 </div>
                 @if ($errors->has('password'))
                 <span class="error">
@@ -47,4 +47,5 @@
             </form>
         </div>
     </div>
+</div>
     @endsection

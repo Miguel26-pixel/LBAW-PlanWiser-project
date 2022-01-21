@@ -36,6 +36,6 @@ class ContactUs extends Mailable
      */
     public function build()
     {
-        return $this->from($this->email,$this->name)->view('pages.emails.contact_us',['email' => $this->email,'name' => $this->name,'text' => $this->message])->subject('User Support');
+        return $this->view('pages.emails.contact_us',['email' => $this->email,'name' => $this->name,'text' => $this->message])->subject('User Support');
     }
 }

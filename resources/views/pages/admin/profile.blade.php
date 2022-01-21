@@ -39,13 +39,13 @@
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Username: </span>
+                                    <span class="input-group-text">Username: </span>
                                 </div>
                                 <input name="username" type="text" class="form-control" placeholder="Username" value="{{$user->username}}">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1"> Email: </span>
+                                    <span class="input-group-text"> Email: </span>
                                 </div>
                                 <input name="email" type="text" class="form-control" placeholder="Username" value="{{$user->email}}">
                             </div>
@@ -64,13 +64,13 @@
                         <div class="card-body">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Password: </span>
+                                    <span class="input-group-text">Password: </span>
                                 </div>
                                 <input name="password" type="password" class="form-control" placeholder="Type a new password">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Password Confirmation: </span>
+                                    <span class="input-group-text">Password Confirmation: </span>
                                 </div>
                                 <input name="password_confirmation" type="password" class="form-control" placeholder="Confirm password">
                             </div>

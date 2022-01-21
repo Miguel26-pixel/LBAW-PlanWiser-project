@@ -58,16 +58,19 @@ class AdminController extends Controller
 
     public function searchReports(Request $request) {
         Gate::authorize('admin',User::class);
+
         if ($request->pending == 'on') {
             $reports = Report::join('users','reports.user_id','=','users.id')
                 ->where('report_state','=','PENDING')
-                ->where('report_type','=',$request->type)
+                ->where('report_type','like','%'.$request->type.'%')
                 ->whereRaw('(users.username like \'%'.$request->search.'%\' or reports.text like \'%'.$request->search.'%\')')
+                ->orderByDesc('created_at')
                 ->paginate(10);
         } else {
             $reports = Report::join('users','reports.user_id','=','users.id')
-                                ->where('report_type','=',$request->type)
+                                ->where('report_type','like','%'.$request->type.'%')
                                 ->whereRaw('(users.username like \'%'.$request->search.'%\' or reports.text like \'%'.$request->search.'%\')')
+                                ->orderByDesc('created_at')
                                 ->paginate(10);
         }
         return view('pages.admin.reports', ['reports'=>$reports,'pending' => $request->pending == 'on','type' => $request->type]);
