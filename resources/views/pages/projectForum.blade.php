@@ -53,7 +53,7 @@
                                         $path = $message->user->img_url;
                                     }
                                     echo '<tr>';
-                                    echo '<td><img style="border-radius: 50%; max-width: 100%; max-height: 70px" src="' . asset($path) . '"></td>';
+                                    echo '<td><img alt="User picture" style="border-radius: 50%; max-width: 100%; max-height: 70px" src="' . asset($path) . '"></td>';
                                     echo '<td><a href="/profile/' . $message->user->id . '" class="text-black" style="text-decoration: none">' . $message->user->username . '</td>';
                                     echo '<td>' . $message->message . '</td>';
                                     echo '<td>' . $message->created_at . '</td>';

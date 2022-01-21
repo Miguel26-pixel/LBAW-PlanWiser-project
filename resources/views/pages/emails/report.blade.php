@@ -8,7 +8,6 @@
         <title>Document</title>
     </head>
     <body>
-        <a href="/"><img src="{{ asset('/images/planwiserlogo.png') }}" style="width: 200px;"/></a>
         <h1>Report</h1>
         <br>
         <h3>User: {{$user->username}}</h3>

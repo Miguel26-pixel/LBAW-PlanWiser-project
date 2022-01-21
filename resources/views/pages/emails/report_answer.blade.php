@@ -8,7 +8,6 @@
         <title>Document</title>
     </head>
     <body>
-        <a href="/"><img src="{{ asset('/images/planwiserlogo.png') }}" style="width: 200px;"/></a>
         <h1>Report Answer</h1>
         <br>
         <h3>Dear {{$user->username}}, relative to the following {{$report->report_type}} report: </h3>

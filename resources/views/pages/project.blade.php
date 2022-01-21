@@ -92,7 +92,7 @@ use Illuminate\Support\Facades\Auth;
                                 $path = $admin->img_url;
                             }
                             echo '<div class="row m-0 my-4" style="display: flex;align-items: center;justify-content: center;">';
-                            echo '<img class="col-sm-3" style="object-fit: contain; max-height: 60px" src="' . asset($path) . '">';
+                            echo '<img alt="Admin picture" class="col-sm-3" style="object-fit: contain; max-height: 60px" src="' . asset($path) . '">';
                             echo '<div class="col-md-6">';
                             echo $admin->username;
                             echo '</div>';
@@ -116,7 +116,7 @@ use Illuminate\Support\Facades\Auth;
                                 $path = $member->img_url;
                             }
                             echo '<div class="row m-0 my-4" style="display: flex;align-items: center;justify-content: center;">';
-                            echo '<img class="col-md-3" style="object-fit: contain; max-height: 60px" src="' . asset($path) . '">';
+                            echo '<img alt="Member picture" class="col-md-3" style="object-fit: contain; max-height: 60px" src="' . asset($path) . '">';
                             echo '<div class="col-md-6">';
                             echo $member->username;
                             echo '</div>';
@@ -140,7 +140,7 @@ use Illuminate\Support\Facades\Auth;
                                 $path = $guest->img_url;
                             }
                             echo '<div class="row m-0 my-4" style="display: flex;align-items: center;justify-content: center;">';
-                            echo '<img class="col-md-3" style="object-fit: contain; max-height: 60px" src="' . asset($path) . '">';
+                            echo '<img alt="Guest picture" class="col-md-3" style="object-fit: contain; max-height: 60px" src="' . asset($path) . '">';
                             echo '<div class="col-md-6">';
                             echo $guest->username;
                             echo '</div>';

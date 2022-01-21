@@ -2,7 +2,7 @@
     <div class="navbar-align w-100">
         <div style="display: flex; align-items: center; margin-right: 2vw">
             <a href="{{ url('/') }}" style="background-color: #ffffff; padding: 0.7em; border-radius: 50%; align-self:center">
-                <img src="{{asset('/images/logo.png')}}" height="40">
+                <img alt="logo" src="{{asset('/images/logo.png')}}" height="40">
             </a>
             <a href="{{ url('/') }}" style="color: white; font-size: 200%; font-weight: bold; margin-left: 0.4em">
                 PlanWiser

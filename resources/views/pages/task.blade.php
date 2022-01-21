@@ -124,7 +124,7 @@
                                         $path = $comment->user->img_url;
                                     }
                                     echo '<div class="d-flex align-items-center bg-light">';
-                                    echo '<div><img style="border-radius: 50%; max-width: 70%; max-height: 70px" src="' . asset($path) . '"></div>';
+                                    echo '<div><img alt="User Picture" style="border-radius: 50%; max-width: 70%; max-height: 70px" src="' . asset($path) . '"></div>';
                                     echo '<div class="p-2 w-100 bd-highlight"><a href="/profile/' . $comment->user->id . 'style="font-weight: bold; text-decoration: none" class="text-black fs-5">' . $comment->user->username . '</a></div>';
                                     echo '<div class="flex-shrink-1 bd-highlight">' . $comment->created_at . '</div>';
                                     echo '</div>';

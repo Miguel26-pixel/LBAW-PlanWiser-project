@@ -91,14 +91,14 @@
         <h3 class="mt-3 text-center" style="color: grey">Team</h3>
         <div class="d-flex gap-5 pb-5">
             <div>
-                <img src="{{ asset('/images/team/team-1.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
+                <img alt="Team member picture" src="{{ asset('/images/team/team-1.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
                 <div class='text-center' style='font-size:large'>
                     Miguel Amorim
                     <p>up201907756</p>
                 </div>
             </div>
             <div>
-                <img src="{{ asset('/images/team/team-2.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
+                <img alt="Team member picture" src="{{ asset('/images/team/team-2.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
                 <div class='text-center' style='font-size:large'>
                     Fernando Rego
                     <p>up201905951</p>
@@ -107,14 +107,14 @@
         </div>
         <div class="d-flex gap-5">
             <div>
-                <img src="{{ asset('/images/team/team-3.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
+                <img alt="Team member picture" src="{{ asset('/images/team/team-3.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
                 <div class='text-center' style='font-size:large'>
                     Margarida Raposo
                     <p>up201906784</p>
                 </div>
             </div>
             <div>
-                <img src="{{ asset('/images/team/team-4.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
+                <img alt="Team member picture" src="{{ asset('/images/team/team-4.png') }}" class="rounded-circle" style="object-fit: cover; height: 200px; width: 200px">
                 <div class='text-center' style='font-size:large'>
                     Luísa Marques
                     <p>up201907565</p>

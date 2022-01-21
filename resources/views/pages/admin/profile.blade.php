@@ -15,7 +15,7 @@
         }
         ?>
         <div class="mt-3 container text-center align-items-center">
-            <img src="{{ asset($path) }}" style="max-width: 200px">
+            <img alt="User picture" src="{{ asset($path) }}" style="max-width: 200px">
             <p><?php echo $user->username; ?></p>
         </div>
         <div class="col-md-1"></div>

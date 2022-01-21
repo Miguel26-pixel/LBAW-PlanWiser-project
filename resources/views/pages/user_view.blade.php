@@ -21,7 +21,7 @@
                 }
                 ?>
                 <div class="mt-3 container text-center align-items-center">
-                    <img src="{{ asset($path) }}" style="max-width: 200px">
+                    <img alt="User picture" src="{{ asset($path) }}" style="max-width: 200px">
                     <p><?php echo $user->username; ?></p>
                 </div>
                 <div class="card my-3">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-        
+
             <div class="container text-center my-3">
                 <h2>User Favourite Projects</h2>
             </div>
