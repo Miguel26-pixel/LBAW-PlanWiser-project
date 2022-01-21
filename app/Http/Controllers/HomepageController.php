@@ -29,7 +29,7 @@ class HomepageController extends Controller
     public function sendEmail(Request $request) {
         request()->validate(['email' => 'required|email']);
 
-        Mail::to(env('MAIL_SUPPORT_ADDRESS'))->send(new ContactUs($request));
+        Mail::to('planwiser.lbaw.supp0rt@gmail.com')->send(new ContactUs($request));
 
         return redirect()->back();
     }

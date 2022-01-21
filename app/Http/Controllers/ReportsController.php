@@ -74,7 +74,7 @@ class ReportsController extends Controller
         }
         $report->save();
 
-        Mail::to(env('MAIL_SUPPORT_ADDRESS'))->send(new \App\Mail\Report($report,User::find(Auth::id()),$reported));
+        Mail::to('planwiser.lbaw.supp0rt@gmail.com')->send(new \App\Mail\Report($report,User::find(Auth::id()),$reported));
 
         return redirect('/profile/'.Auth::id());
     }
@@ -89,7 +89,7 @@ class ReportsController extends Controller
         $report->created_at = Carbon::now();
         Gate::authorize('create',$report);
         $report->save();
-        Mail::to(env('MAIL_SUPPORT_ADDRESS'))->send(new \App\Mail\Report($report,User::find(Auth::id()),null));
+        Mail::to('planwiser.lbaw.supp0rt@gmail.com')->send(new \App\Mail\Report($report,User::find(Auth::id()),null));
         return redirect('/profile/'.Auth::id());
     }
 
@@ -111,7 +111,7 @@ class ReportsController extends Controller
         }
         $report->reported_user_id = $reported->id;
         $report->save();
-        Mail::to(env('MAIL_SUPPORT_ADDRESS'))->send(new \App\Mail\Report($report,User::find(Auth::id()),$reported));
+        Mail::to('planwiser.lbaw.supp0rt@gmail.com')->send(new \App\Mail\Report($report,User::find(Auth::id()),$reported));
         return redirect('/profile/'.$id.'/view');
     }
 
