@@ -35,7 +35,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">Full Name: </span>
                                 </div>
-                                <input name="fullname" type="text" class="form-control" placeholder="Username" value="{{$user->fullname}}">
+                                <input name="fullname" type="text" class="form-control" placeholder="Full Name" value="{{$user->fullname}}">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -47,7 +47,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"> Email: </span>
                                 </div>
-                                <input name="email" type="text" class="form-control" placeholder="Username" value="{{$user->email}}">
+                                <input name="email" type="text" class="form-control" placeholder="Email" value="{{$user->email}}">
                             </div>
                             <div class="col-md-12 text-center">
                                 <button type="submit" class="btn btn-success">Update Profile</button>
