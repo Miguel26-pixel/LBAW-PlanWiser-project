@@ -143,11 +143,10 @@ class TasksController extends Controller
                     break;
                 }
 
-                $user_assigned = UserAssign::where('task_id', '=', $id)
-                                            ->update(['user_id' =>$request->user_id]);
+                $user_assigned = UserAssign::where('task_id', '=', $id)->get();
+                                            
 
                 $user_assigned = json_decode($user_assigned, true);
-
                 if (!$user_assigned){
                     $user_assign = new UserAssign;
                     $user_assign->task_id = $task->id;
@@ -162,6 +161,19 @@ class TasksController extends Controller
 
 
                     $user_assign->save();
+
+                    event(new AssignTask($request->name, $proj->title, $request->user_id, $notification->id));
+                }
+                else if($user_assigned[0]['user_id'] !== $request->user_id) {
+                    $user_assigned = UserAssign::where('task_id', '=', $id)
+                                            ->update(['user_id' =>$request->user_id]);
+
+                    $notification = new Notification();
+                    $notification->user_id = $request->user_id;
+                    $notification->notification_type = 'ASSIGN';
+                    $notification->task_id = $task->id;
+                    $notification->created_at = now();
+                    $notification->save();
 
                     event(new AssignTask($request->name, $proj->title, $request->user_id, $notification->id));
                 }
