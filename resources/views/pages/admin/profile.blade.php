@@ -29,7 +29,7 @@
                         </div>
                         <div class="card-body">
                             <div class="input-group mb-3">
-                                <input name="img_url" class="form-control" type="file" id="formFile" placeholder=" multiple>
+                                <input name="img_url" class="form-control" type="file" id="formFile" multiple>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
