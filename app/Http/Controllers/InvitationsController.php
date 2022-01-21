@@ -58,7 +58,9 @@ class InvitationsController extends Controller
         //dd($user_id);
 
         $user_id = json_decode($user_id, true);
-
+        if ($user_id === []) {
+            return redirect()->back()->withErrors('User does not exist');
+        }
         //dd($user_id);
 
         $old_invite = Invitation::where('project_id', '=', $project_id)
