@@ -51,8 +51,8 @@
                                 <textarea rows="5" class="form-control" name="message" placeholder="Reply message to send to the reporting user"></textarea>
                             </div>
                             <div class="col-md-12 text-center mt-3">
-                                <button type="submit" name="action" value="done" class="btn btn-success">Answer Project</button>
-                                <button type="submit" name="action" value="ignore" class="btn btn-outline-danger">Ignore Project</button>
+                                <button type="submit" name="action" value="done" class="btn btn-success">Answer Report</button>
+                                <button type="submit" name="action" value="ignore" class="btn btn-outline-danger">Ignore Report</button>
                             </div>
                         </form>
                     </div>
