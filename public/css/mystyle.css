@@ -105,8 +105,15 @@ body {
 .homepage {
     background-color: white;
     color: black;
-    display: flex;
-    height: 100vh;
+    --display: flex;
+}
+
+.homepage-main-title {
+    color: black;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 30px;
+    white-space: nowrap;
 }
 
 .homepage-title {
@@ -115,7 +122,6 @@ body {
     line-height: normal;
     font-size: 30px;
     margin-left: 13%;
-    margin-top: 10%;
     white-space: nowrap;
 }
 
@@ -140,6 +146,10 @@ body {
     color: white;
     text-decoration: none;
 
+}
+
+.support-spacing {
+    margin: 100px 0 100px 0;
 }
 
 /*----- Auth forms-----*/
