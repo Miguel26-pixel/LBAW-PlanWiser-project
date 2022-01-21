@@ -38,10 +38,12 @@ use Illuminate\Support\Facades\Auth;
                     </div>
                     <div class="d-flex align-items-center justify-content-center" style="gap: 10vw">
                         <div class="mb-3 text-align-center text-center">
-                            <h5 style="color: #2f4f4f; font-weight: bold">Visibility: <h6>{{($project->public) ? 'Public' : 'Private'}}</h6></h5>
+                            <h5 style="color: #2f4f4f; font-weight: bold">Visibility: </h5>
+                            <h6>{{($project->public) ? 'Public' : 'Private'}}</h6>
                         </div>
                         <div class="mb-3 text-center">
-                            <h5 style="color: #2f4f4f; font-weight: bold">State: <h6>{{($project->active) ? 'Active' : 'Archived'}}</h6></h5>
+                            <h5 style="color: #2f4f4f; font-weight: bold">State: </h5>
+                            <h6>{{($project->active) ? 'Active' : 'Archived'}}</h6>
                         </div>
                     </div>
                     <?php if ($user_role === 'MANAGER') { ?>
@@ -157,12 +159,11 @@ use Illuminate\Support\Facades\Auth;
                 <br>
                 <div class="col-md-12 text-center">
                     <?php
-                    if ($user_role !== 'GUEST') {
+                    if ($user_role !== 'VISITOR') {
                         echo '<div class="float-right text-center">';
-                        echo '<a class="btn btn-outline-danger float-right" href="/project/{{$project->id}}/leave">Leave Project <i class="icon-logout"></i></a>';
+                        echo '<a class="btn btn-outline-danger float-right" href="/project/'.$project->id.'/leave">Leave Project <i class="icon-logout"></i></a>';
                         echo '</div>';
                     }
-
                     ?>
                 </div>
             </div>

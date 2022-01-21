@@ -30,7 +30,7 @@
                     <a href="projectsCreate" class="btn btn-outline-success" style="border-style:hidden;"><i class="icon-plus"></i> New Project</a>
                 </div>
                 <div class="card-header d-flex align-items-center">
-                        <input type="checkbox" id="projects" name="projects" style="margin-right:10px">My Projects</input>
+                        <input type="checkbox" id="projects" name="projects" style="margin-right:10px">My Projects
                 </div>
                 <div id="myCardBody" class="card-body">
                     <table class="table table-bordered">
@@ -101,7 +101,7 @@
             let tr = body.insertRow();
             let link = tr.insertCell();
             link.classList.add('text-center');
-            link.innerHTML = '<a class="text-info my-rocket" href="/project/' + project['id'] + '"><i class="icon-rocket"></i></a>';
+            link.innerHTML = '<a class="text-info my-rocket" href="/project/' + project['id'] + '"><i class="icon-rocket"><\/i><\/a>';
             let title = tr.insertCell();
             title.innerHTML = project['title'];
             let description = tr.insertCell();

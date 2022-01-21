@@ -36,13 +36,13 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Description: </span>
+                                <span class="input-group-text">Description: </span>
                             </div>
                             <input name="description" type="text" class="form-control" placeholder="Description" value="{{$task->description}}">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"> Due Date: </span>
+                                <span class="input-group-text"> Due Date: </span>
                             </div>
                             <?php
                             $task->due_date = explode(' ', $task->due_date)[0];
@@ -51,7 +51,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"> Reminder Date: </span>
+                                <span class="input-group-text"> Reminder Date: </span>
                             </div>
                             <?php
                             $task->reminder_date = explode(' ', $task->reminder_date)[0];
@@ -60,7 +60,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Status:</span>
+                                <span class="input-group-text">Status:</span>
                             </div>
                             <select name="tag" class="form-select" aria-label="Disabled select example">
                                 <option value='TODO' {{($task->tag == "TODO") ? 'selected' : ''}}>TODO</option>
@@ -72,7 +72,7 @@
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"> Assignee: </span>
+                                <span class="input-group-text"> Assignee: </span>
                             </div>
 
                             <select name="user_id" class="form-select" aria-label="Disabled select example">
@@ -117,7 +117,6 @@
                         <div class="">
                             <div id="table-tasks-body">
                                 <?php
-                                //dd($task_comments);
                                 foreach ($task_comments as $comment) {
                                     $path = '/images/no_img.png';
                                     if (!is_null($comment->user->img_url) && file_exists(public_path($comment->user->img_url))) {
@@ -125,7 +124,7 @@
                                     }
                                     echo '<div class="d-flex align-items-center bg-light">';
                                     echo '<div><img alt="User Picture" style="border-radius: 50%; max-width: 70%; max-height: 70px" src="' . asset($path) . '"></div>';
-                                    echo '<div class="p-2 w-100 bd-highlight"><a href="/profile/' . $comment->user->id . 'style="font-weight: bold; text-decoration: none" class="text-black fs-5">' . $comment->user->username . '</a></div>';
+                                    echo '<div class="p-2 w-100 bd-highlight"><a href="/profile/' . $comment->user->id . '" style="font-weight: bold; text-decoration: none" class="text-black fs-5">' . $comment->user->username . '</a></div>';
                                     echo '<div class="flex-shrink-1 bd-highlight">' . $comment->created_at . '</div>';
                                     echo '</div>';
                                     echo '<div style="margin-left: 5%; font-size: medium">' . $comment->comment . '</div>';

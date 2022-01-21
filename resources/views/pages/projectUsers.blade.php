@@ -128,7 +128,7 @@
                 let tr = body.insertRow();
                 let link = tr.insertCell();
                 link.classList.add('text-center');
-                link.innerHTML = '<a class="text-info my-rocket" href="/profile/' + member['id'] + '"><i class="icon-rocket"></i></a>';
+                link.innerHTML = '<a class="text-info my-rocket" href="/profile/' + member['id'] + '"><i class="icon-rocket"><\/i><\/a>';
                 let title = tr.insertCell();
                 title.innerHTML = member['username'];
                 let description = tr.insertCell();

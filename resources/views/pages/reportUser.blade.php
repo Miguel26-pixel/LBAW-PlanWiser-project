@@ -18,9 +18,9 @@
                 <span style="padding-bottom: 15px">Make a report</span>
                 <form id="stripe-login" method="POST" action='/reportUser/{{$reported->id}}'>
                     {{ csrf_field() }}
-                    <div class="field" style="padding-bottom: 24px"  autofocus>
+                    <div class="field" style="padding-bottom: 24px" >
                         <label for="text">Report's description</label>
-                        <textarea rows="5" class="col-md-12" type=" text" name="text" required></textarea>
+                        <textarea rows="5" class="col-md-12" id="text" name="text" required></textarea>
                     </div>
                     @if ($errors->has('text'))
                         <div class="field">
@@ -31,7 +31,7 @@
                     @endif
 
                     <label for="text">Username</label>
-                    <div class="field border-danger" style="padding:5px; margin-bottom: 24px; border: 2px solid; border-radius: 5px" autofocus>
+                    <div class="field border-danger" style="padding:5px; margin-bottom: 24px; border: 2px solid; border-radius: 5px">
                         {{$reported->username}}
                     </div>
                     @if ($errors->has('report_type'))

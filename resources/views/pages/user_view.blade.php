@@ -38,13 +38,13 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">Username: </span>
+                                <span class="input-group-text">Username: </span>
                             </div>
                             <input name="username" type="text" class="form-control" placeholder="Username" value="{{$user->username}}">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"> Email: </span>
+                                <span class="input-group-text"> Email: </span>
                             </div>
                             <input name="email" type="text" class="form-control" placeholder="Username" value="{{$user->email}}">
                         </div>

@@ -62,7 +62,7 @@
                                 echo '<td><a href="/project/' . $project['id'] . '/files/' . $file->id . '/download" class="text-primary" style="text-decoration: none;">' . $file['name'] . '</a></td>';
                                 echo '<td class="text-center">' . $file['updated_at'] . '</td>';
                                 if ($user_role != 'GUEST') {
-                                    echo '<td class="text-center"><a class="btn btn-outline-danger" href="/project/' . $project['id'] . '/files/' . $file->id . '/delete"><i class="icon-trash"></i></td>';
+                                    echo '<td class="text-center"><a class="btn btn-outline-danger" href="/project/' . $project['id'] . '/files/' . $file->id . '/delete"><i class="icon-trash"></i></a></td>';
                                 }
                                 echo '</tr>';
                                 $count++;

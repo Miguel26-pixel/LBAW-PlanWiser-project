@@ -32,7 +32,7 @@ class ProjectsController extends Controller
     }
 
     static function getPublicProjects($pag_num) {
-        return (new Project())->where('public','=',true)->orderBy('created_at')->paginate($pag_num);
+        return (new Project())->where('public','=',true)->orderByDesc('created_at')->paginate($pag_num);
     }
 
     public function showProjects()
@@ -40,7 +40,7 @@ class ProjectsController extends Controller
         $project_users = ProjectUser::where('user_id','=',Auth::id())->pluck('project_id');
         $projects = Project::where('public','=',true)
                             ->orWhereIn('id', $project_users)
-                            ->orderBy('created_at')
+                            ->orderByDesc('created_at')
                             ->paginate(10);
         $notifications = NotificationsController::getNotifications(Auth::id());
         return view('pages.projects',['my_projects' => $projects, 'notifications' => $notifications]);
@@ -50,7 +50,7 @@ class ProjectsController extends Controller
         return DB::table('projects')
                             ->where('public','=',true)
                             ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
-                            ->orderBy('created_at')
+                            ->orderByDesc('created_at')
                             ->get();
     }
 
@@ -60,7 +60,7 @@ class ProjectsController extends Controller
             return  DB::table('projects')
                 ->whereIn('id', $project_users)
                 ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
-                ->orderBy('created_at')
+                ->orderByDesc('created_at')
                 ->get();
         } else {
             $s = "(";
@@ -69,7 +69,7 @@ class ProjectsController extends Controller
             return DB::table('projects')
                             ->whereRaw('(public is true or id in '.$s.')')
                             ->whereRaw('(title like \'%'.$request->search.'%\' or description like \'%'.$request->search.'%\' or search @@ plainto_tsquery(\'english\', ?))',[$request->search])
-                            ->orderBy('created_at')
+                            ->orderByDesc('created_at')
                             ->get();
         }
     }

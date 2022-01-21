@@ -24,9 +24,9 @@
                     <span style="padding-bottom: 15px">Create a task</span>
                     <form method="POST" action='/tasksCreate'>
                         {{ csrf_field() }}
-                        <div class="field" style="padding-bottom: 24px" required autofocus>
+                        <div class="field" style="padding-bottom: 24px">
                             <label for="name">Name</label>
-                            <input type="name" name="name">
+                            <input type="text" name="name" required>
                         </div>
                         @if ($errors->has('name'))
                         <div class="field">
@@ -35,9 +35,9 @@
                             </span>
                         </div>
                         @endif
-                        <div class="field" style="padding-bottom: 24px" required>
+                        <div class="field" style="padding-bottom: 24px">
                             <label for="description">Description</label>
-                            <input type="description" name="description">
+                            <input type="text" name="description" required>
                         </div>
                         @if ($errors->has('description'))
                         <div class="field">

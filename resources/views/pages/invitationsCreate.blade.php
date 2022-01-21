@@ -19,7 +19,7 @@
         @csrf
         <div class="field" style="padding-bottom: 24px">
           <label for="username">Username</label>
-          <input id="username" type="username" name="username" value="{{ old('username') }}" required autofocus>
+          <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus>
         </div>
         @if ($errors->has('username'))
         <span class="error">
