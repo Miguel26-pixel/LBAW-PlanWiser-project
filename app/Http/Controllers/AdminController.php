@@ -81,7 +81,7 @@ class AdminController extends Controller
     public function showUsersManagement()
     {
         Gate::authorize('admin',User::class);
-        $users = UsersController::getUsers();
+        $users = (new User())->where('email', 'not like', 'deleted_user_%@deleted_user.com')->orderByDesc('id')->get();
         return view('pages.admin.manageUsers',['users' => $users]);
     }
 
@@ -102,13 +102,15 @@ class AdminController extends Controller
     public function showUsers()
     {
         Gate::authorize('admin',User::class);
-        $users = UsersController::getUsers();
+        $users = (new User())->where('email', 'not like', 'deleted_user_%@deleted_user.com')->orderByDesc('id')->get();
         return view('pages.admin.manageUsers',['users' => $users]);
     }
 
     public function searchUsers(Request $request){
         Gate::authorize('admin',User::class);
-        $users = UsersController::getUsersSearch($request);
+        $users = User::where('email', 'not like', 'deleted_user_%@deleted_user.com')
+                    ->whereRaw('(username like \'%' . $request->search . '%\' or email like \'%' . $request->search . '%\')')
+                    ->get();
         return view('pages.admin.manageUsers', ['users'=>$users]);
     }
 
