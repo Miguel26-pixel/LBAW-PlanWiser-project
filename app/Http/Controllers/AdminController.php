@@ -6,16 +6,11 @@ use App\Mail\ReportAnswer;
 use App\Models\Project;
 use App\Models\Report;
 use App\Models\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -24,7 +19,7 @@ class AdminController extends Controller
     {
         Gate::authorize('admin',User::class);
         $public_projects = Project::orderByDesc('created_at')->take(5)->get();
-        $users = User::orderByDesc('id')->take(3)->get();
+        $users = (new User())->where('email', 'not like', 'deleted_user_%@deleted_user.com')->orderByDesc('id')->take(3)->get();
         return view('pages.admin.home', ['public_projects'=>$public_projects, 'users'=>$users]);
     }
 
