@@ -51,6 +51,15 @@ class ProjectController extends Controller
         $user = Auth::user();
         Gate::authorize('show',$project);
         $files = $project->files;
+
+        foreach ($files as $file) {
+            if (!file_exists(storage_path('app/public/'.$file->url))) {
+                $file->delete();
+            }
+        }
+
+        $files = $project->files;
+
         $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
         if (!$project_user) {
             $user_role = 'VISITOR';
