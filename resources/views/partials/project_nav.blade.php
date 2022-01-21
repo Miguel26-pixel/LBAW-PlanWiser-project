@@ -9,19 +9,19 @@
                 <i class='fa fa-file' style="font-size:28px"></i>
                 <span class="nav_name">Files</span>
             </a>
-            <?php if($user_role !== 'VISITOR' && $user_role !== 'GUEST') {?>
+            <?php if(($user_role !== 'VISITOR' && $user_role !== 'GUEST') || \Illuminate\Support\Facades\Auth::user()->is_admin) {?>
             <a href="/project/{{$project->id}}/tasks"  class="sidenav_link sidebar-btn">
                 <i class='fa fa-tasks' style="font-size:28px"></i>
                 <span class="nav_name">Tasks</span>
             </a>
             <?php } ?>
-            <?php if($user_role !== 'VISITOR' && $user_role !== 'GUEST') {?>
+            <?php if(($user_role !== 'VISITOR' && $user_role !== 'GUEST') || \Illuminate\Support\Facades\Auth::user()->is_admin) {?>
             <a href="/project/{{$project->id}}/forum" class="sidenav_link sidebar-btn">
                 <i class='fa fa-comment' style="font-size:28px"></i>
                 <span class="nav_name">Forum</span>
             </a>
             <?php } ?>
-            <?php if($user_role !== 'VISITOR') {?>
+            <?php if($user_role !== 'VISITOR' || \Illuminate\Support\Facades\Auth::user()->is_admin) {?>
             <a href="/project/{{$project->id}}/members" class="sidenav_link sidebar-btn">
                 <i class='fa fa-users' style="font-size:28px"></i>
                 <span class="nav_name">Members</span>

@@ -140,7 +140,7 @@
                         <br> The answer will be send to your email of this account
                     </p>
                     <div class="col-md-12 text-center">
-                        <a href="/reportsCreate" class="btn btn-danger">Make a Report</a>
+                        <a href="/reportBug" class="btn btn-danger">Make a Report</a>
                     </div>
                 </div>
             </div>

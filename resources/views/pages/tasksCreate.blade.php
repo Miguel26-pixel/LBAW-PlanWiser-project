@@ -13,7 +13,7 @@
 @section('content')
 
 <div class="col-2">
-    @include('partials.project_nav', ['project' => $project])
+    @include('partials.project_nav', ['project' => $project,  'user_role' => $user_role])
         </div>
         <!-- <div class="container text-center my-3" style="margin-top:4%;">
                 <h2>{{$project->title}}</h2>

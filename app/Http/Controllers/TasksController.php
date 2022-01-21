@@ -38,7 +38,16 @@ class TasksController extends Controller
 
         $users = ProjectUsersController::getProjectUsers($id);
 
-        return view('pages.tasksCreate',['project' => Project::find($id), 'notifications' => $notifications, 'users' => $users]);
+        $user = Auth::user();
+
+        $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $id]);
+        if (!$project_user) {
+            $user_role = 'VISITOR';
+        } else {
+            $user_role = $project_user->user_role;
+        }
+
+        return view('pages.tasksCreate',['user_role' => $user_role, 'project' => Project::find($id), 'notifications' => $notifications, 'users' => $users]);
     }
 
     protected function validator()
@@ -202,6 +211,12 @@ class TasksController extends Controller
         $proj = Project::find($request->project_id);
         Gate::authorize('isActive',$proj);
         Gate::authorize('manager',$proj);
+        $project_user = ProjectUser::find(['user_id' => Auth::id(),'project_id' => $request->project_id]);
+        if (!$project_user) {
+            $user_role = 'VISITOR';
+        } else {
+            $user_role = $project_user->user_role;
+        }
         try {
             $notifications = NotificationsController::getNotifications(Auth::id());
             $validator = $request->validate($this->validator());
@@ -236,7 +251,7 @@ class TasksController extends Controller
         } catch (QueryException $e){
             return redirect()->back()->withErrors('Due and reminder dates are both required. You should also verify that selected reminder date is before due date and that both after today.');
         }
-        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id]);
+        return redirect()->action([TasksController::class,'showTasks'], ['id'=> $task->project_id, 'user_role' => $user_role]);
     }
 
     public function searchProjectTasks(int $project_id, Request $request)

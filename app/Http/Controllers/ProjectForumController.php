@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\ProjectMessage;
+use App\Models\ProjectUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -14,6 +15,7 @@ class ProjectForumController extends Controller
         $project = Project::find($id);
         Gate::authorize('inProject',$project);
         Gate::authorize('notGuestOrAdmin',$project);
+        $user = Auth::user();
         $notifications = NotificationsController::getNotifications(Auth::id());
         $messages = ProjectMessage::where('project_id','=',$id)->orderByDesc('created_at')->paginate(7);
         $project_user = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
