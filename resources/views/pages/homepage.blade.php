@@ -138,7 +138,7 @@
                     {{ csrf_field() }}
                     <div class="field" style="padding-bottom: 24px" value="{{ old('name') }}"  autofocus>
                         <label for="name">Name</label>
-                        <input type="name" name="name" required>
+                        <input type="text" name="name" id="name" required>
                     </div>
                     @if ($errors->has('name'))
                         <div class="field">
@@ -149,7 +149,7 @@
                     @endif
                     <div class="field" style="padding-bottom: 24px" value="{{ old('email') }}"  autofocus>
                         <label for="email">Email</label>
-                        <input type="email" name="email" required>
+                        <input type="email" name="email" id="email" required>
                     </div>
                     @if ($errors->has('email'))
                         <div class="field">
@@ -160,7 +160,7 @@
                     @endif
                     <div class="field" style="padding-bottom: 24px" value="{{ old('message') }}"  autofocus>
                         <label for="message">Message</label>
-                        <textarea class="form-control" rows="3" class="input" type="message" name="message" required> </textarea>
+                        <textarea class="form-control" rows="3" type="message" name="message" id="message" required> </textarea>
                     </div>
                     @if ($errors->has('message'))
                         <div class="field">
