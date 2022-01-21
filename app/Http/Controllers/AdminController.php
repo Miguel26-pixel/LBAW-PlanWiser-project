@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -148,6 +149,9 @@ class AdminController extends Controller
     {
         Gate::authorize('admin',User::class);
         $user = User::find($id);
+        if ($user->is_admin && $user->id != Auth::id()) {
+            return redirect()->back()->withErrors("This account belongs to an admin so you can't delete his account");
+        }
         $count = User::where('email','like','%@deleted_user.com')->count();
         $user->fullname = "Deleted User";
         $user->username = "deleted_user_".$count;
@@ -157,6 +161,9 @@ class AdminController extends Controller
         $user->is_admin = false;
         $user->search = null;
         $user->save();
+        if ($id == Auth::id()) {
+            return redirect('/logout');
+        }
         return redirect('/admin/manageUsers');
     }
 
@@ -164,7 +171,7 @@ class AdminController extends Controller
         Gate::authorize('admin',User::class);
         $user = User::find($id);
         if ($user->is_admin) {
-            return redirect()->back()->withErrors("This user is an an admin so you can't ban his account");
+            return redirect()->back()->withErrors("This account belongs to an admin so you can't ban his account");
         }
         $user->is_banned = true;
         $user->save();
