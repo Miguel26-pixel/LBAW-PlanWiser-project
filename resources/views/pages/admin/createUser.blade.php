@@ -30,6 +30,12 @@
                             </div>
                             <input name="username" type="text" class="form-control" placeholder="Username">
                         </div>
+                        <div class="form-check">
+                            <input class="form-check-input" name="is_admin" type="checkbox" value="true" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Admin
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -65,3 +71,4 @@
         </div>
     </div>
 </div>
+@endsection

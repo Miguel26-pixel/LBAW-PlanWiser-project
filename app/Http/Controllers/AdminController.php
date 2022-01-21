@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -116,11 +117,31 @@ class AdminController extends Controller
         return view('pages.admin.createUser');
     }
 
+    protected function validator()
+    {
+        return [
+            'fullname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'username' => 'required|unique:users|string|min:4',
+            'password' => 'required|string|min:6|confirmed',
+        ];
+    }
+
     public function createUser(Request $request)
     {
         Gate::authorize('admin',User::class);
-        $user = UsersController::createUser($request);
-        return redirect()->action([self::class,'showProfile'], ['id'=> $user->id]);
+        $request->validate($this->validator());
+        $user = new User();
+        $user->fullname = $request->fullname;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        if ($request->is_admin === "true") {
+            $user->is_admin = true;
+        }
+        $user->save();
+
+        return redirect('/admin/profile/'.$user->id);
     }
 
     public function deleteUser($id)
