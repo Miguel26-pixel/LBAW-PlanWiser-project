@@ -179,7 +179,7 @@ class TasksController extends Controller
 
     public function showTasks($project_id)
     {
-        Gate::authorize('inProject',Project::find($project_id));
+        Gate::authorize('inProjectOrAdmin',Project::find($project_id));
         Gate::authorize('show',Project::find($project_id));
         $notifications = NotificationsController::getNotifications(Auth::id());
         $users = ProjectUsersController::getProjectUsers($project_id);

@@ -13,7 +13,6 @@ class ProjectForumController extends Controller
 {
     function show($id) {
         $project = Project::find($id);
-        Gate::authorize('inProject',$project);
         Gate::authorize('notGuestOrAdmin',$project);
         $user = Auth::user();
         $notifications = NotificationsController::getNotifications(Auth::id());

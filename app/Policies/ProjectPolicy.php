@@ -31,6 +31,10 @@ class ProjectPolicy
         return $this->checkUserInProject($user,$project);
     }
 
+    public function inProjectOrAdmin(User $user, Project $project) {
+        return $user->is_admin || $this->checkUserInProject($user,$project);
+    }
+
     public function update(User $user, Project $project) {
         return ($this->checkUserInProject($user,$project) && ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role == 'MANAGER') || $project->active;;
     }
@@ -43,13 +47,16 @@ class ProjectPolicy
     }
 
     public function notGuest(User $user, Project $project) {
-        $projectUser = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
-        return ($this->checkUserInProject($user,$project) && $projectUser !== 'GUEST' && $projectUser !== 'VISITOR');
+        $projectUser = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
+        if (!$projectUser) return false;
+        return ($this->checkUserInProject($user,$project) && $projectUser->user_role !== 'GUEST' && $projectUser->user_role !== 'VISITOR');
     }
 
     public function notGuestOrAdmin(User $user, Project $project) {
-        $projectUser = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id])->user_role;
-        return $user->is_admin || ($this->checkUserInProject($user,$project) && $projectUser !== 'GUEST' && $projectUser !== 'VISITOR');
+        if ($user->is_admin) return true;
+        $projectUser = ProjectUser::find(['user_id' => $user->id,'project_id' => $project->id]);
+        if (!$projectUser) return false;
+        return ($this->checkUserInProject($user,$project) && $projectUser->user_role !== 'GUEST' && $projectUser->user_role !== 'VISITOR');
     }
 
     public function manager(User $user, Project $project) {
