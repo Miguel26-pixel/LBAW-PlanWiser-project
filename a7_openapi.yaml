@@ -16,9 +16,8 @@ externalDocs:
 tags:
   - name: 'M01: Authentication and Individual Profile'
   - name: 'M02: Projects'
-  - name: 'M03: Social Media'
-  - name: 'M04: Static pages'
-  - name: 'M05: User Administration'
+  - name: 'M03: Static pages'
+  - name: 'M04: User Administration'
 
 paths:
   /login:
@@ -242,12 +241,36 @@ paths:
     get:
       operationId: R109
       summary: 'R109: Recovery Password'
-      description: 'Recovery Password. Access: VTR'
+      description: 'Recovery Password. Access: AUR'
       tags:
         - 'M01: Authentication and Individual Profile'
       responses:
         '200':
           description: 'Ok'
+
+  /api/recover:
+    post:
+      operationId: R110
+      summary: 'R110: Recovery Password'
+      description: 'Recovery Password. Access: AUR'
+      tags:
+        - 'M01: Authentication and Individual Profile'
+
+      requestBody:
+        required: true
+        content:
+            schema:
+              type: string
+              properties:
+                email:
+                  type: string
+              required:
+              - email
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
 
   /api/projectsSearch:
     post:
@@ -1256,7 +1279,7 @@ paths:
                   description: 'Successful creation. Redirect to home page.'
                   value: '/home'
 
-  /project/{id}/forum/newMessage:
+  /project/{id}/forum/send:
     post:
       operationId: R232
       summary: 'R232: Send a message to project forum'
@@ -1339,7 +1362,7 @@ paths:
         '400':
           description: Bad Request
 
-  /project/{id}/task{task_id}/taskComments:
+  /project/{id}/task{task_id}/comment:
     get:
       operationId: R234
       summary: "R234: Get task's comments"
@@ -1451,116 +1474,13 @@ paths:
           description: Not Found
 
 
-  /chat/{id}:
-    get:
-      operationId: R301
-      summary: 'R301: Get user all chat'
-      description: "Get user all chat. Access: AUR"
-      tags:
-        - 'M03: Social Media'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        '200':
-          description: Success
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
-
-  /chat/{emmiter_id}/{receiver_id}:
-    get:
-      operationId: R302
-      summary: 'R302: Get user private chat with other user'
-      description: "Get user private chat with other user. Access: AUR"
-      tags:
-        - 'M03: Social Media'
-
-      parameters:
-        - in: path
-          name: emmiter_id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: receiver_id
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        '200':
-          description: Success
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
-
-  /chat/{emmiter_id}/{receiver_id}/newMessage:
-    post:
-      operationId: R303
-      summary: 'R303: Send a message to other user'
-      description: "Send a message to other user. Access: AUR"
-      tags:
-        - 'M03: Social Media'
-
-      parameters:
-        - in: path
-          name: emmiter_id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: receiver_id
-          schema:
-            type: integer
-          required: true
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                message:
-                  type: string
-              required:
-                - message
-
-      responses:
-        '302':
-          description: 'Redirect after processing the new project information.'
-          headers:
-            Location:
-              schema:
-                type: string
-              examples:
-                302Success:
-                  description: 'Successful. Redirect to forum page.'
-                  value: '/chat/{emmiter_id}/{receiver_id}'
-                302Failure:
-                  description: 'Failed. Redirect to forum page.'
-                  value: '/chat/{emmiter_id}/{receiver_id}'
-
-        "403":
-          description: This action is forbidden
-
-
-
   /home:
     get:
-      operationId: R401
-      summary: 'R401: View Landing Page'
+      operationId: R301
+      summary: 'R301: View Landing Page'
       description: "View landing page. Access: PUB"
       tags:
-        - 'M04: Static pages'
+        - 'M03: Static pages'
 
       responses:
         '200':
@@ -1568,11 +1488,11 @@ paths:
 
   /admin:
     get:
-      operationId: R501
-      summary: 'R501: View Admin Page'
+      operationId: R401
+      summary: 'R401: View Admin Page'
       description: "View Admin page. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       responses:
         '200':
@@ -1582,11 +1502,11 @@ paths:
 
   /admin/users:
     get:
-      operationId: R502
-      summary: 'R502: View Users Information Page'
+      operationId: R402
+      summary: 'R402: View Users Information Page'
       description: "View users information page. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       responses:
         '200':
@@ -1594,13 +1514,13 @@ paths:
         "403":
           description: "Forbidden access"
 
-  /admin/reportsInformations:
+  /admin/reports:
     get:
-      operationId: R503
-      summary: 'R503: View Reports Page'
+      operationId: R403
+      summary: 'R403: View Reports Page'
       description: "View users and website reports from users. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       responses:
         '200':
@@ -1608,12 +1528,44 @@ paths:
         "403":
           description: "Forbidden access"
 
+  /admin/reports/{id}/answer:
+    get:
+        operationId: R404
+        summary: 'R404: View Report'
+        description: "View user. Access: ADM"
+        tags:
+          - 'M04: User Administration'
+
+        responses:
+          '200':
+            description: 'OK'
+          "403":
+            description: "Forbidden access"
     post:
-      operationId: R504
-      summary: 'R504: Deal with Reports Page'
-      description: "Deal with reports from users. Access: ADM"
+      operationId: R405
+      summary: 'R405: Deal with Report'
+      description: "Deal with report. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
+
+        requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                contact:
+                  type: string
+                message:
+                  type: string
+              required:
+                - email
+                - message
 
       responses:
         '200':
@@ -1623,11 +1575,11 @@ paths:
 
   /admin/manageUsers:
     get:
-      operationId: R505
-      summary: 'R505: View users management Page'
+      operationId: R406
+      summary: 'R406: View users management Page'
       description: "View users management page. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       responses:
         '200':
@@ -1637,11 +1589,11 @@ paths:
 
   /admin/projects:
     get:
-      operationId: R506
-      summary: 'R506: View Projects Information Page'
+      operationId: R407
+      summary: 'R407: View Projects Information Page'
       description: "View Projects Information page. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       responses:
         '200':
@@ -1652,11 +1604,11 @@ paths:
 
   /admin/project/{id}:
     get:
-      operationId: R507
-      summary: 'R507: View a Project Information Page'
+      operationId: R408
+      summary: 'R408: View a Project Information Page'
       description: "View a Project Information page. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       responses:
         '200':
@@ -1666,11 +1618,11 @@ paths:
 
   /admin/profile/{id}:
     get:
-      operationId: R508
-      summary: 'R508: View a user profile'
+      operationId: R409
+      summary: 'R409: View a user profile'
       description: "View a user profile. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       responses:
         '200':
@@ -1680,11 +1632,11 @@ paths:
 
   /admin/createUser:
     get:
-      operationId: R509
-      summary: 'R509: Create user page'
+      operationId: R410
+      summary: 'R410: Create user page'
       description: "Create user page. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       responses:
         '200':
@@ -1693,11 +1645,11 @@ paths:
           description: "Forbidden access"
 
     post:
-      operationId: R510
-      summary: 'R510: Create user'
+      operationId: R411
+      summary: 'R411: Create user'
       description: "Create user. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       requestBody:
         required: true
@@ -1728,11 +1680,11 @@ paths:
 
   /admin/searchUsers:
     post:
-      operationId: R511
-      summary: 'R511: Search users'
+      operationId: R412
+      summary: 'R412: Search users'
       description: 'Search for users. Access: AUR'
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       parameters:
         - in: query
@@ -1764,13 +1716,51 @@ paths:
         '400':
           description: Bad Request
 
+  /admin/reports/search:
+    post:
+      operationId: R413
+      summary: 'R413: Search reports'
+      description: 'Search for reports. Access: AUR'
+      tags:
+        - 'M04: User Administration'
+
+      parameters:
+        - in: query
+          name: search
+          description: String to use for full-text search
+          schema:
+            type: string
+          required: false
+
+      requestBody:
+        required: true
+        content:
+            schema:
+              type: string
+              properties:
+                search:
+                  type: string
+              required:
+              - search
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+        '400':
+          description: Bad Request
+
   /admin/userSupport:
     get:
-      operationId: R512
-      summary: 'R512: Create user page'
+      operationId: R412
+      summary: 'R412: Create user page'
       description: "Create user page. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       responses:
         '200':
@@ -1779,11 +1769,11 @@ paths:
           description: "Forbidden access"
 
     post:
-      operationId: R513
-      summary: 'R513: Create user'
+      operationId: R413
+      summary: 'R413: Create user'
       description: "Create user. Access: ADM"
       tags:
-        - 'M05: User Administration'
+        - 'M04: User Administration'
 
       requestBody:
         required: true
