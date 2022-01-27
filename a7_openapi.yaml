@@ -206,7 +206,7 @@ paths:
       responses:
         '200':
           description: 'Ok'
-        "401":
+        "403":
           description: 'Permission denied'
 
   /project/{id}/update-password:
@@ -1363,43 +1363,9 @@ paths:
           description: Bad Request
 
   /project/{id}/task{task_id}/comment:
-    get:
-      operationId: R234
-      summary: "R234: Get task's comments"
-      description: "Get task's comments. Access: EDT"
-      tags:
-        - 'M02: Projects'
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: task_id
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskComment'
-        "403":
-          description: Forbidden
-        "404":
-          description: Not Found
-
-  /project/{id}/task{task_id}/taskComments/newComment:
     post:
-      operationId: R235
-      summary: 'R235: Make a comment on a task'
+      operationId: R234
+      summary: 'R234: Make a comment on a task'
       description: 'Make a comment on a task. Access: EDT'
       tags:
         - 'M02: Projects'
@@ -1445,10 +1411,10 @@ paths:
         "403":
           description: This action is forbidden
 
-  /project/{id}/members/leaveProject:
+  /project/{id}/leave:
     get:
-      operationId: R220
-      summary: 'R220: Leave the project'
+      operationId: R235
+      summary: 'R235: Leave the project'
       description: "Update Project members. Access: RDR"
       tags:
         - 'M02: Projects'
@@ -1472,6 +1438,149 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
+
+  /reportBug:
+    get:
+      operationId: R236
+      summary: 'R236: Reports a bug'
+      description: "Get a reports bug form. Access: RDR"
+      tags:
+        - 'M02: Projects'
+
+      responses:
+        '200':
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+
+    post:
+      operationId: R237
+      summary: 'R237: Make a Report Bug'
+      description: 'Processes the bug report creation form submission. Access: USR'
+      tags:
+        - 'M02: Projects'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+              required:
+                - description
+
+      responses:
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful creation. Redirect to home page.'
+                  value: '/profile/{id}'
+
+
+  /reportUser/{id}:
+    get:
+      operationId: R238
+      summary: 'R238: Reports a user'
+      description: "Get a reports user form. Access: RDR"
+      tags:
+        - 'M02: Projects'
+
+      responses:
+        '200':
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Not Found
+
+    post:
+      operationId: R239
+      summary: 'R239: Make a Report Bug'
+      description: 'Processes the bug report creation form submission. Access: USR'
+      tags:
+        - 'M02: Projects'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+              required:
+                - description
+
+      responses:
+        '302':
+          description: 'Redirect after processing the new project information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful creation. Redirect to home page.'
+                  value: '/profile/{id}'
+
+  /notification/{id}/manager: 
+    post:
+        operationId: R240
+        summary: 'R240: Change Manager Notification'
+        description: 'Change Manager Notification. Access: RDR'
+        tags:
+          - 'M02: Projects'
+
+        responses:
+          '200':
+            description: Success
+
+  /notification/{id}/taskClosed: 
+    post:
+        operationId: R241
+        summary: 'R241: Closed Task Notification'
+        description: 'Closed Task Notification. Access: RDR'
+        tags:
+          - 'M02: Projects'
+
+        responses:
+          '200':
+            description: Success
+
+  /notification/{id}/assign: 
+    post:
+        operationId: R242
+        summary: 'R242: Assigned task Notification'
+        description: 'Assigned task Notification. Access: RDR'
+        tags:
+          - 'M02: Projects'
+
+        responses:
+          '200':
+            description: Success
+
+  /notifications/{id}/clear: 
+    post:
+        operationId: R243
+        summary: 'R243: Change Manager Notification'
+        description: 'Change Manager Notification. Access: RDR'
+        tags:
+          - 'M02: Projects'
+
+        responses:
+          '200':
+            description: Success
 
 
   /home:
@@ -1754,52 +1863,65 @@ paths:
         '400':
           description: Bad Request
 
-  /admin/userSupport:
-    get:
-      operationId: R412
-      summary: 'R412: Create user page'
-      description: "Create user page. Access: ADM"
-      tags:
-        - 'M04: User Administration'
-
-      responses:
-        '200':
-          description: 'OK'
-        "403":
-          description: "Forbidden access"
-
+  /admin/profile/{id}/delete:
     post:
-      operationId: R413
-      summary: 'R413: Create user'
-      description: "Create user. Access: ADM"
+      operationId: R414
+      summary: 'R414: Delete User'
+      description: 'Delete User. Access: ADM'
       tags:
         - 'M04: User Administration'
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                contact:
-                  type: string
-                message:
-                  type: string
-              required:
-                - email
-                - message
-
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      
       responses:
         '200':
-          description: 'OK'
+          description: 'Ok'
         "403":
-          description: "Forbidden access"
+          description: 'Permission denied'
 
+  /admin/profile/{id}/ban:
+    post:
+      operationId: R415
+      summary: 'R415: Ban User'
+      description: 'Ban User. Access: ADM'
+      tags:
+        - 'M04: User Administration'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      
+      responses:
+        '200':
+          description: 'Ok'
+        "403":
+          description: 'Permission denied'
+
+  /admin/profile/{id}/unban:
+    post:
+      operationId: R416
+      summary: 'R416: Unban User'
+      description: 'Unban User. Access: ADM'
+      tags:
+        - 'M04: User Administration'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      
+      responses:
+        '200':
+          description: 'Ok'
+        "403":
+          description: 'Permission denied'                    
 
   components:
   schemas:
@@ -1899,6 +2021,16 @@ paths:
         user_role:
           type: string
           enum: ['MANAGER', 'MEMBER', 'GUEST']
+
+    Report:
+      type: object
+      properties:
+        description:
+          type: string
+        report_type:
+          type: string
+          enum: ['User', 'Bug']
+
 
 
 
