@@ -3,13 +3,6 @@
 ### 1. Installation
 
 Source code can be found [here](https://git.fe.up.pt/lbaw/lbaw2122/lbaw2181/-/tree/main)
-To run the Docker Container:
-
-```docker
-composer install
-docker run -it -p 8000:80 --name=lbaw2181 -e DB_DATABASE="lbaw2181" -e DB_SCHEMA="lbaw2181" -e DB_USERNAME="lbaw2181" -e DB_PASSWORD="zZMEjYtJ" git.fe.up.pt:5050/lbaw/lbaw2122/lbaw2181
-# You can now open https://localhost:8000 to see the web app
-```
 
 ### 2. Usage
 
